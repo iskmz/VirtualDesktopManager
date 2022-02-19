@@ -7,10 +7,26 @@ __↓ below is the original README (as of 2022-02-19) ↓__
 
 ___changes / additions made in this modification:-___
 
+1. changes to tray icon visibility / appearance: background colors, font size (bigger), and more visible numbers; Because of these changes, tray-icon was restricted back to 1-9 desktops only, and after the 9th desktop a "+" sign will appear instead (no crashing)
+2. clean-up of Resources folder of unused icons
+3. added a function on LEFT-mouse click on tray icon >> move to next desktop (by numerical order), and if holding SHIFT along with click >> move to previous desktop
+4. added two context-menu items: NEXT , PREVIOUS that do the above functionalities in (3.)
+5. added desktops'-list sub-menu: to go to each desktop by a single click on its number
+6. added (Desktop Number) shown when mouse-hovering over tray icon (useful when more than 9 desktops)
+7. added colors' palette (~ 14 options) to choose from to change tray-icon's background color, or make it transparent.
+
+
+![Screenshot 2022-02-19 000216](https://user-images.githubusercontent.com/48130426/154814650-32d65f4c-b4b0-45a1-8d98-b31df779d4fb.png)
+
+
+![Screenshot 2022-02-19 102819](https://user-images.githubusercontent.com/48130426/154814667-1013a978-b1e7-47da-97c4-b349f1145f48.png)
+
+
+![Screenshot 2022-02-19 174355](https://user-images.githubusercontent.com/48130426/154814673-8701f934-b859-4e3f-ac6d-445acac9a47b.png)
 
 ------------------------------------------------------------
 
-### original README ###
+### ↓ original README ↓ ###
 
 VirtualDesktopManager
 ======
