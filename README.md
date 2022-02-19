@@ -1,13 +1,16 @@
-## Virtual Desktop Manager
-### a modified version 1.9
+## Virtual Desktop Manager -- a modified version 1.9 ##
 
-forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")
+### * forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "") * ###
 
-↓ below is the original README (as of 2022-02-19) ↓
+** ↓ below is the original README (as of 2022-02-19) ↓ **
+
+
+### *** changes / additions made in this modification:- *** ###
+
 
 ------------------------------------------------------------
 
-### original README
+### original README ###
 
 VirtualDesktopManager
 ======
