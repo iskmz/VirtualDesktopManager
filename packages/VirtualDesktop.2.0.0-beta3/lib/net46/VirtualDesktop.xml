@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VirtualDesktop</name>
+    </assembly>
+    <members>
+        <member name="T:WindowsDesktop.VirtualDesktop">
+            <summary>
+            Encapsulates a virtual desktop on Windows 10.
+            </summary>
+        </member>
+        <member name="P:WindowsDesktop.VirtualDesktop.IsSupported">
+            <summary>
+            Gets a value indicating whether the operating system is support virtual desktop.
+            </summary>
+        </member>
+        <member name="P:WindowsDesktop.VirtualDesktop.Current">
+            <summary>
+            Gets the virtual desktop that is currently displayed.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.GetDesktops">
+            <summary>
+            Returns all the virtual desktops of currently valid.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.Create">
+            <summary>
+            Creates a virtual desktop.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.FromId(System.Guid)">
+            <summary>
+            Returns the virtual desktop of the specified identifier.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.FromHwnd(System.IntPtr)">
+            <summary>
+            Returns the virtual desktop that the specified window is located.
+            </summary>
+        </member>
+        <member name="P:WindowsDesktop.VirtualDesktop.Id">
+            <summary>
+            Gets the unique identifier for the virtual desktop.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.Switch">
+            <summary>
+            Display the virtual desktop.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.Remove">
+            <summary>
+            Remove the virtual desktop.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.Remove(WindowsDesktop.VirtualDesktop)">
+            <summary>
+            Remove the virtual desktop, specifying a virtual desktop that display after destroyed.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.GetLeft">
+            <summary>
+            Returns a virtual desktop on the left.
+            </summary>
+        </member>
+        <member name="M:WindowsDesktop.VirtualDesktop.GetRight">
+            <summary>
+            Returns a virtual desktop on the right.
+            </summary>
+        </member>
+        <member name="E:WindowsDesktop.VirtualDesktop.Created">
+            <summary>
+            Occurs when a virtual desktop is created.
+            </summary>
+        </member>
+        <member name="E:WindowsDesktop.VirtualDesktop.Destroyed">
+            <summary>
+            Occurs when a virtual desktop is destroyed.
+            </summary>
+        </member>
+        <member name="E:WindowsDesktop.VirtualDesktop.CurrentChanged">
+            <summary>
+            Occurs when a current virtual desktop is changed.
+            </summary>
+        </member>
+        <member name="T:WindowsDesktop.VirtualDesktopChangedEventArgs">
+            <summary>
+            Provides data for the <see cref="E:WindowsDesktop.VirtualDesktop.CurrentChanged"/> event.
+            </summary>
+        </member>
+        <member name="T:WindowsDesktop.VirtualDesktopDestroyEventArgs">
+            <summary>
+            Provides data for the <see cref="E:WindowsDesktop.VirtualDesktop.DestroyBegin"/> and <see cref="E:WindowsDesktop.VirtualDesktop.DestroyFailed"/>, <see cref="E:WindowsDesktop.VirtualDesktop.Destroyed"/> event.
+            </summary>
+        </member>
+        <member name="P:WindowsDesktop.VirtualDesktopDestroyEventArgs.Destroyed">
+            <summary>
+            Gets which virtual desktop was destroyed.
+            </summary>
+        </member>
+        <member name="P:WindowsDesktop.VirtualDesktopDestroyEventArgs.Fallback">
+            <summary>
+            Gets the virtual desktop displayed after <see cref="P:WindowsDesktop.VirtualDesktopDestroyEventArgs.Destroyed"/> is destroyed.
+            </summary>
+        </member>
+    </members>
+</doc>
