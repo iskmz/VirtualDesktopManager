@@ -24,11 +24,7 @@ ___changes / additions made in version 2.1 :-___
 11. a menu item "desktops GUIDs" to show a list of all desktops, their names and GUIDs, with an option to copy data to clipboard.
  
  
-<img src="https://user-images.githubusercontent.com/48130426/156536171-2fa37465-09cf-4cd7-9ffe-a33b99ee5bc7.png" width=45% height=45%> 
-<img src="https://user-images.githubusercontent.com/48130426/156536178-7c366275-22b7-44e3-ac9e-da2db925e810.png" width=45% height=45%> 
-<img src="https://user-images.githubusercontent.com/48130426/156536180-ec773f0f-13e3-4afa-84f6-8625a72066e6.png" width=45% height=45%>
-<img src="https://user-images.githubusercontent.com/48130426/156536183-cd512d37-0361-4c66-8809-e7ac373e32c0.png" width=45% height=45%>
-<img src="https://user-images.githubusercontent.com/48130426/156536185-1a0f0ec8-189c-4af8-b273-2b7f71b4dec0.png" width=45% height=45%>
+<img src="https://user-images.githubusercontent.com/48130426/156536171-2fa37465-09cf-4cd7-9ffe-a33b99ee5bc7.png" width=45% height=45%> <img src="https://user-images.githubusercontent.com/48130426/156536178-7c366275-22b7-44e3-ac9e-da2db925e810.png" width=45% height=45%> <img src="https://user-images.githubusercontent.com/48130426/156536180-ec773f0f-13e3-4afa-84f6-8625a72066e6.png" width=45% height=45%> <img src="https://user-images.githubusercontent.com/48130426/156536183-cd512d37-0361-4c66-8809-e7ac373e32c0.png" width=45% height=45%> <img src="https://user-images.githubusercontent.com/48130426/156536185-1a0f0ec8-189c-4af8-b273-2b7f71b4dec0.png" width=45% height=45%>
 
 
 
@@ -53,9 +49,7 @@ ___changes / additions made in this modification:-___
 7. added colors' palette (~ 14 options) to choose from to change tray-icon's background color, or make it transparent.
 
 
-<img src="https://user-images.githubusercontent.com/48130426/154814650-32d65f4c-b4b0-45a1-8d98-b31df779d4fb.png" width=45% height=45%>
-<img src="https://user-images.githubusercontent.com/48130426/154814667-1013a978-b1e7-47da-97c4-b349f1145f48.png" width=45% height=45%>
-<img src="https://user-images.githubusercontent.com/48130426/154814673-8701f934-b859-4e3f-ac6d-445acac9a47b.png" width=45% height=45%>
+<img src="https://user-images.githubusercontent.com/48130426/154814650-32d65f4c-b4b0-45a1-8d98-b31df779d4fb.png" width=45% height=45%> <img src="https://user-images.githubusercontent.com/48130426/154814667-1013a978-b1e7-47da-97c4-b349f1145f48.png" width=45% height=45%> <img src="https://user-images.githubusercontent.com/48130426/154814673-8701f934-b859-4e3f-ac6d-445acac9a47b.png" width=45% height=45%>
 
 ------------------------------------------------------------
 
