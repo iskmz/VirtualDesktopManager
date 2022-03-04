@@ -1,4 +1,4 @@
-.git/*
-.vs/*
+.git/**
+.vs/**
 VirtualDestopCycle/bin/**
 VirtualDestopCycle/obj/**
