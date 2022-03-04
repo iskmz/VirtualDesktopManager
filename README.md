@@ -1,4 +1,41 @@
-## Virtual Desktop Manager -- a modified version 1.9 ##
+## Virtual Desktop Manager -- version 2.1 ##
+<u>_released on 2022-03-03_</u>
+
+_forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
+
+__↓ below is the README of previous release (on 2022-02-19) ↓__
+
+
+
+___changes / additions made in version 2.1 :-___
+
+1. added CYCLE/REVERSE-CYCLE functions to cycle desktops automatically; including sub-menus for transition-time and number of cycles, with a special option to cycle-forever (stopped on CTRL+ALT+S).
+2. code-shortenings, clean-up and more concise code
+3. changed desktops-list: including ADD/CLOSE buttons to add and remove desktops, desktop-names feature.
+4. desktop-names: can change on right-clicking each desktop-item. Program reads registry keys for loading names (compatible with early win10 releases), but changing names needs win10 version 2004 or newer.
+	+ credits to:  [MScholtes/VirtualDesktop](https://github.com/MScholtes/VirtualDesktop "") , as most of the code for reading/setting desktop names is taken from there.
+5. commented out (removed) BalloonTip msg about "Error Setting Hotkeys" , since hotkeys are set, even though an error is thrown, so no need for the msg.
+6. added user preferences option, with load/save to an xml file of: chosen color (and brush), transition time and cycles amount. Preferences are saved automatically on exit , but also there is a menu-item to save at anytime.
+7. added consts class, for grouping all constants together, including value-ranges for VALIDITY-CHECK on startup after loading user preferences, so that tampering with xml file won't crash the program; in case of any illegal value, then DEFAULTS are loaded from CONST class.
+8. all currently chosen user preferences are highlighted now , when opening each sub-menu
+9. more user interaction: Message boxes before closing a desktop, before cycling-forever, after saving preferences, and an input-box for changing desktop-name (imported from visual basic).
+	+ credits for InputBox (.dll to import from VB) to:  [codeproject](https://www.codeproject.com/articles/32573/exposing-vb-inputbox-dialog-to-c-code "")
+10. when hovering over tray icon now, can see desktop name, if exists.
+11. a menu item "desktops GUIDs" to show a list of all desktops, their names and GUIDs, with an option to copy data to clipboard.
+ 
+ 
+<img src="https://user-images.githubusercontent.com/48130426/156536171-2fa37465-09cf-4cd7-9ffe-a33b99ee5bc7.png" width=47% height=47%> 
+<img src="https://user-images.githubusercontent.com/48130426/156536178-7c366275-22b7-44e3-ac9e-da2db925e810.png" width=47% height=47%> 
+<img src="https://user-images.githubusercontent.com/48130426/156536180-ec773f0f-13e3-4afa-84f6-8625a72066e6.png" width=47% height=47%>
+<img src="https://user-images.githubusercontent.com/48130426/156536183-cd512d37-0361-4c66-8809-e7ac373e32c0.png" width=47% height=47%>
+<img src="https://user-images.githubusercontent.com/48130426/156536185-1a0f0ec8-189c-4af8-b273-2b7f71b4dec0.png" width=47% height=47%>
+
+
+
+------------------------------------------------------------
+
+### Virtual Desktop Manager -- a modified version 1.9 ###
+<u>_released on 2022-02-19_</u>
 
 _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
 
@@ -16,13 +53,9 @@ ___changes / additions made in this modification:-___
 7. added colors' palette (~ 14 options) to choose from to change tray-icon's background color, or make it transparent.
 
 
-![Screenshot 2022-02-19 000216](https://user-images.githubusercontent.com/48130426/154814650-32d65f4c-b4b0-45a1-8d98-b31df779d4fb.png)
-
-
-![Screenshot 2022-02-19 102819](https://user-images.githubusercontent.com/48130426/154814667-1013a978-b1e7-47da-97c4-b349f1145f48.png)
-
-
-![Screenshot 2022-02-19 174355](https://user-images.githubusercontent.com/48130426/154814673-8701f934-b859-4e3f-ac6d-445acac9a47b.png)
+<img src="https://user-images.githubusercontent.com/48130426/154814650-32d65f4c-b4b0-45a1-8d98-b31df779d4fb.png" width=47% height=47%>
+<img src="https://user-images.githubusercontent.com/48130426/154814667-1013a978-b1e7-47da-97c4-b349f1145f48.png" width=47% height=47%>
+<img src="https://user-images.githubusercontent.com/48130426/154814673-8701f934-b859-4e3f-ac6d-445acac9a47b.png" width=47% height=47%>
 
 ------------------------------------------------------------
 
