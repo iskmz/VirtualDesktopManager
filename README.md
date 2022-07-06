@@ -3,7 +3,7 @@
 
 _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
 
-[https://github.com/iskmz/VirtualDesktopManager#a-modified-version-19](__↓ below is the README of previous release (on 2022-02-19) ↓__)
+[__↓ below is the README of previous release (on 2022-02-19) ↓__](#a-modified-version-19)
 
 
 
