@@ -1,4 +1,4 @@
-## Virtual Desktop Manager -- version 2.1 ##
+## version 2.1 ##
 <u>_released on 2022-03-03_</u>
 
 _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
@@ -30,7 +30,7 @@ ___changes / additions made in version 2.1 :-___
 
 ------------------------------------------------------------
 
-### Virtual Desktop Manager -- a modified version 1.9 ###
+### a modified version 1.9 ###
 <u>_released on 2022-02-19_</u>
 
 _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
