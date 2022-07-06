@@ -20,7 +20,6 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ## version 2.1 ##
 <u>_released on 2022-03-03_</u>
 
-_forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
 
 [__↓↓ README of previous release (on 2022-02-19) ↓↓__](#a-modified-version-19)
 
@@ -52,7 +51,6 @@ ___changes / additions made in version 2.1 :-___
 ### a modified version 1.9 ###
 <u>_released on 2022-02-19_</u>
 
-_forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
 
 [__↓ original repo. README (as of 2022-02-19) ↓__](#-original-readme-)
 
