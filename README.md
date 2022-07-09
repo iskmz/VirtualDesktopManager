@@ -4,8 +4,10 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ## Updates ##
 
 
-* version 2.2:	<u>_released on 2022-07-09_</u>
-		changes:-
+* version 2.2:	&emsp; <u>_released on 2022-07-09_</u>
+		
+	&emsp;&emsp; changes:-
+	
 			+ new menu-items in desktops-list: 
 				- "Close All" to close all desktops at once
 				- "Add Multiple" to add as many desktops as user enters [range: 1 to 10]
