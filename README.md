@@ -5,12 +5,11 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 
 
 * version 2.2:	&emsp; <u>_released on 2022-07-09_</u>
-		
-		* new menu-items in desktops-list: 
-			- "Close All" to close all desktops at once
-			- "Add Multiple" to add as many desktops as user enters [range: 1 to 10]			
-		* some minor UI improvements in desktops-list: new icons, tooltips ...
-		* minor code clean-up / order  
+  * new menu-items in desktops-list: 
+    - "Close All" to close all desktops at once
+    - "Add Multiple" to add as many desktops as user enters [range: 1 to 10]			
+  * some minor UI improvements in desktops-list: new icons, tooltips ...
+  * minor code clean-up / order  
 
 * version 2.1:	[↓↓](#version-21)
 
