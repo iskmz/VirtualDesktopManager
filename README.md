@@ -11,6 +11,8 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
   * some minor UI improvements in desktops-list: new icons, tooltips ...
   * minor code clean-up / order  
 
+
+
 * version 2.1:	[↓↓](#version-21)
 
 * version 1.9-modified:	 [↓↓↓↓](#a-modified-version-19)
