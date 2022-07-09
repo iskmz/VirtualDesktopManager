@@ -159,6 +159,8 @@
     <None Include="Resources\back_Yellow.png" />
     <None Include="Resources\add_new.png" />
     <None Include="Resources\close_desktop.png" />
+    <None Include="Resources\close_all.png" />
+    <None Include="Resources\add_multiple.png" />
     <Content Include="Resources\mainIco.ico" />
     <None Include="Resources\mainIco.png" />
   </ItemGroup>

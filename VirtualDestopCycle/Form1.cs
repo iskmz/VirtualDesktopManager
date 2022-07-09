@@ -39,16 +39,16 @@ namespace VirtualDesktopManager
 
         // added 2022-02-19 //
         // two global variables to store current back-color & brush names // 
-        private string selectedBackgroundName= Consts.DEFAULT_COLOR; 
+        private string selectedBackgroundName = Consts.DEFAULT_COLOR;
         private string selectedBrushName = Consts.DEFAULT_BRUSH;
         // added 2022-02-26 //
         // another two global variables to store cycles_amount & cycles_transition_time // 
         private int selectedCycleTransTime = Consts.DEFAULT_TRANS_TIME;
         private int selectedCyclesAmount = Consts.DEFAULT_CYCLES_AMOUNT;
         // flag used when cycling forever , and to stop it ! //
-        private bool cycle_forever_flag = false; 
+        private bool cycle_forever_flag = false;
         // timer: used when cycling FOREVER {thread.sleep causes issues with keypress-event-handling !} //
-        private System.Timers.Timer timer = new System.Timers.Timer(Consts.DEFAULT_TRANS_TIME*1000); 
+        private System.Timers.Timer timer = new System.Timers.Timer(Consts.DEFAULT_TRANS_TIME * 1000);
         // hotkeyManager: used when registering/unregistering combo for stopping cycling FOREVER //
         private HotKeyManager _stopCyclingHotKey = new HotKeyManager();
         // user preferences class to load/save preferences //
@@ -57,7 +57,7 @@ namespace VirtualDesktopManager
         public Form1()
         {
             InitializeComponent();
-            
+
             handleChangedNumber();
 
             closeToTray = true;
@@ -130,9 +130,9 @@ namespace VirtualDesktopManager
                 selectedBrushName = Consts.DEFAULT_BRUSH;
             }
 
-            selectedCyclesAmount = Consts.isValidCyclesAmount(up.cyclesAmount) ? 
+            selectedCyclesAmount = Consts.isValidCyclesAmount(up.cyclesAmount) ?
                 int.Parse(up.cyclesAmount) : Consts.DEFAULT_CYCLES_AMOUNT;
-            selectedCycleTransTime = Consts.isValidTransTime(up.cycleTransTime) ? 
+            selectedCycleTransTime = Consts.isValidTransTime(up.cycleTransTime) ?
                 int.Parse(up.cycleTransTime) : Consts.DEFAULT_TRANS_TIME;
         }
 
@@ -141,8 +141,8 @@ namespace VirtualDesktopManager
             // update class fields from locals //
             up.BackColor = selectedBackgroundName;
             up.BrushName = selectedBrushName;
-            up.cyclesAmount = ""+selectedCyclesAmount;
-            up.cycleTransTime = ""+selectedCycleTransTime;
+            up.cyclesAmount = "" + selectedCyclesAmount;
+            up.cycleTransTime = "" + selectedCycleTransTime;
 
             // save class to XML //
             XmlSerializer mySerializer = new XmlSerializer(typeof(UserPreferences));
@@ -227,8 +227,8 @@ namespace VirtualDesktopManager
             this.Close();
         }
 
-        private void normalHotkeys() 
-        {            
+        private void normalHotkeys()
+        {
             try
             {
                 _rightHotkey.Register(Key.Right, Consts.CTRL_ALT);
@@ -236,7 +236,7 @@ namespace VirtualDesktopManager
                 RegisterNumberHotkeys(Consts.CTRL_ALT);
             }
             catch (Exception err) // catching the error solves the problem and SETS the HotKeys as requested ! //
-                                    // error THROWN without need ! ... the problem is with the error thrown ! // 
+                                  // error THROWN without need ! ... the problem is with the error thrown ! // 
             {
                 // notifyIcon1.BalloonTipTitle = "Error setting hotkeys";
                 // notifyIcon1.BalloonTipText = "Could not set hotkeys. Please open settings and try the alternate combination.";
@@ -253,7 +253,7 @@ namespace VirtualDesktopManager
                 RegisterNumberHotkeys(Consts.ALT_SHIFT);
             }
             catch (Exception err) // catching the error solves the problem and SETS the HotKeys as requested ! //
-                                    // error THROWN without need ! ... the problem is with the error thrown ! // 
+                                  // error THROWN without need ! ... the problem is with the error thrown ! // 
             {
                 // notifyIcon1.BalloonTipTitle = "Error setting hotkeys";
                 // notifyIcon1.BalloonTipText = "Could not set hotkeys. Please open settings and try the default combination.";
@@ -263,7 +263,7 @@ namespace VirtualDesktopManager
 
         private void RegisterNumberHotkeys(ModifierKeys modifiers)
         {
-            for(var i=Key.D1; i<= Key.D9; i++) _numberHotkey.Register(i, modifiers);
+            for (var i = Key.D1; i <= Key.D9; i++) _numberHotkey.Register(i, modifiers);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -507,10 +507,10 @@ namespace VirtualDesktopManager
                 else moveToNext(desktop);
             }
 
-            if(me.Button == MouseButtons.Right)
+            if (me.Button == MouseButtons.Right)
             {
                 updateContextMenuStrip();  // added on 2022-02-18 // to update desktops # list // 
-                                            // changed on 2022-02-26 // to update all sub-lists //
+                                           // changed on 2022-02-26 // to update all sub-lists //
             }
         }
 
@@ -543,16 +543,13 @@ namespace VirtualDesktopManager
             desktopsList.DropDownItems.Clear(); // clear Desktops-sub-list 
             var TOTAL_DESKTOPS = desktops.Count;
 
-            // added 2022-03-01 // delete current desktop and move to previous (or next if deleting the 1st)
-            if(TOTAL_DESKTOPS>1)
+            // CLOSE:   delete current desktop and move to previous (or next if deleting the 1st) // added 2022-03-01 
+            // CLOSE_ALL:   delete all desktops starting from end, except the 1st one of course ! // added 2022-07-09
+            if (TOTAL_DESKTOPS > 1)
             {
-                ToolStripItem itemFirst = desktopsList.DropDownItems.Add("Close");
-                itemFirst.Font = new Font(itemFirst.Font, FontStyle.Bold);
-                itemFirst.ForeColor = Color.Black;
-                itemFirst.BackColor = Color.LightGray;
-                itemFirst.Image = Properties.Resources.close_desktop;
-                itemFirst.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-                itemFirst.Click += closeCurrentAndMove;
+                add_CloseAllItem();
+                add_CloseItem();
+                add_Separator();
             }
 
             // add all current desktops to the menu  (refresh list)
@@ -572,26 +569,67 @@ namespace VirtualDesktopManager
                 }
             }
 
-            // added 2022-02-21 // creates new desktop at the end, and moves to it //
-            ToolStripItem itemLast = desktopsList.DropDownItems.Add("Add");
-            itemLast.Font = new Font(itemLast.Font, FontStyle.Bold);
-            itemLast.ForeColor = Color.Black;
-            itemLast.BackColor = Color.LightGray;
-            itemLast.Image = Properties.Resources.add_new;
-            itemLast.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-            itemLast.Click += createNewAndMoveTo;
+            add_Separator();
+            add_AddItem();// added 2022-02-21 // creates new desktop at the end, and moves to it //
+            add_AddMultipleItem(); // added 2022-07-09  // Adds Multiple Desktops, as much as user requests [from 1 to 10] // 
         }
 
-        // event handler for first item in desktops list " Close " // added 2022-03-01 //
+        private void add_CloseAllItem() // added 2022-07-09
+        {
+            ToolStripItem item = desktopsList.DropDownItems.Add("Close ALL");
+            item.Font = new Font(item.Font, FontStyle.Bold);
+            item.ForeColor = Color.Black;
+            item.BackColor = Color.LightGray;
+            item.Image = Properties.Resources.close_all;
+            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            item.Click += closeAllDesktops;
+            item.ToolTipText = "Close All Desktops !"; // added: 2022-07-09
+        }
+
+        // event handler for "CLOSE ALL" item in desktops list // added 2022-07-09 //
+        // first moves to last desktop , then starts doing close one by one ... backwards moving ... 
+        private void closeAllDesktops(object sender, EventArgs e)
+        {
+            string msg = "This action will remove all desktops, and move all windows to the first one!\n\n Are you sure ?!";
+            DialogResult res = MessageBox.Show(msg, "Close All Desktops !!!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            String nameOfFirstDesktop = desktopNameFromIndex(0); // to handle issue of a changed name, when removing multiple desktops !
+            if (res == DialogResult.OK)
+            {
+                desktops.Last().Switch();
+                for (int i = desktops.Count; i > 1; i--)
+                    VirtualDesktop.Current.Remove();
+            }
+            Thread.Sleep(2000); // <-- fixes some issue with the ChangeDesktopName() function below: could be a threading conflict 
+            // with the remove function above and changing desktop name while removing others (non-blocking methods)
+            changeDesktopName(0, nameOfFirstDesktop);
+        }
+
+        private void add_CloseItem() // added 2022-07-09 , written before, but code re-structuring ... 
+        {
+            ToolStripItem item = desktopsList.DropDownItems.Add("Close Current");
+            item.Font = new Font(item.Font, FontStyle.Bold);
+            item.ForeColor = Color.Black;
+            item.BackColor = Color.LightGray;
+            item.Image = Properties.Resources.close_desktop;
+            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            item.Click += closeCurrentAndMove;
+            item.ToolTipText = "Close Current Desktop"; // added: 2022-07-09
+        }
+
+        // event handler for "close" item in desktops list // added 2022-03-01 //
         private void closeCurrentAndMove(object sender, EventArgs e)
         {
             int i = getCurrentDesktopIndex();
             var current = VirtualDesktop.Current;
-            string msg = "This action will remove the current desktop # " + (i+1) + " and move all of its windows ";
+            string msg = "This action will remove the current desktop # " + (i + 1) + " and move all of its windows ";
             msg += "to the " + (i == 0 ? "next" : "previous") + " desktop.\n\nAre you sure ?!";
-            DialogResult res = MessageBox.Show(msg,"Remove Current Desktop!",MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
-            if(res==DialogResult.OK) VirtualDesktop.Current.Remove(i == 0 ? current.GetRight() : current.GetLeft());
+            DialogResult res = MessageBox.Show(msg, "Remove Current Desktop!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (res == DialogResult.OK) VirtualDesktop.Current.Remove(i == 0 ? current.GetRight() : current.GetLeft());
         }
+
+        // added 2022-07-09
+        private void add_Separator() => desktopsList.DropDownItems.Add(new ToolStripSeparator());
+
 
         // event handler for ToolStripItem (desktops) CLICK // choose what to do based on LEFT/RIGHT click ... // 
         private void handleDesktopNumberClick(object sender, EventArgs e)
@@ -608,7 +646,7 @@ namespace VirtualDesktopManager
             int i = txt.IndexOf(":");
             if (i > 0) txt = txt.Substring(0, i); // added: 2022-03-02 , to accomodate for adding desktop-names // 
             int num = int.Parse(txt.Substring(txt.IndexOf(" ") + 1));
-            desktops.ElementAt(num-1)?.Switch();
+            desktops.ElementAt(num - 1)?.Switch();
         }
 
         // event handler for ToolStripItem (desktops) RIGHT-MOUSE-CLICK ... // ** NOTE: DEPENDS on each item's TEXT-string ** // 
@@ -631,7 +669,19 @@ namespace VirtualDesktopManager
         }
 
 
-        // event handler for last item in desktops list " Add " // added 2022-02-21 //
+        private void add_AddItem()  // added 2022-07-09 , written before, but code re-structuring ... 
+        {
+            ToolStripItem item = desktopsList.DropDownItems.Add("Add");
+            item.Font = new Font(item.Font, FontStyle.Bold);
+            item.ForeColor = Color.Black;
+            item.BackColor = Color.LightGray;
+            item.Image = Properties.Resources.add_new;
+            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            item.Click += createNewAndMoveTo;
+            item.ToolTipText = "Add New Desktop"; // added: 2022-07-09
+        }
+
+        // event handler for "Add" item in desktops list  // added 2022-02-21 //
         private void createNewAndMoveTo(object sender, EventArgs e)
         {
             int prevCount = desktops.Count; // desktop count before addition 
@@ -640,17 +690,53 @@ namespace VirtualDesktopManager
             desktops.Last()?.Switch();
         }
 
+        // added: 2022-07-09
+        private void add_AddMultipleItem()
+        {
+            ToolStripItem item = desktopsList.DropDownItems.Add("Add Multiple");
+            item.Font = new Font(item.Font, FontStyle.Bold);
+            item.ForeColor = Color.Black;
+            item.BackColor = Color.LightGray;
+            item.Image = Properties.Resources.add_multiple;
+            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            item.Click += addMulti;
+            item.ToolTipText = "Add Multiple Desktops ...";
+        }
+
+        // event handler for "Add Multiple" item in desktops list   // added: 2022-07-09
+        private void addMulti(object sender, EventArgs e)
+        {
+            // input-box from VisualBasic: InputBoxClassLibrary.dll //
+            string msg = "Enter number [1 to 10] of how many new desktops to add ...\n\n";
+            string numNewDesktops = InputBox.Show(msg, "Add Multiple Desktops !", "0");
+            bool OK = !(numNewDesktops.Equals(null));
+            int num = 0;
+            if (OK && int.TryParse(numNewDesktops, out num))
+            {
+                if (num >= 1 && num <= 10)
+                {
+                    int prevCount = desktops.Count; // desktop count before addition 
+                    for (int i = 0; i < num; i++)
+                    {
+                        VirtualDesktop.Create(); // an A-sync function !
+                        while (desktops.Count == prevCount) Thread.Sleep(250); // wait until a new desktop is created
+                        prevCount = desktops.Count; // update new count for next iteration .. 
+                    }
+                }
+            }
+        }
+
         private void updateColorsList() // added: 2022-02-26
         {
             clearSubMenuFormatting(colorList); // clear all items formatting from before //
             string itemName = color_resource_to_itemname(selectedBackgroundName, selectedBrushName);
             highlightSelectedItem(colorList.DropDownItems[itemName]); // update current selection formatting //
         }
-        
+
         private string color_resource_to_itemname(string background, string brush) // added: 2022-02-26
         {
-            return background.Equals("Transparent") ? 
-                background + (brush.Equals("white") ? "White" : "Black") : 
+            return background.Equals("Transparent") ?
+                background + (brush.Equals("white") ? "White" : "Black") :
                 background.Replace("back_", "");
         }
 
@@ -664,7 +750,7 @@ namespace VirtualDesktopManager
         private void updateTransitionTimeList() // added: 2022-02-26
         {
             clearSubMenuFormatting(transTimeSubMenu); // clear all items formatting from before //
-            string itemName = "sec"+selectedCycleTransTime;
+            string itemName = "sec" + selectedCycleTransTime;
             highlightSelectedItem(transTimeSubMenu.DropDownItems[itemName]); // update current selection formatting //
         }
 
@@ -694,7 +780,7 @@ namespace VirtualDesktopManager
         private void NotifyIcon1_MouseMove(object sender, MouseEventArgs e)
         {
             int i = getCurrentDesktopIndex();
-            notifyIcon1.Text = "Virtual Desktop Manager\n\nDesktop # " + (i + 1) + desktopNameOrEmpty(i,"\n\n","");
+            notifyIcon1.Text = "Virtual Desktop Manager\n\nDesktop # " + (i + 1) + desktopNameOrEmpty(i, "\n\n", "");
             changeTrayIcon(); // to fix icon disappearing on mouse-hover ... simply re-draw it ... 
         }
 
@@ -703,21 +789,21 @@ namespace VirtualDesktopManager
 
         // section 1 : dark colors
         private void BlackToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Black", "white");
-        private void BrownToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Brown", "white");       
+        private void BrownToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Brown", "white");
         private void DarkBlueToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Dark_Blue", "white");
         private void DarkGreenToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Dark_Green", "white");
-        private void DarkRedToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Dark_Red", "white");  
-        private void PurpleToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Purple", "white");     
+        private void DarkRedToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Dark_Red", "white");
+        private void PurpleToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Purple", "white");
         // section 2 : bright colors
-        private void PinkToolStripMenuItem_Click(object sender, EventArgs e)   =>   updateColor("back_Pink", "black");  
-        private void RedToolStripMenuItem_Click(object sender, EventArgs e)    =>   updateColor("back_Red", "black");   
-        private void GreenToolStripMenuItem_Click(object sender, EventArgs e)  =>   updateColor("back_Green", "black"); 
-        private void BlueToolStripMenuItem_Click(object sender, EventArgs e)   =>   updateColor("back_Blue", "black");  
-        private void YellowToolStripMenuItem_Click(object sender, EventArgs e) =>   updateColor("back_Yellow", "black");
-        private void WhiteToolStripMenuItem_Click(object sender, EventArgs e)  =>   updateColor("back_White", "black"); 
+        private void PinkToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Pink", "black");
+        private void RedToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Red", "black");
+        private void GreenToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Green", "black");
+        private void BlueToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Blue", "black");
+        private void YellowToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_Yellow", "black");
+        private void WhiteToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("back_White", "black");
         // section 3 : transparent
-        private void TransparentWhiteTextToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("Transparent", "white"); 
-        private void TransparentBlackTextToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("Transparent", "black"); 
+        private void TransparentWhiteTextToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("Transparent", "white");
+        private void TransparentBlackTextToolStripMenuItem_Click(object sender, EventArgs e) => updateColor("Transparent", "black");
 
         // main method to update color // called from the above 14 methods (on-click selections) //
         private void updateColor(string backgroundColorName, string textColorName)
@@ -738,9 +824,9 @@ namespace VirtualDesktopManager
 
 
         // added 2020-02-20 // cycles through all desktops in order, starting from current
-        private void CycleMenuItem_Click(object sender, EventArgs e) => cycle(selectedCycleTransTime,selectedCyclesAmount);
+        private void CycleMenuItem_Click(object sender, EventArgs e) => cycle(selectedCycleTransTime, selectedCyclesAmount);
         // added 2020-02-20 // cycles through all desktops in reverse-order, starting from current
-        private void ReverseCycleMenuItem_Click(object sender, EventArgs e) => revCycle(selectedCycleTransTime,selectedCyclesAmount);
+        private void ReverseCycleMenuItem_Click(object sender, EventArgs e) => revCycle(selectedCycleTransTime, selectedCyclesAmount);
 
 
         // cycles the "numOfCycles" full cycles , with haltTimeSec transition time between desktops cycled //
@@ -875,7 +961,7 @@ namespace VirtualDesktopManager
         private void Sec12_ToolStripMenuItem_Click(object sender, EventArgs e) => updateCyclesTransTime(12);
         private void Sec14_ToolStripMenuItem_Click(object sender, EventArgs e) => updateCyclesTransTime(14);
 
-        private void updateCyclesTransTime(int t) { if (t%2 == 0 && (t >= 2 && t <= 14)) selectedCycleTransTime = t; }
+        private void updateCyclesTransTime(int t) { if (t % 2 == 0 && (t >= 2 && t <= 14)) selectedCycleTransTime = t; }
 
         // ************************************* // end of CYCLES section // ********************************************************//
 
@@ -886,7 +972,7 @@ namespace VirtualDesktopManager
         {
             var TOTAL_DESKTOPS = desktops.Count;
             string msg = "";
-            for (var i=0; i<TOTAL_DESKTOPS; i++)
+            for (var i = 0; i < TOTAL_DESKTOPS; i++)
             {
                 msg += (i + 1) + ":  " + desktopNameFromIndex(i) + "\n";
                 msg += desktops.ElementAt(i).Id.ToString().ToUpper() + "\n\n";
@@ -928,7 +1014,7 @@ namespace VirtualDesktopManager
         }
 
         // added 2022-03-02
-        private string desktopNameOrEmpty(int index, string prefix = "", string suffix = "")  
+        private string desktopNameOrEmpty(int index, string prefix = "", string suffix = "")
         {
             string name = desktopNameFromIndex(index);
             if (name.Equals("Desktop " + (index + 1).ToString())) return ""; // returns empty string if name is GENERIC //
@@ -959,7 +1045,7 @@ namespace VirtualDesktopManager
             */
             //*******************************************************************************************//
 
-            if(!string.IsNullOrEmpty(name)) // NO change to an empty name ! //
+            if (!string.IsNullOrEmpty(name)) // NO change to an empty name ! //
             {
                 return SetName(index, name);
             }
@@ -968,7 +1054,7 @@ namespace VirtualDesktopManager
 
 
         // added 2022-03-02
-        private bool removeDesktopName(int index) 
+        private bool removeDesktopName(int index)
         {
             // OLD METHOD // simply sets Name Value to "" (empty string) // cannot remove it ! // 
             /*
@@ -996,7 +1082,7 @@ namespace VirtualDesktopManager
         // * * * * * 
         // if name="" (empty string) , then removes name (i.e. removes registry value "Name" COMPLETELY, not just delete its content)
         public bool SetName(int index, string name)
-        { 
+        {
             IVirtualDesktopManagerInternal2 VDMInternal2;
             var shell = (IServiceProvider10)Activator.CreateInstance(Type.GetTypeFromCLSID(Guids.CLSID_ImmersiveShell));
             try
@@ -1010,7 +1096,7 @@ namespace VirtualDesktopManager
             }
 
             if (VDMInternal2 != null) // only if interface to set name is present
-            { 
+            {
                 VDMInternal2.SetName(VDMInternal2.FindDesktop(desktops.ElementAt(index).Id), name);
                 return true;
             }
@@ -1018,7 +1104,7 @@ namespace VirtualDesktopManager
         }
 
     }
-    
+
     static class Consts
     {
         // to make life easier //
@@ -1031,7 +1117,7 @@ namespace VirtualDesktopManager
         public const ModifierKeys NONE = ModifierKeys.None;
 
         // ranges of valid values; for checks on loading preferences from xml // 
-        private static int[] cycles_amount_values = new int[]{ 1, 2, 3, 4, 5, -1 };
+        private static int[] cycles_amount_values = new int[] { 1, 2, 3, 4, 5, -1 };
         private static int[] transition_time_values = new int[] { 2, 4, 6, 8, 10, 12, 14 };
         private static string[] light_colors_values = new string[] { "back_Pink", "back_Red", "back_Green",
             "back_Blue", "back_Yellow", "back_White"};
@@ -1312,4 +1398,5 @@ namespace VirtualDesktopManager
         object QueryService(ref Guid service, ref Guid riid);
     }
     #endregion
+    // ************************************************************************************************************ //
 }

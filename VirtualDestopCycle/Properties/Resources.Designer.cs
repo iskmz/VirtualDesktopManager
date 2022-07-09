@@ -63,6 +63,16 @@ namespace VirtualDesktopManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap add_multiple {
+            get {
+                object obj = ResourceManager.GetObject("add_multiple", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap add_new {
             get {
                 object obj = ResourceManager.GetObject("add_new", resourceCulture);
@@ -186,6 +196,16 @@ namespace VirtualDesktopManager.Properties {
         internal static System.Drawing.Bitmap back_Yellow {
             get {
                 object obj = ResourceManager.GetObject("back_Yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap close_all {
+            get {
+                object obj = ResourceManager.GetObject("close_all", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
