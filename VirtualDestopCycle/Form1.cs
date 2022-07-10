@@ -574,17 +574,28 @@ namespace VirtualDesktopManager
             add_AddMultipleItem(); // added 2022-07-09  // Adds Multiple Desktops, as much as user requests [from 1 to 10] // 
         }
 
-        private void add_CloseAllItem() // added 2022-07-09
+        // added 2022-07-09
+        private void add_Separator() => desktopsList.DropDownItems.Add(new ToolStripSeparator());
+
+        // added 2022-07-10 // special accessory "generic" method for addition of menu-items // to make code more concise & unified //
+        private void add_special_menu_Item(string name,Image icon,EventHandler action,string tooltip)
         {
-            ToolStripItem item = desktopsList.DropDownItems.Add("Close ALL");
-            item.Font = new Font(item.Font, FontStyle.Bold);
+            ToolStripItem item = desktopsList.DropDownItems.Add(name);
+            item.Image = icon;
+            item.Click += action;
+            item.ToolTipText = tooltip;
+            // default style values
+            item.Font = new Font(item.Font, FontStyle.Bold); 
             item.ForeColor = Color.Black;
             item.BackColor = Color.LightGray;
-            item.Image = Properties.Resources.close_all;
             item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-            item.Click += closeAllDesktops;
-            item.ToolTipText = "Close All Desktops !"; // added: 2022-07-09
         }
+
+        // added 2022-07-09 // modified 2022-07-10 : using the above "add_special_menu_item" // 
+        private void add_CloseAllItem() => add_special_menu_Item("Close ALL", Properties.Resources.close_all, closeAllDesktops, "Close All Desktops !");
+        private void add_CloseItem() => add_special_menu_Item("Close Current", Properties.Resources.close_desktop, closeCurrentAndMove, "Close Current Desktop");
+        private void add_AddItem() => add_special_menu_Item("Add", Properties.Resources.add_new, createNewAndMoveTo, "Add New Desktop");
+        private void add_AddMultipleItem() => add_special_menu_Item("Add Multiple", Properties.Resources.add_multiple, addMulti, "Add Multiple Desktops ...");
 
         // event handler for "CLOSE ALL" item in desktops list // added 2022-07-09 //
         // first moves to last desktop , then starts doing close one by one ... backwards moving ... 
@@ -604,18 +615,6 @@ namespace VirtualDesktopManager
             changeDesktopName(0, nameOfFirstDesktop);
         }
 
-        private void add_CloseItem() // added 2022-07-09 , written before, but code re-structuring ... 
-        {
-            ToolStripItem item = desktopsList.DropDownItems.Add("Close Current");
-            item.Font = new Font(item.Font, FontStyle.Bold);
-            item.ForeColor = Color.Black;
-            item.BackColor = Color.LightGray;
-            item.Image = Properties.Resources.close_desktop;
-            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-            item.Click += closeCurrentAndMove;
-            item.ToolTipText = "Close Current Desktop"; // added: 2022-07-09
-        }
-
         // event handler for "close" item in desktops list // added 2022-03-01 //
         private void closeCurrentAndMove(object sender, EventArgs e)
         {
@@ -626,10 +625,6 @@ namespace VirtualDesktopManager
             DialogResult res = MessageBox.Show(msg, "Remove Current Desktop!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (res == DialogResult.OK) VirtualDesktop.Current.Remove(i == 0 ? current.GetRight() : current.GetLeft());
         }
-
-        // added 2022-07-09
-        private void add_Separator() => desktopsList.DropDownItems.Add(new ToolStripSeparator());
-
 
         // event handler for ToolStripItem (desktops) CLICK // choose what to do based on LEFT/RIGHT click ... // 
         private void handleDesktopNumberClick(object sender, EventArgs e)
@@ -668,19 +663,6 @@ namespace VirtualDesktopManager
             else if (OK) removeDesktopName(num - 1); // back to generic name // 
         }
 
-
-        private void add_AddItem()  // added 2022-07-09 , written before, but code re-structuring ... 
-        {
-            ToolStripItem item = desktopsList.DropDownItems.Add("Add");
-            item.Font = new Font(item.Font, FontStyle.Bold);
-            item.ForeColor = Color.Black;
-            item.BackColor = Color.LightGray;
-            item.Image = Properties.Resources.add_new;
-            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-            item.Click += createNewAndMoveTo;
-            item.ToolTipText = "Add New Desktop"; // added: 2022-07-09
-        }
-
         // event handler for "Add" item in desktops list  // added 2022-02-21 //
         private void createNewAndMoveTo(object sender, EventArgs e)
         {
@@ -688,19 +670,6 @@ namespace VirtualDesktopManager
             VirtualDesktop.Create(); // apparently it is A-sync function !
             while (desktops.Count == prevCount) Thread.Sleep(500); // until a new desktop is created
             desktops.Last()?.Switch();
-        }
-
-        // added: 2022-07-09
-        private void add_AddMultipleItem()
-        {
-            ToolStripItem item = desktopsList.DropDownItems.Add("Add Multiple");
-            item.Font = new Font(item.Font, FontStyle.Bold);
-            item.ForeColor = Color.Black;
-            item.BackColor = Color.LightGray;
-            item.Image = Properties.Resources.add_multiple;
-            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-            item.Click += addMulti;
-            item.ToolTipText = "Add Multiple Desktops ...";
         }
 
         // event handler for "Add Multiple" item in desktops list   // added: 2022-07-09
