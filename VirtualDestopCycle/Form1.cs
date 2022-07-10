@@ -554,25 +554,30 @@ namespace VirtualDesktopManager
 
             // add all current desktops to the menu  (refresh list)
             // changed @ 2022-03-02 to include desktops' names, beside each # ; only if names are non-generic! // 
-            for (var k = 1; k <= TOTAL_DESKTOPS; k++)
-            {
-                ToolStripItem item = desktopsList.DropDownItems.Add("# " + k);
-                item.Text += desktopNameOrEmpty(k - 1, ":  ", ""); // added: 2022-03-02
-                // item.Click += // >>  only gets a click , cannot differentiate betweeen right & left << // 
-                item.MouseUp += handleDesktopNumberClick; // changed: 2022-03-02 , to add a change-desktop-name on RIGHT-CLICK feature !
-                item.ToolTipText = "Right Click to RENAME Desktop"; // added: 2022-03-02
-                if ((k - 1) == getCurrentDesktopIndex())
-                {
-                    item.Font = new Font(item.Font, FontStyle.Bold);
-                    item.ForeColor = Color.White;
-                    item.BackColor = Color.Black;
-                }
-            }
+            // modified 2022-07-10 // more clear code ... 
+            for (var k = 1; k <= TOTAL_DESKTOPS; k++) add_DesktopItem(k);
 
             add_Separator();
             add_AddItem();// added 2022-02-21 // creates new desktop at the end, and moves to it //
             add_AddMultipleItem(); // added 2022-07-09  // Adds Multiple Desktops, as much as user requests [from 1 to 10] // 
         }
+
+        // added 2022-07-10 // code-restructuring // more clear code ...
+        private void add_DesktopItem(int k)
+        {
+            ToolStripItem item = desktopsList.DropDownItems.Add("# " + k);
+            item.Text += desktopNameOrEmpty(k - 1, ":  ", ""); // added: 2022-03-02
+            // item.Click += // >>  only gets a click , cannot differentiate betweeen right & left << // 
+            item.MouseUp += handleDesktopNumberClick; // changed: 2022-03-02 , to add a change-desktop-name on RIGHT-CLICK feature !
+            item.ToolTipText = "Right Click to RENAME Desktop"; // added: 2022-03-02
+            if ((k - 1) == getCurrentDesktopIndex())
+            {
+                item.Font = new Font(item.Font, FontStyle.Bold);
+                item.ForeColor = Color.White;
+                item.BackColor = Color.Black;
+            }
+        }
+
 
         // added 2022-07-09
         private void add_Separator() => desktopsList.DropDownItems.Add(new ToolStripSeparator());
