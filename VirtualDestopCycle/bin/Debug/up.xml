@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<UserPreferences xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <BackColor>back_Dark_Blue</BackColor>
-  <BrushName>white</BrushName>
-  <cycleTransTime>4</cycleTransTime>
-  <cyclesAmount>1</cyclesAmount>
-</UserPreferences>
