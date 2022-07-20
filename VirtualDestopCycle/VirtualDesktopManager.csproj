@@ -104,6 +104,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DesktopPopUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DesktopPopUp.Designer.cs">
+      <DependentUpon>DesktopPopUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +125,12 @@
     <Compile Include="Native.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopPopUp.resx">
+      <DependentUpon>DesktopPopUp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -161,6 +179,19 @@
     <None Include="Resources\close_desktop.png" />
     <None Include="Resources\close_all.png" />
     <None Include="Resources\add_multiple.png" />
+    <None Include="Resources\icons8-matrix-desktop-96.png" />
+    <None Include="Resources\icons8-left-64.png" />
+    <None Include="Resources\icons8-right-64.png" />
+    <None Include="Resources\icons8-info-100.png" />
+    <None Include="Resources\icons8-splash-100.png" />
+    <None Include="Resources\icons8-save-100.png" />
+    <None Include="Resources\icons8-reset-64__rev-cycle.png" />
+    <None Include="Resources\icons8-reset-64__cycle.png" />
+    <None Include="Resources\icons8-paint-100.png" />
+    <None Include="Resources\icons8-settings-50.png" />
+    <None Include="Resources\icons8-close-50.png" />
+    <None Include="Resources\Copyleft.png" />
+    <None Include="Resources\IM.jpg" />
     <Content Include="Resources\mainIco.ico" />
     <None Include="Resources\mainIco.png" />
   </ItemGroup>

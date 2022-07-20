@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
+using HWND = System.IntPtr;
 using WindowsDesktop;
 using GlobalHotKey;
 using System.Drawing;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Threading;
 using System.Xml.Serialization;
 using InputBoxClassLibrary;
+using System.Text;
 
 namespace VirtualDesktopManager
 {
@@ -37,10 +39,13 @@ namespace VirtualDesktopManager
         private bool closeToTray;
         private bool useAltKeySettings;
 
+
         // added 2022-02-19 //
         // two global variables to store current back-color & brush names // 
         private string selectedBackgroundName = Consts.DEFAULT_COLOR;
         private string selectedBrushName = Consts.DEFAULT_BRUSH;
+
+
         // added 2022-02-26 //
         // another two global variables to store cycles_amount & cycles_transition_time // 
         private int selectedCycleTransTime = Consts.DEFAULT_TRANS_TIME;
@@ -53,6 +58,11 @@ namespace VirtualDesktopManager
         private HotKeyManager _stopCyclingHotKey = new HotKeyManager();
         // user preferences class to load/save preferences //
         UserPreferences up = new UserPreferences();
+
+
+        // addded 2022-07-20 //  for the desktop# & title splash //
+        DesktopPopUp dpp = new DesktopPopUp();
+        private bool splashActive = false; // default value 
 
         public Form1()
         {
@@ -201,6 +211,16 @@ namespace VirtualDesktopManager
             if (pictureFile != null) Native.SetBackground(pictureFile);
             restoreApplicationFocus(currentDesktopIndex);
             changeTrayIcon(currentDesktopIndex);
+            // added 2022-07-19
+            if(splashActive) showSplash();
+        }
+
+        // added 2022-07-19
+        private void showSplash()
+        {
+            int i = getCurrentDesktopIndex();
+            string msg = "Desktop # " + (i + 1) + desktopNameOrEmpty(i, "\r\n", "");
+            dpp.showMe(msg);
         }
 
         private string PickNthFile(int currentDesktopIndex)
@@ -578,7 +598,6 @@ namespace VirtualDesktopManager
             }
         }
 
-
         // added 2022-07-09
         private void add_Separator() => desktopsList.DropDownItems.Add(new ToolStripSeparator());
 
@@ -807,6 +826,8 @@ namespace VirtualDesktopManager
         // if numOfCycles = -1 , cycles 'forever' until 'special' keyPress // 
         private void cycle(int haltTimeSec = 4, int numOfCycles = 1)
         {
+            bool splashWasActive = splashActive; splashDeactivate(); // added 2022-07-20 // to accomodate for splashDesktop#
+
             if (numOfCycles == -1) cycleForever(haltTimeSec);
             else
             {
@@ -823,6 +844,8 @@ namespace VirtualDesktopManager
                 }
                 moveToNext(initialDesktopState());
             }
+
+            if (splashWasActive) splashActivate(); // added 2022-07-20 // to accomodate for splashDesktop#
         }
 
         private void cycleForever(int haltTimeSec) // stop on Any-KeyPress
@@ -844,6 +867,8 @@ namespace VirtualDesktopManager
         // if numOfCycles = -1 , reverse-cycles 'forever' until 'special' keyPress // 
         private void revCycle(int haltTimeSec = 4, int numOfCycles = 1)
         {
+            bool splashWasActive = splashActive; splashDeactivate(); // added 2022-07-20 // to accomodate for splashDesktop#
+
             if (numOfCycles == -1) revCycleForever(haltTimeSec);
             else
             {
@@ -860,6 +885,8 @@ namespace VirtualDesktopManager
                 }
                 moveToPrevious(initialDesktopState());
             }
+
+            if (splashWasActive) splashActivate(); // added 2022-07-20 // to accomodate for splashDesktop#
         }
 
         private void revCycleForever(int haltTimeSec) // stop on Any-KeyPress
@@ -988,7 +1015,7 @@ namespace VirtualDesktopManager
         }
 
         // added 2022-03-02
-        private string desktopNameOrEmpty(int index, string prefix = "", string suffix = "")
+        public string desktopNameOrEmpty(int index, string prefix = "", string suffix = "")
         {
             string name = desktopNameFromIndex(index);
             if (name.Equals("Desktop " + (index + 1).ToString())) return ""; // returns empty string if name is GENERIC //
@@ -1077,6 +1104,126 @@ namespace VirtualDesktopManager
             return false;
         }
 
+        // ************************************* // section added 2022-07-20 // ********************************************************//
+
+        private void SplashItem_Click(object sender, EventArgs e)
+        {
+            if (splashActive) splashDeactivate(); else splashActivate();
+        }
+
+        private void splashDeactivate()
+        {
+            splashActive = false;
+            splashItem.ForeColor = Color.Black;
+            splashItem.BackColor = Color.White;
+            splashItem.Text = "Splash";
+        }
+
+        private void splashActivate()
+        {
+            splashActive = true;
+            splashItem.ForeColor = Color.White;
+            splashItem.BackColor = Color.Black;
+            splashItem.Text += " (Active)";
+        }
+
+        private void GetWindowsList_Click(object sender, EventArgs e)
+        {
+            string msg = "List of open windows' [handles] & titles in Desktop #"+(getCurrentDesktopIndex()+1)+"\n\n"; 
+            Guid currentID = desktops[getCurrentDesktopIndex()].Id;
+            IDictionary<HWND, string> windows = OpenWindowGetter.GetOpenWindows();
+            int i = 1;
+            foreach (KeyValuePair<IntPtr, string> window in windows)
+            {
+                IntPtr handle = window.Key;
+                string title = window.Value;
+                VirtualDesktop vdFromHandle = VirtualDesktop.FromHwnd(handle);
+                if (vdFromHandle != null && vdFromHandle.Id.Equals(currentID))
+                {
+                    msg += i + ".  [" + handle + "]:\t" + title + "\n\n";
+                    i++;
+                }
+            }
+
+            if (i == 1)
+            {
+                MessageBox.Show("No open windows in current desktop!", "List of Open Windows", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                string shown_msg = msg + "Copy the above data to clipboard ?!";
+                DialogResult res = MessageBox.Show(shown_msg, "List of Open Windows", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (res == DialogResult.Yes)
+                {
+                    Clipboard.SetText(msg);
+                    notifyIcon1.BalloonTipTitle = "Open Windows List";
+                    notifyIcon1.BalloonTipText = "Open Windows List was copied to clipboard successfully!";
+                    notifyIcon1.ShowBalloonTip(2000);
+                }
+            }
+        }
+
+        private void ExportDesktopsData_Click(object sender, EventArgs e)
+        {
+            var TOTAL_DESKTOPS = desktops.Count;
+            string[] headings = new string[TOTAL_DESKTOPS];
+            Dictionary<Guid, int> ID_Index_Map = new Dictionary<Guid, int>();
+            for (var k = 0; k < TOTAL_DESKTOPS; k++)
+            {
+                headings[k] = "Desktop #" + (k + 1) + "\n\t";
+                headings[k] += desktopNameOrEmpty(k, "name/title: ", "\n\t");
+                headings[k] += "GUID: " + desktops.ElementAt(k).Id.ToString().ToUpper() + "\n\t";
+                ID_Index_Map.Add(desktops[k].Id, k);
+            }
+            string[] windowsList = new string[TOTAL_DESKTOPS];
+            int[] windowsCounters = new int[TOTAL_DESKTOPS];
+            IDictionary<HWND, string> windows = OpenWindowGetter.GetOpenWindows();
+            int currIndex;
+            foreach (KeyValuePair<IntPtr, string> window in windows)
+            {
+                IntPtr handle = window.Key;
+                string title = window.Value;
+                VirtualDesktop vdFromHandle = VirtualDesktop.FromHwnd(handle);
+                if (vdFromHandle != null)
+                {
+                    currIndex = ID_Index_Map[vdFromHandle.Id];
+                    windowsList[currIndex] += "\t\t" + (windowsCounters[currIndex]+1) + ".  [" + handle + "]: " + title + "\n";
+                    windowsCounters[currIndex]++;
+                }
+            }
+            SaveToFile(combineHeadingsWindows(headings, windowsList));
+        }
+
+        private static string combineHeadingsWindows(string[] headings, string[] windowsList)
+        {
+            string result = "";
+            for(var i=0; i<headings.Length; i++)
+            {
+                result += headings[i];
+                if (String.IsNullOrEmpty(windowsList[i])) result += "\n";
+                else result += "windows-list:- \n" + windowsList[i] + "\n";
+            }
+            return result;
+        }
+
+        private static void SaveToFile(string txt) // source: https://stackoverflow.com/a/14887022 // 
+        {
+            var saveFileDialog1 = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Filter = string.Format("{0}Text files (*.txt)|*.txt|All files (*.*)|*.*",""),
+                RestoreDirectory = true,
+                ShowHelp = false,
+                CheckFileExists = false
+            };
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                File.WriteAllText(saveFileDialog1.FileName, txt);
+        }
+
+        private void AboutMenuItem_Click(object sender, EventArgs e) => (new About()).ShowDialog();
+
+
+        // ************************************* // ************************ // ********************************************************//
     }
 
     static class Consts
@@ -1158,6 +1305,57 @@ namespace VirtualDesktopManager
     }
 
 
+
+    // added 2022-07-20 // sources: https://stackoverflow.com/a/43640787   &    http://www.tcx.be/blog/2006/list-open-windows/   // 
+    /// <summary>Contains functionality to get all the open windows.</summary>
+    static class OpenWindowGetter
+    {
+        /// <summary>Returns a dictionary that contains the handle and title of all the open windows.</summary>
+        /// <returns>A dictionary that contains the handle and title of all the open windows.</returns>
+        public static IDictionary<HWND, string> GetOpenWindows()
+        {
+            HWND shellWindow = GetShellWindow();
+            Dictionary<HWND, string> windows = new Dictionary<HWND, string>();
+
+            EnumWindows(delegate (HWND hWnd, int lParam)
+            {
+                if (hWnd == shellWindow) return true;
+                if (!IsWindowVisible(hWnd)) return true;
+
+                int length = GetWindowTextLength(hWnd);
+                if (length == 0) return true;
+
+                StringBuilder builder = new StringBuilder(length);
+                GetWindowText(hWnd, builder, length + 1);
+
+                windows[hWnd] = builder.ToString();
+                return true;
+
+            }, 0);
+
+            return windows;
+        }
+
+        private delegate bool EnumWindowsProc(HWND hWnd, int lParam);
+
+        [DllImport("USER32.DLL")]
+        private static extern bool EnumWindows(EnumWindowsProc enumFunc, int lParam);
+
+        [DllImport("USER32.DLL")]
+        private static extern int GetWindowText(HWND hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("USER32.DLL")]
+        private static extern int GetWindowTextLength(HWND hWnd);
+
+        [DllImport("USER32.DLL")]
+        private static extern bool IsWindowVisible(HWND hWnd);
+
+        [DllImport("USER32.DLL")]
+        private static extern IntPtr GetShellWindow();
+    }
+    // ************************************************************************************************************ //
+
+
     // ************************************************************************************************************ //
     // added 2022-03-02 // 
     // copied from https://github.com/MScholtes/VirtualDesktop/blob/master/VirtualDesktop.cs , lines 29-253 //
@@ -1180,6 +1378,14 @@ namespace VirtualDesktopManager
     {
         public int X;
         public int Y;
+        private int width;
+        private int height;
+
+        public Size(int width, int height) : this()
+        {
+            this.width = width;
+            this.height = height;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -1373,4 +1579,5 @@ namespace VirtualDesktopManager
     }
     #endregion
     // ************************************************************************************************************ //
+
 }

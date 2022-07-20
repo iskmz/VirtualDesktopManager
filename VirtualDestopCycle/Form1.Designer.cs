@@ -32,8 +32,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.separator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportDesktopsData = new System.Windows.Forms.ToolStripMenuItem();
+            this.getWindowsList = new System.Windows.Forms.ToolStripMenuItem();
             this.getIDs = new System.Windows.Forms.ToolStripMenuItem();
+            this.separator7 = new System.Windows.Forms.ToolStripSeparator();
             this.saveUserPref = new System.Windows.Forms.ToolStripMenuItem();
+            this.separator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.splashItem = new System.Windows.Forms.ToolStripMenuItem();
             this.separator5 = new System.Windows.Forms.ToolStripSeparator();
             this.transTimeSubMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.sec2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +97,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelStatus = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.separator6 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -110,9 +116,15 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutMenuItem,
+            this.separator8,
+            this.exportDesktopsData,
+            this.getWindowsList,
             this.getIDs,
-            this.separator6,
+            this.separator7,
             this.saveUserPref,
+            this.separator6,
+            this.splashItem,
             this.separator5,
             this.transTimeSubMenu,
             this.cyclesAmountSubMenu,
@@ -129,28 +141,84 @@
             this.separator1,
             this.desktopsList});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 326);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(193, 618);
+            // 
+            // aboutMenuItem
+            // 
+            this.aboutMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_info_100;
+            this.aboutMenuItem.Name = "aboutMenuItem";
+            this.aboutMenuItem.Size = new System.Drawing.Size(192, 34);
+            this.aboutMenuItem.Text = "About";
+            this.aboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
+            // 
+            // separator8
+            // 
+            this.separator8.Name = "separator8";
+            this.separator8.Size = new System.Drawing.Size(189, 6);
+            // 
+            // exportDesktopsData
+            // 
+            this.exportDesktopsData.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportDesktopsData.Name = "exportDesktopsData";
+            this.exportDesktopsData.Size = new System.Drawing.Size(192, 34);
+            this.exportDesktopsData.Text = "export data";
+            this.exportDesktopsData.ToolTipText = "Export desktop data: desktops, their titles, GUIDs & windows-list , to a text fil" +
+    "e";
+            this.exportDesktopsData.Click += new System.EventHandler(this.ExportDesktopsData_Click);
+            // 
+            // getWindowsList
+            // 
+            this.getWindowsList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.getWindowsList.Name = "getWindowsList";
+            this.getWindowsList.Size = new System.Drawing.Size(192, 34);
+            this.getWindowsList.Text = "list windows";
+            this.getWindowsList.ToolTipText = "show a list of all windows in the current desktop: each window\'s handle # & title" +
+    "";
+            this.getWindowsList.Click += new System.EventHandler(this.GetWindowsList_Click);
             // 
             // getIDs
             // 
             this.getIDs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
             this.getIDs.Name = "getIDs";
-            this.getIDs.Size = new System.Drawing.Size(180, 22);
+            this.getIDs.Size = new System.Drawing.Size(192, 34);
             this.getIDs.Text = "desktops GUIDs";
+            this.getIDs.ToolTipText = "show a list of all desktops , their names and their GUIDs";
             this.getIDs.Click += new System.EventHandler(this.GetIDs_Click);
+            // 
+            // separator7
+            // 
+            this.separator7.Name = "separator7";
+            this.separator7.Size = new System.Drawing.Size(189, 6);
             // 
             // saveUserPref
             // 
             this.saveUserPref.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.saveUserPref.Image = global::VirtualDesktopManager.Properties.Resources.icons8_save_100;
             this.saveUserPref.Name = "saveUserPref";
-            this.saveUserPref.Size = new System.Drawing.Size(180, 22);
+            this.saveUserPref.Size = new System.Drawing.Size(192, 34);
             this.saveUserPref.Text = "Save Preferences";
+            this.saveUserPref.ToolTipText = "save current preferences: colors, transition time, cycles amount";
             this.saveUserPref.Click += new System.EventHandler(this.SaveUserPref_Click);
+            // 
+            // separator6
+            // 
+            this.separator6.Name = "separator6";
+            this.separator6.Size = new System.Drawing.Size(189, 6);
+            // 
+            // splashItem
+            // 
+            this.splashItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.splashItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_splash_100;
+            this.splashItem.Name = "splashItem";
+            this.splashItem.Size = new System.Drawing.Size(192, 34);
+            this.splashItem.Text = "Splash";
+            this.splashItem.ToolTipText = "Click to Activate/Deactivate";
+            this.splashItem.Click += new System.EventHandler(this.SplashItem_Click);
             // 
             // separator5
             // 
             this.separator5.Name = "separator5";
-            this.separator5.Size = new System.Drawing.Size(177, 6);
+            this.separator5.Size = new System.Drawing.Size(189, 6);
             // 
             // transTimeSubMenu
             // 
@@ -163,7 +231,7 @@
             this.sec12,
             this.sec14});
             this.transTimeSubMenu.Name = "transTimeSubMenu";
-            this.transTimeSubMenu.Size = new System.Drawing.Size(180, 22);
+            this.transTimeSubMenu.Size = new System.Drawing.Size(192, 34);
             this.transTimeSubMenu.Text = "transition time";
             // 
             // sec2
@@ -225,7 +293,7 @@
             this.cycles_5,
             this.cycles_forever});
             this.cyclesAmountSubMenu.Name = "cyclesAmountSubMenu";
-            this.cyclesAmountSubMenu.Size = new System.Drawing.Size(180, 22);
+            this.cyclesAmountSubMenu.Size = new System.Drawing.Size(192, 34);
             this.cyclesAmountSubMenu.Text = "cycles amount";
             // 
             // cycles_1
@@ -272,22 +340,26 @@
             // 
             // reverseCycleMenuItem
             // 
+            this.reverseCycleMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_reset_64__rev_cycle;
             this.reverseCycleMenuItem.Name = "reverseCycleMenuItem";
-            this.reverseCycleMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reverseCycleMenuItem.Size = new System.Drawing.Size(192, 34);
             this.reverseCycleMenuItem.Text = "Reverse Cycle !";
+            this.reverseCycleMenuItem.ToolTipText = "cycle all desktops in reverse order; as specified in the prameters above";
             this.reverseCycleMenuItem.Click += new System.EventHandler(this.ReverseCycleMenuItem_Click);
             // 
             // cycleMenuItem
             // 
+            this.cycleMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_reset_64__cycle;
             this.cycleMenuItem.Name = "cycleMenuItem";
-            this.cycleMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cycleMenuItem.Size = new System.Drawing.Size(192, 34);
             this.cycleMenuItem.Text = "Cycle !";
+            this.cycleMenuItem.ToolTipText = "cycle all desktops in order; as specified in the prameters above";
             this.cycleMenuItem.Click += new System.EventHandler(this.CycleMenuItem_Click);
             // 
             // separator4
             // 
             this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(177, 6);
+            this.separator4.Size = new System.Drawing.Size(189, 6);
             // 
             // colorList
             // 
@@ -308,15 +380,17 @@
             this.toolStripSeparator2,
             this.TransparentWhite,
             this.TransparentBlack});
+            this.colorList.Image = global::VirtualDesktopManager.Properties.Resources.icons8_paint_100;
             this.colorList.Name = "colorList";
-            this.colorList.Size = new System.Drawing.Size(180, 22);
+            this.colorList.Size = new System.Drawing.Size(192, 34);
             this.colorList.Text = "Colors ...";
+            this.colorList.ToolTipText = "change color of tray icon";
             // 
             // Black
             // 
             this.Black.Image = global::VirtualDesktopManager.Properties.Resources.back_Black;
             this.Black.Name = "Black";
-            this.Black.Size = new System.Drawing.Size(201, 22);
+            this.Black.Size = new System.Drawing.Size(213, 34);
             this.Black.Text = "Black";
             this.Black.Click += new System.EventHandler(this.BlackToolStripMenuItem_Click);
             // 
@@ -324,7 +398,7 @@
             // 
             this.Brown.Image = global::VirtualDesktopManager.Properties.Resources.back_Brown;
             this.Brown.Name = "Brown";
-            this.Brown.Size = new System.Drawing.Size(201, 22);
+            this.Brown.Size = new System.Drawing.Size(213, 34);
             this.Brown.Text = "Brown";
             this.Brown.Click += new System.EventHandler(this.BrownToolStripMenuItem_Click);
             // 
@@ -332,7 +406,7 @@
             // 
             this.Dark_Blue.Image = global::VirtualDesktopManager.Properties.Resources.back_Dark_Blue;
             this.Dark_Blue.Name = "Dark_Blue";
-            this.Dark_Blue.Size = new System.Drawing.Size(201, 22);
+            this.Dark_Blue.Size = new System.Drawing.Size(213, 34);
             this.Dark_Blue.Text = "Dark Blue";
             this.Dark_Blue.Click += new System.EventHandler(this.DarkBlueToolStripMenuItem_Click);
             // 
@@ -340,7 +414,7 @@
             // 
             this.Dark_Green.Image = global::VirtualDesktopManager.Properties.Resources.back_Dark_Green;
             this.Dark_Green.Name = "Dark_Green";
-            this.Dark_Green.Size = new System.Drawing.Size(201, 22);
+            this.Dark_Green.Size = new System.Drawing.Size(213, 34);
             this.Dark_Green.Text = "Dark Green";
             this.Dark_Green.Click += new System.EventHandler(this.DarkGreenToolStripMenuItem_Click);
             // 
@@ -348,7 +422,7 @@
             // 
             this.Dark_Red.Image = global::VirtualDesktopManager.Properties.Resources.back_Dark_Red;
             this.Dark_Red.Name = "Dark_Red";
-            this.Dark_Red.Size = new System.Drawing.Size(201, 22);
+            this.Dark_Red.Size = new System.Drawing.Size(213, 34);
             this.Dark_Red.Text = "Dark Red";
             this.Dark_Red.Click += new System.EventHandler(this.DarkRedToolStripMenuItem_Click);
             // 
@@ -356,20 +430,20 @@
             // 
             this.Purple.Image = global::VirtualDesktopManager.Properties.Resources.back_Purple;
             this.Purple.Name = "Purple";
-            this.Purple.Size = new System.Drawing.Size(201, 22);
+            this.Purple.Size = new System.Drawing.Size(213, 34);
             this.Purple.Text = "Purple";
             this.Purple.Click += new System.EventHandler(this.PurpleToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(210, 6);
             // 
             // Pink
             // 
             this.Pink.Image = global::VirtualDesktopManager.Properties.Resources.back_Pink;
             this.Pink.Name = "Pink";
-            this.Pink.Size = new System.Drawing.Size(201, 22);
+            this.Pink.Size = new System.Drawing.Size(213, 34);
             this.Pink.Text = "Pink";
             this.Pink.Click += new System.EventHandler(this.PinkToolStripMenuItem_Click);
             // 
@@ -377,7 +451,7 @@
             // 
             this.Red.Image = global::VirtualDesktopManager.Properties.Resources.back_Red;
             this.Red.Name = "Red";
-            this.Red.Size = new System.Drawing.Size(201, 22);
+            this.Red.Size = new System.Drawing.Size(213, 34);
             this.Red.Text = "Red";
             this.Red.Click += new System.EventHandler(this.RedToolStripMenuItem_Click);
             // 
@@ -385,7 +459,7 @@
             // 
             this.Green.Image = global::VirtualDesktopManager.Properties.Resources.back_Green;
             this.Green.Name = "Green";
-            this.Green.Size = new System.Drawing.Size(201, 22);
+            this.Green.Size = new System.Drawing.Size(213, 34);
             this.Green.Text = "Green";
             this.Green.Click += new System.EventHandler(this.GreenToolStripMenuItem_Click);
             // 
@@ -393,7 +467,7 @@
             // 
             this.Blue.Image = global::VirtualDesktopManager.Properties.Resources.back_Blue;
             this.Blue.Name = "Blue";
-            this.Blue.Size = new System.Drawing.Size(201, 22);
+            this.Blue.Size = new System.Drawing.Size(213, 34);
             this.Blue.Text = "Blue";
             this.Blue.Click += new System.EventHandler(this.BlueToolStripMenuItem_Click);
             // 
@@ -401,7 +475,7 @@
             // 
             this.Yellow.Image = global::VirtualDesktopManager.Properties.Resources.back_Yellow;
             this.Yellow.Name = "Yellow";
-            this.Yellow.Size = new System.Drawing.Size(201, 22);
+            this.Yellow.Size = new System.Drawing.Size(213, 34);
             this.Yellow.Text = "Yellow";
             this.Yellow.Click += new System.EventHandler(this.YellowToolStripMenuItem_Click);
             // 
@@ -409,78 +483,89 @@
             // 
             this.White.Image = global::VirtualDesktopManager.Properties.Resources.back_White;
             this.White.Name = "White";
-            this.White.Size = new System.Drawing.Size(201, 22);
+            this.White.Size = new System.Drawing.Size(213, 34);
             this.White.Text = "White";
             this.White.Click += new System.EventHandler(this.WhiteToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(210, 6);
             // 
             // TransparentWhite
             // 
             this.TransparentWhite.Name = "TransparentWhite";
-            this.TransparentWhite.Size = new System.Drawing.Size(201, 22);
+            this.TransparentWhite.Size = new System.Drawing.Size(213, 34);
             this.TransparentWhite.Text = "Transparent (White Text)";
             this.TransparentWhite.Click += new System.EventHandler(this.TransparentWhiteTextToolStripMenuItem_Click);
             // 
             // TransparentBlack
             // 
             this.TransparentBlack.Name = "TransparentBlack";
-            this.TransparentBlack.Size = new System.Drawing.Size(201, 22);
+            this.TransparentBlack.Size = new System.Drawing.Size(213, 34);
             this.TransparentBlack.Text = "Transparent (Black Text)";
             this.TransparentBlack.Click += new System.EventHandler(this.TransparentBlackTextToolStripMenuItem_Click);
             // 
             // separator3
             // 
             this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(177, 6);
+            this.separator3.Size = new System.Drawing.Size(189, 6);
             // 
             // settingsToolStripMenuItem
             // 
+            this.settingsToolStripMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_settings_50;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(192, 34);
             this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.ToolTipText = "open settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
+            this.exitToolStripMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_close_50;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(192, 34);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.ToolTipText = "Exit V.D.M.";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // separator2
             // 
             this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(177, 6);
+            this.separator2.Size = new System.Drawing.Size(189, 6);
             // 
             // nextToolStripMenuItem
             // 
+            this.nextToolStripMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_right_64;
             this.nextToolStripMenuItem.Name = "nextToolStripMenuItem";
-            this.nextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.nextToolStripMenuItem.Size = new System.Drawing.Size(192, 34);
             this.nextToolStripMenuItem.Text = ">> Next >>";
+            this.nextToolStripMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.nextToolStripMenuItem.ToolTipText = "go to next desktop";
             this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextClick);
             // 
             // previousToolStripMenuItem1
             // 
+            this.previousToolStripMenuItem1.Image = global::VirtualDesktopManager.Properties.Resources.icons8_left_64;
             this.previousToolStripMenuItem1.Name = "previousToolStripMenuItem1";
-            this.previousToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.previousToolStripMenuItem1.Size = new System.Drawing.Size(192, 34);
             this.previousToolStripMenuItem1.Text = "<< Previous <<";
+            this.previousToolStripMenuItem1.ToolTipText = "go to previous desktop";
             this.previousToolStripMenuItem1.Click += new System.EventHandler(this.previousClick);
             // 
             // separator1
             // 
             this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(177, 6);
+            this.separator1.Size = new System.Drawing.Size(189, 6);
             // 
             // desktopsList
             // 
             this.desktopsList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2});
+            this.desktopsList.Image = global::VirtualDesktopManager.Properties.Resources.icons8_matrix_desktop_96;
             this.desktopsList.Name = "desktopsList";
-            this.desktopsList.Size = new System.Drawing.Size(180, 22);
+            this.desktopsList.Size = new System.Drawing.Size(192, 34);
             this.desktopsList.Text = "Desktops ...";
             // 
             // toolStripMenuItem2
@@ -646,11 +731,6 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
             // 
-            // separator6
-            // 
-            this.separator6.Name = "separator6";
-            this.separator6.Size = new System.Drawing.Size(177, 6);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -745,6 +825,12 @@
         private System.Windows.Forms.ToolStripMenuItem saveUserPref;
         private System.Windows.Forms.ToolStripMenuItem getIDs;
         private System.Windows.Forms.ToolStripSeparator separator6;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
+        private System.Windows.Forms.ToolStripSeparator separator8;
+        private System.Windows.Forms.ToolStripMenuItem exportDesktopsData;
+        private System.Windows.Forms.ToolStripMenuItem getWindowsList;
+        private System.Windows.Forms.ToolStripSeparator separator7;
+        private System.Windows.Forms.ToolStripMenuItem splashItem;
     }
 }
 

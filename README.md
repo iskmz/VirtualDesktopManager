@@ -4,6 +4,19 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ## Updates ##
 
 
+* version 2.3:	&emsp; <u>_released on 2022-07-20_</u>
+  * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
+  * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
+    - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
+  * "list windows" feature , to list all open windows (their handles & titles) in the CURRENT desktop ; can copy data to clipboard as in 'desktops GUIDs' from before
+  * "export data" feature, to save a text file with all desktop data: titles, GUIDs, and a windows-list per each desktop (could be useful to help restore open windows, when sudden restart for example;  manually!)
+  * "About" dialog  
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/48130426/180053663-4c6b4762-0a4b-4366-aa89-629850e00f74.png" width=50% height=50% align="center">
+</div>
+
+
 * version 2.2:	&emsp; <u>_released on 2022-07-09_</u>
   * new menu-items in desktops-list: 
     - "Close All" to close all desktops at once
