@@ -10,6 +10,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
     - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
   * "list windows" feature , to list all open windows (their handles & titles) in the CURRENT desktop ; can copy data to clipboard as in 'desktops GUIDs' from before
   * "export data" feature, to save a text file with all desktop data: titles, GUIDs, and a windows-list per each desktop (could be useful to help restore open windows, when sudden restart for example;  manually!)
+  * descriptive tooltips for main-menu
   * "About" dialog  
 
 <div align="center">
