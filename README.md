@@ -4,6 +4,14 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ## Updates ##
 
 
+* version 2.3.1:	&emsp; <u>_released on 2022-07-21_</u>
+  * minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
+  
+<div align="center">
+<img src="https://user-images.githubusercontent.com/48130426/180138697-e1ecb347-e1c1-4612-8e20-0dd410785cb1.png" width=50% height=50% align="center">
+</div>
+
+
 * version 2.3:	&emsp; <u>_released on 2022-07-20_</u>
   * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
   * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
