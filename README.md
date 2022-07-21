@@ -12,6 +12,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 </div>
 
 
+
 * version 2.3:	&emsp; <u>_released on 2022-07-20_</u>
   * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
   * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
@@ -24,6 +25,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <div align="center">
 <img src="https://user-images.githubusercontent.com/48130426/180053663-4c6b4762-0a4b-4366-aa89-629850e00f74.png" width=50% height=50% align="center">
 </div>
+
 
 
 * version 2.2:	&emsp; <u>_released on 2022-07-09_</u>
