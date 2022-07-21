@@ -52,6 +52,5 @@ namespace VirtualDesktopManager
                 if (e.Row == 1 && e.Column == 1) e.Graphics.DrawRectangle(pen, rectangle);
             }
         }
-
     }
 }

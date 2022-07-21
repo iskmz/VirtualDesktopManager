@@ -149,7 +149,7 @@
             this.dataSubMenu.Image = global::VirtualDesktopManager.Properties.Resources.icons8_list_50;
             this.dataSubMenu.Name = "dataSubMenu";
             this.dataSubMenu.Size = new System.Drawing.Size(192, 34);
-            this.dataSubMenu.Text = "Data";
+            this.dataSubMenu.Text = "Data ...";
             // 
             // exportDesktopsData
             // 

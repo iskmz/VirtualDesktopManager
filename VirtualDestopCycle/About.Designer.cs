@@ -37,12 +37,12 @@
             this.labelVersion = new System.Windows.Forms.Label();
             this.labelProductName = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.labeld6 = new System.Windows.Forms.LinkLabel();
+            this.labeld5 = new System.Windows.Forms.Label();
             this.labeld4 = new System.Windows.Forms.LinkLabel();
             this.labeld3 = new System.Windows.Forms.Label();
             this.labeld1 = new System.Windows.Forms.Label();
             this.labeld2 = new System.Windows.Forms.LinkLabel();
-            this.labeld5 = new System.Windows.Forms.Label();
-            this.labeld6 = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -145,7 +145,7 @@
             this.labelReleaseDate.Name = "labelReleaseDate";
             this.labelReleaseDate.Size = new System.Drawing.Size(197, 42);
             this.labelReleaseDate.TabIndex = 2;
-            this.labelReleaseDate.Text = "released: 2022-07-20";
+            this.labelReleaseDate.Text = "released: 2022-07-21";
             this.labelReleaseDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelVersion
@@ -157,7 +157,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(197, 42);
             this.labelVersion.TabIndex = 1;
-            this.labelVersion.Text = "version 2.3";
+            this.labelVersion.Text = "version 2.3.1";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelProductName
@@ -192,6 +192,33 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(203, 127);
             this.tableLayoutPanel4.TabIndex = 3;
+            // 
+            // labeld6
+            // 
+            this.labeld6.AutoSize = true;
+            this.labeld6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labeld6.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labeld6.ForeColor = System.Drawing.Color.Blue;
+            this.labeld6.Location = new System.Drawing.Point(124, 84);
+            this.labeld6.Name = "labeld6";
+            this.labeld6.Size = new System.Drawing.Size(76, 43);
+            this.labeld6.TabIndex = 5;
+            this.labeld6.TabStop = true;
+            this.labeld6.Text = "icons8";
+            this.labeld6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labeld6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labeld6_LinkClicked);
+            // 
+            // labeld5
+            // 
+            this.labeld5.AutoSize = true;
+            this.labeld5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labeld5.ForeColor = System.Drawing.Color.LightGray;
+            this.labeld5.Location = new System.Drawing.Point(3, 84);
+            this.labeld5.Name = "labeld5";
+            this.labeld5.Size = new System.Drawing.Size(115, 43);
+            this.labeld5.TabIndex = 4;
+            this.labeld5.Text = "some free icons by:";
+            this.labeld5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labeld4
             // 
@@ -246,33 +273,6 @@
             this.labeld2.Text = "iskmz";
             this.labeld2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labeld2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labeld2_LinkClicked);
-            // 
-            // labeld5
-            // 
-            this.labeld5.AutoSize = true;
-            this.labeld5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labeld5.ForeColor = System.Drawing.Color.LightGray;
-            this.labeld5.Location = new System.Drawing.Point(3, 84);
-            this.labeld5.Name = "labeld5";
-            this.labeld5.Size = new System.Drawing.Size(115, 43);
-            this.labeld5.TabIndex = 4;
-            this.labeld5.Text = "some free icons by:";
-            this.labeld5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labeld6
-            // 
-            this.labeld6.AutoSize = true;
-            this.labeld6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labeld6.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labeld6.ForeColor = System.Drawing.Color.Blue;
-            this.labeld6.Location = new System.Drawing.Point(124, 84);
-            this.labeld6.Name = "labeld6";
-            this.labeld6.Size = new System.Drawing.Size(76, 43);
-            this.labeld6.TabIndex = 5;
-            this.labeld6.TabStop = true;
-            this.labeld6.Text = "icons8";
-            this.labeld6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labeld6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labeld6_LinkClicked);
             // 
             // About
             // 

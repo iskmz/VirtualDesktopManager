@@ -8,7 +8,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
   * minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
   
 <div align="center">
-<img src="https://user-images.githubusercontent.com/48130426/180138697-e1ecb347-e1c1-4612-8e20-0dd410785cb1.png" width=50% height=50% align="center">
+<img src="https://user-images.githubusercontent.com/48130426/180141305-0b4c79b7-508b-43c3-b179-7b8192e902a0.png" width=50% height=50% align="center">
 </div>
 
 
