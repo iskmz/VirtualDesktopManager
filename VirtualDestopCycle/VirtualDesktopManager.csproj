@@ -194,6 +194,7 @@
     <None Include="Resources\IM.jpg" />
     <None Include="Resources\icons8-process-50.png" />
     <None Include="Resources\icons8-list-50.png" />
+    <None Include="Resources\IM_.jpg" />
     <Content Include="Resources\mainIco.ico" />
     <None Include="Resources\mainIco.png" />
   </ItemGroup>

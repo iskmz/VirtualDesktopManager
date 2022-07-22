@@ -28,7 +28,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pb1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.labelCopyleft = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -44,7 +44,7 @@
             this.labeld1 = new System.Windows.Forms.Label();
             this.labeld2 = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
@@ -56,7 +56,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pb1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 1, 1);
@@ -70,17 +70,18 @@
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableLayoutPanel1_CellPaint);
             // 
-            // pictureBox1
+            // pb1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::VirtualDesktopManager.Properties.Resources.IM;
-            this.pictureBox1.InitialImage = global::VirtualDesktopManager.Properties.Resources.IM;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(202, 126);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.pb1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pb1.Image = global::VirtualDesktopManager.Properties.Resources.IM;
+            this.pb1.InitialImage = global::VirtualDesktopManager.Properties.Resources.IM;
+            this.pb1.Location = new System.Drawing.Point(3, 3);
+            this.pb1.Name = "pb1";
+            this.pb1.Size = new System.Drawing.Size(202, 126);
+            this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb1.TabIndex = 0;
+            this.pb1.TabStop = false;
+            this.pb1.Click += new System.EventHandler(this.Pb1_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -145,7 +146,7 @@
             this.labelReleaseDate.Name = "labelReleaseDate";
             this.labelReleaseDate.Size = new System.Drawing.Size(197, 42);
             this.labelReleaseDate.TabIndex = 2;
-            this.labelReleaseDate.Text = "released: 2022-07-21";
+            this.labelReleaseDate.Text = "released: 2022-07-22";
             this.labelReleaseDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelVersion
@@ -157,7 +158,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(197, 42);
             this.labelVersion.TabIndex = 1;
-            this.labelVersion.Text = "version 2.3.1";
+            this.labelVersion.Text = "version 2.3.11";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelProductName
@@ -293,7 +294,7 @@
             this.Text = "About ...";
             this.TopMost = true;
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -307,7 +308,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pb1;
         private System.Windows.Forms.Label labelCopyleft;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox pictureBox2;
