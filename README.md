@@ -37,7 +37,6 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 
 
 
-
 ### version 2.3.1 ###	
 <u>_released on 2022-07-21_</u>
 
