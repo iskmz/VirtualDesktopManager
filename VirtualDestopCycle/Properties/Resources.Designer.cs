@@ -233,9 +233,69 @@ namespace VirtualDesktopManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_batch_script_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_batch_script_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_browsing_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_browsing_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_close_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8_close_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_desktop_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_desktop_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_export_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_export_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_folder_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_folder_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_html_filetype_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_html_filetype_50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,6 +353,16 @@ namespace VirtualDesktopManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_PANIC_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_PANIC_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_process_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8_process_50", resourceCulture);
@@ -343,6 +413,26 @@ namespace VirtualDesktopManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_screenshot_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_screenshot_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_screenshot_full_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_screenshot_full_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_settings_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8_settings_50", resourceCulture);
@@ -356,6 +446,16 @@ namespace VirtualDesktopManager.Properties {
         internal static System.Drawing.Bitmap icons8_splash_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8_splash_100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_windows_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_windows_50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

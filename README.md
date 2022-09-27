@@ -4,8 +4,44 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ## Updates ##
 
 
-* version 2.3.1:	&emsp; <u>_released on 2022-07-21_</u>
-  * minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
+
+### version 2.4 ###
+<u>_released on 2022-09-27_</u>
+
+* a workaround to override default windows combination: Ctrl+Winkey+Right/Left, and also touchpad 4-finger-swipe Right/Left using [AutoHotkey.dll](https://github.com/HotKeyIt/ahkdll-v1-release/tree/master/Win32w) script which runs on program load, and uses compiled binaries from [MScholtes/VirtualDesktop](https://github.com/MScholtes/VirtualDesktop)
+  - use Ctrl+Alt+Shift+S at anytime to toggle this override on/off
+  - this override enables desktops wraping/cycling when reaching edges (this is the purpose of it)
+  - the reason for using external binaries and not the C# code itself to move to desktops, is that I'm new to AHK scripts and couldn't find a way to make script interact with C# code (and vice versa); would be happy for suggestions on how to do it.
+* major (and pretty useful) updates to Data sub-menu:-
+  - "list all browsers' URLs" option, with an option to copy to clipboard a list of all tabs and their URLs
+    - supports Firefox, Chrome, MSEdge & I.E.
+	- uses SHDocVw (for I.E.)  &  UIAutomationCore.dll (for the rest)
+	- UIAutomationCore method, basically traverses the UI tree of each browser looking for the tabs list; therefore, it may not work on future versions if changes happen to UI.
+	- UIAutomationCore method, also depends that names of some UI elements are in English, so localized versions of the browsers might break it.
+	- was tested & working on the ENGLISH-language versions of: chrome (v105.0.5195.127_64-bit), firefox (v105.0_64-bit), msedge (v105.0.1343.42_64-bit), I.E. (v11.00.19041.1566, on win10_20H2)
+  - "Export URLs", same as list URLs , but exports them to an HTML file which has clickable links
+  - "list all open folders", lists all open folders' full paths, with an option to copy to clipboard
+  - "Export Folders", same as the above, but saves the full paths to a BATCH file which opens all folders when run
+  - "Export All Data" was updated to include also URLs list & folders list from the above items
+  - "Screenshot Current" which takes a screenshot(s) of current desktop and saves to image file(s)
+  - "Screenshot All" which takes screenshots of all desktops and saves all of them
+  - updated default filename for all "Export"-items above to include current date-time
+  - icons to all items ( from [icons8](https://icons8.com "") )
+* Panic! item in data menu, which quickly does all the exports and screenshots mentioned above, to a default directory (on User's Desktop) with minimal prompts
+* in "About" dialog, added Hotkeys button which opens a message-box with Hotkeys list information.
+* more organized and concise code (Functions.cs file which separates extra classes from Form1.cs)
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/48130426/192449839-9d781691-9af8-47c3-b1f8-8685d4705d8d.png" width=50% height=50% align="center">
+</div>
+
+
+
+
+### version 2.3.1 ###	
+<u>_released on 2022-07-21_</u>
+
+* minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
   
 <div align="center">
 <img src="https://user-images.githubusercontent.com/48130426/180141305-0b4c79b7-508b-43c3-b179-7b8192e902a0.png" width=50% height=50% align="center">
@@ -13,14 +49,16 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 
 
 
-* version 2.3:	&emsp; <u>_released on 2022-07-20_</u>
-  * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
-  * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
-    - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
-  * "list windows" feature , to list all open windows (their handles & titles) in the CURRENT desktop ; can copy data to clipboard as in 'desktops GUIDs' from before
-  * "export data" feature, to save a text file with all desktop data: titles, GUIDs, and a windows-list per each desktop (could be useful to help restore open windows, when sudden restart for example;  manually!)
-  * descriptive tooltips for main-menu
-  * "About" dialog  
+### version 2.3 ###
+<u>_released on 2022-07-20_</u>
+
+* new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
+* splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
+  - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
+* "list windows" feature , to list all open windows (their handles & titles) in the CURRENT desktop ; can copy data to clipboard as in 'desktops GUIDs' from before
+* "export data" feature, to save a text file with all desktop data: titles, GUIDs, and a windows-list per each desktop (could be useful to help restore open windows, when sudden restart for example;  manually!)
+* descriptive tooltips for main-menu
+* "About" dialog  
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/48130426/180053663-4c6b4762-0a4b-4366-aa89-629850e00f74.png" width=50% height=50% align="center">
@@ -28,13 +66,17 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 
 
 
-* version 2.2:	&emsp; <u>_released on 2022-07-09_</u>
-  * new menu-items in desktops-list: 
-    - "Close All" to close all desktops at once
-    - "Add Multiple" to add as many desktops as user enters [range: 1 to 10]			
-  * some minor UI improvements in desktops-list: new icons, tooltips ...
-  * minor code clean-up / order  
+### version 2.2 ###
+<u>_released on 2022-07-09_</u>
+  
+* new menu-items in desktops-list: 
+  - "Close All" to close all desktops at once
+  - "Add Multiple" to add as many desktops as user enters [range: 1 to 10]			
+* some minor UI improvements in desktops-list: new icons, tooltips ...
+* minor code clean-up / order  
 
+
+------------------------------------------------------------
 
 
 * version 2.1:	[↓↓](#version-21)
@@ -79,7 +121,7 @@ ___changes / additions made in version 2.1 :-___
 
 ------------------------------------------------------------
 
-### a modified version 1.9 ###
+## a modified version 1.9 ##
 <u>_released on 2022-02-19_</u>
 
 
@@ -101,7 +143,7 @@ ___changes / additions made in this modification:-___
 
 ------------------------------------------------------------
 
-### ↓ original README ↓ ###
+## ↓ original README ↓ ##
 
 VirtualDesktopManager
 ======

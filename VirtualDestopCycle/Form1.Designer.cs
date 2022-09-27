@@ -34,9 +34,19 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataSubMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportDesktopsData = new System.Windows.Forms.ToolStripMenuItem();
-            this.getWindowsList = new System.Windows.Forms.ToolStripMenuItem();
             this.getIDs = new System.Windows.Forms.ToolStripMenuItem();
+            this.getWindowsList = new System.Windows.Forms.ToolStripMenuItem();
+            this.getURLs = new System.Windows.Forms.ToolStripMenuItem();
+            this.getFolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.separatorData1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportFolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportHTML = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportDesktopsData = new System.Windows.Forms.ToolStripMenuItem();
+            this.separatorData2 = new System.Windows.Forms.ToolStripSeparator();
+            this.screenshotCurrent = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenshotAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.separatorData3 = new System.Windows.Forms.ToolStripSeparator();
+            this.panic = new System.Windows.Forms.ToolStripMenuItem();
             this.separator4 = new System.Windows.Forms.ToolStripSeparator();
             this.splashItem = new System.Windows.Forms.ToolStripMenuItem();
             this.separator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -143,42 +153,139 @@
             // dataSubMenu
             // 
             this.dataSubMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportDesktopsData,
+            this.getIDs,
             this.getWindowsList,
-            this.getIDs});
+            this.getURLs,
+            this.getFolders,
+            this.separatorData1,
+            this.exportFolders,
+            this.exportHTML,
+            this.exportDesktopsData,
+            this.separatorData2,
+            this.screenshotCurrent,
+            this.screenshotAll,
+            this.separatorData3,
+            this.panic});
             this.dataSubMenu.Image = global::VirtualDesktopManager.Properties.Resources.icons8_list_50;
             this.dataSubMenu.Name = "dataSubMenu";
             this.dataSubMenu.Size = new System.Drawing.Size(192, 34);
             this.dataSubMenu.Text = "Data ...";
             // 
-            // exportDesktopsData
+            // getIDs
             // 
-            this.exportDesktopsData.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exportDesktopsData.Name = "exportDesktopsData";
-            this.exportDesktopsData.Size = new System.Drawing.Size(180, 22);
-            this.exportDesktopsData.Text = "export data";
-            this.exportDesktopsData.ToolTipText = "Export desktop data: desktops, their titles, GUIDs & windows-list , to a text fil" +
-    "e";
-            this.exportDesktopsData.Click += new System.EventHandler(this.ExportDesktopsData_Click);
+            this.getIDs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.getIDs.Image = global::VirtualDesktopManager.Properties.Resources.icons8_desktop_48;
+            this.getIDs.Name = "getIDs";
+            this.getIDs.Size = new System.Drawing.Size(243, 34);
+            this.getIDs.Text = "list desktops GUIDs";
+            this.getIDs.ToolTipText = "show a list of all desktops , their names and their GUIDs";
+            this.getIDs.Click += new System.EventHandler(this.GetIDs_Click);
             // 
             // getWindowsList
             // 
-            this.getWindowsList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.getWindowsList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.getWindowsList.Image = global::VirtualDesktopManager.Properties.Resources.icons8_windows_50;
             this.getWindowsList.Name = "getWindowsList";
-            this.getWindowsList.Size = new System.Drawing.Size(180, 22);
-            this.getWindowsList.Text = "list windows";
-            this.getWindowsList.ToolTipText = "show a list of all windows in the current desktop: each window\'s handle # & title" +
+            this.getWindowsList.Size = new System.Drawing.Size(243, 34);
+            this.getWindowsList.Text = "list windows (on this desktop)";
+            this.getWindowsList.ToolTipText = "show a list of all windows in the CURRENT desktop: each window\'s handle # & title" +
     "";
             this.getWindowsList.Click += new System.EventHandler(this.GetWindowsList_Click);
             // 
-            // getIDs
+            // getURLs
             // 
-            this.getIDs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
-            this.getIDs.Name = "getIDs";
-            this.getIDs.Size = new System.Drawing.Size(180, 22);
-            this.getIDs.Text = "desktops GUIDs";
-            this.getIDs.ToolTipText = "show a list of all desktops , their names and their GUIDs";
-            this.getIDs.Click += new System.EventHandler(this.GetIDs_Click);
+            this.getURLs.Image = global::VirtualDesktopManager.Properties.Resources.icons8_browsing_48;
+            this.getURLs.Name = "getURLs";
+            this.getURLs.Size = new System.Drawing.Size(243, 34);
+            this.getURLs.Text = "list all browsers\' URLs";
+            this.getURLs.ToolTipText = "show a list of All URLs for All Tabs in All Desktops";
+            this.getURLs.Click += new System.EventHandler(this.GetURLs_Click);
+            // 
+            // getFolders
+            // 
+            this.getFolders.Image = global::VirtualDesktopManager.Properties.Resources.icons8_folder_50;
+            this.getFolders.Name = "getFolders";
+            this.getFolders.Size = new System.Drawing.Size(243, 34);
+            this.getFolders.Text = "list all open folders";
+            this.getFolders.ToolTipText = "show a list of All open folders on all desktops";
+            this.getFolders.Click += new System.EventHandler(this.GetFolders_Click);
+            // 
+            // separatorData1
+            // 
+            this.separatorData1.Name = "separatorData1";
+            this.separatorData1.Size = new System.Drawing.Size(240, 6);
+            // 
+            // exportFolders
+            // 
+            this.exportFolders.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportFolders.Image = global::VirtualDesktopManager.Properties.Resources.icons8_batch_script_64;
+            this.exportFolders.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.exportFolders.Name = "exportFolders";
+            this.exportFolders.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.exportFolders.Size = new System.Drawing.Size(243, 34);
+            this.exportFolders.Text = "Export Folders (to batch file)";
+            this.exportFolders.ToolTipText = "export all open folders paths to a batch file";
+            this.exportFolders.Click += new System.EventHandler(this.ExportFolders_Click);
+            // 
+            // exportHTML
+            // 
+            this.exportHTML.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportHTML.Image = global::VirtualDesktopManager.Properties.Resources.icons8_html_filetype_50;
+            this.exportHTML.Name = "exportHTML";
+            this.exportHTML.Size = new System.Drawing.Size(243, 34);
+            this.exportHTML.Text = "Export URLs (to html)";
+            this.exportHTML.ToolTipText = "export all URLs to an html list of hyperlinks";
+            this.exportHTML.Click += new System.EventHandler(this.ExportHTML_Click);
+            // 
+            // exportDesktopsData
+            // 
+            this.exportDesktopsData.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportDesktopsData.Image = global::VirtualDesktopManager.Properties.Resources.icons8_export_50;
+            this.exportDesktopsData.Name = "exportDesktopsData";
+            this.exportDesktopsData.Size = new System.Drawing.Size(243, 34);
+            this.exportDesktopsData.Text = "Export All Data (to text file)";
+            this.exportDesktopsData.ToolTipText = "Export desktop data: desktops, their titles, GUIDs & windows-list ,URLs list & Fo" +
+    "lders list, to a text file";
+            this.exportDesktopsData.Click += new System.EventHandler(this.ExportDesktopsData_Click);
+            // 
+            // separatorData2
+            // 
+            this.separatorData2.Name = "separatorData2";
+            this.separatorData2.Size = new System.Drawing.Size(240, 6);
+            // 
+            // screenshotCurrent
+            // 
+            this.screenshotCurrent.Image = global::VirtualDesktopManager.Properties.Resources.icons8_screenshot_50;
+            this.screenshotCurrent.Name = "screenshotCurrent";
+            this.screenshotCurrent.Size = new System.Drawing.Size(243, 34);
+            this.screenshotCurrent.Text = "Screenshot Current";
+            this.screenshotCurrent.ToolTipText = "Take Screenshot(s) of CURRENT desktop (one shot per screen)";
+            this.screenshotCurrent.Click += new System.EventHandler(this.ScreenshotCurrent_Click);
+            // 
+            // screenshotAll
+            // 
+            this.screenshotAll.Image = global::VirtualDesktopManager.Properties.Resources.icons8_screenshot_full_50;
+            this.screenshotAll.Name = "screenshotAll";
+            this.screenshotAll.Size = new System.Drawing.Size(243, 34);
+            this.screenshotAll.Text = "Screenshot All";
+            this.screenshotAll.ToolTipText = "Take Screenshots of ALL desktops (one shot per screen)";
+            this.screenshotAll.Click += new System.EventHandler(this.ScreenshotAll_Click);
+            // 
+            // separatorData3
+            // 
+            this.separatorData3.Name = "separatorData3";
+            this.separatorData3.Size = new System.Drawing.Size(240, 6);
+            // 
+            // panic
+            // 
+            this.panic.AutoToolTip = true;
+            this.panic.Font = new System.Drawing.Font("Segoe UI Black", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panic.Image = global::VirtualDesktopManager.Properties.Resources.icons8_PANIC_64;
+            this.panic.Name = "panic";
+            this.panic.Size = new System.Drawing.Size(243, 34);
+            this.panic.Text = "Panic !";
+            this.panic.ToolTipText = "QUICKLY exports & screenshots everything ; to a default path on Desktop ";
+            this.panic.Click += new System.EventHandler(this.Panic_Click);
             // 
             // separator4
             // 
@@ -821,6 +928,16 @@
         private System.Windows.Forms.ToolStripMenuItem getIDs;
         private System.Windows.Forms.ToolStripMenuItem saveUserPref;
         private System.Windows.Forms.ToolStripSeparator separator1;
+        private System.Windows.Forms.ToolStripMenuItem getURLs;
+        private System.Windows.Forms.ToolStripMenuItem getFolders;
+        private System.Windows.Forms.ToolStripSeparator separatorData1;
+        private System.Windows.Forms.ToolStripMenuItem exportFolders;
+        private System.Windows.Forms.ToolStripMenuItem exportHTML;
+        private System.Windows.Forms.ToolStripSeparator separatorData2;
+        private System.Windows.Forms.ToolStripMenuItem screenshotCurrent;
+        private System.Windows.Forms.ToolStripMenuItem screenshotAll;
+        private System.Windows.Forms.ToolStripSeparator separatorData3;
+        private System.Windows.Forms.ToolStripMenuItem panic;
     }
 }
 

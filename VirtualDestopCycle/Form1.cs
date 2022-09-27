@@ -6,14 +6,14 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
 using HWND = System.IntPtr;
-using WindowsDesktop;
-using GlobalHotKey;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Xml.Serialization;
 using InputBoxClassLibrary;
-using System.Text;
+using WindowsDesktop;
+using GlobalHotKey;
+using System.Drawing.Imaging;
 
 namespace VirtualDesktopManager
 {
@@ -74,12 +74,11 @@ namespace VirtualDesktopManager
 
             _rightHotkey = new HotKeyManager();
             _rightHotkey.KeyPressed += RightKeyManagerPressed;
-
             _leftHotkey = new HotKeyManager();
             _leftHotkey.KeyPressed += LeftKeyManagerPressed;
-
             _numberHotkey = new HotKeyManager();
             _numberHotkey.KeyPressed += NumberHotkeyPressed;
+
 
             VirtualDesktop.CurrentChanged += VirtualDesktop_CurrentChanged;
             VirtualDesktop.Created += VirtualDesktop_Added;
@@ -212,7 +211,7 @@ namespace VirtualDesktopManager
             restoreApplicationFocus(currentDesktopIndex);
             changeTrayIcon(currentDesktopIndex);
             // added 2022-07-19
-            if(splashActive) showSplash();
+            if (splashActive) showSplash();
         }
 
         // added 2022-07-19
@@ -236,6 +235,7 @@ namespace VirtualDesktopManager
             _rightHotkey.Dispose();
             _leftHotkey.Dispose();
             _numberHotkey.Dispose();
+
 
             _stopCyclingHotKey.Dispose(); // added 2022-02-26
             timer.Dispose();  // added 2022-02-26
@@ -297,6 +297,9 @@ namespace VirtualDesktopManager
             changeTrayIcon();
 
             this.Visible = false;
+
+            // added 2022-09-20
+            AHK.ReMap_DefaultWinCTRL_RightLeft();
         }
 
         private int getCurrentDesktopIndex() => desktops.IndexOf(VirtualDesktop.Current);
@@ -362,6 +365,8 @@ namespace VirtualDesktopManager
 
         void RightKeyManagerPressed(object sender, KeyPressedEventArgs e) => moveToNext(initialDesktopState());
         void LeftKeyManagerPressed(object sender, KeyPressedEventArgs e) => moveToPrevious(initialDesktopState());
+        void RightKeyManagerPressed_WinDefault(object sender, KeyPressedEventArgs e) => moveToNext(initialDesktopState());
+        void LeftKeyManagerPressed_WinDefault(object sender, KeyPressedEventArgs e) => moveToPrevious(initialDesktopState());
 
         private void openSettings()
         {
@@ -602,14 +607,14 @@ namespace VirtualDesktopManager
         private void add_Separator() => desktopsList.DropDownItems.Add(new ToolStripSeparator());
 
         // added 2022-07-10 // special accessory "generic" method for addition of menu-items // to make code more concise & unified //
-        private void add_special_menu_Item(string name,Image icon,EventHandler action,string tooltip)
+        private void add_special_menu_Item(string name, Image icon, EventHandler action, string tooltip)
         {
             ToolStripItem item = desktopsList.DropDownItems.Add(name);
             item.Image = icon;
             item.Click += action;
             item.ToolTipText = tooltip;
             // default style values
-            item.Font = new Font(item.Font, FontStyle.Bold); 
+            item.Font = new Font(item.Font, FontStyle.Bold);
             item.ForeColor = Color.Black;
             item.BackColor = Color.LightGray;
             item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
@@ -1129,7 +1134,7 @@ namespace VirtualDesktopManager
 
         private void GetWindowsList_Click(object sender, EventArgs e)
         {
-            string msg = "List of open windows' [handles] & titles in Desktop #"+(getCurrentDesktopIndex()+1)+"\n\n"; 
+            string msg = "List of open windows' [handles] & titles in Desktop #" + (getCurrentDesktopIndex() + 1) + "\n\n";
             Guid currentID = desktops[getCurrentDesktopIndex()].Id;
             IDictionary<HWND, string> windows = OpenWindowGetter.GetOpenWindows();
             int i = 1;
@@ -1143,8 +1148,8 @@ namespace VirtualDesktopManager
                     msg += i + ".  [" + handle + "]:\t" + title + "\n\n";
                     i++;
                 }
-            }
 
+            }
             if (i == 1)
             {
                 MessageBox.Show("No open windows in current desktop!", "List of Open Windows", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1163,21 +1168,381 @@ namespace VirtualDesktopManager
             }
         }
 
+        // modified at 2022-09-26: to include two more lists of All URLs & All open folders' paths ; grouped by desktop # // 
+        // also made method much more concise, using some "generate" methods used first with Panic! // 
         private void ExportDesktopsData_Click(object sender, EventArgs e)
         {
-            var TOTAL_DESKTOPS = desktops.Count;
-            string[] headings = new string[TOTAL_DESKTOPS];
-            Dictionary<Guid, int> ID_Index_Map = new Dictionary<Guid, int>();
-            for (var k = 0; k < TOTAL_DESKTOPS; k++)
+            // list 1: headings of desktop #, GUID +/- title //  
+            string[] headings = generate_headings();    
+            // list 2: windows list, their titles & handle numbers //
+            string[] windowsList = generate_windowsList_from(OpenWindowGetter.GetOpenWindows());
+            // list 3: folders list -> their full paths
+            string[] foldersList = generate_foldersList_from(OpenWindowGetter.getExplorerAddressList());
+            // list 4: URLs list: tab titles & their URLs 
+            string[] urlsList = new string[desktops.Count];
+            int currentDesktopIndex = getCurrentDesktopIndex(); // save for coming back 
+            DialogResult r = MessageBox.Show("Desktops might switch back & forth during processing!\n\n"
+                + "& Keep all browsers' windows open & NOT minimized !\n\n"
+                + "Supported Browsers: Firefox, Chrome, Edge & I.E.\n\n"
+                + " \u25CF press OK to continue\n \u25CF press Cancel to proceed without browsers' URLs extraction\n",
+                "URLs Extraction WARNING !", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (r == DialogResult.OK)
             {
-                headings[k] = "Desktop #" + (k + 1) + "\n\t";
-                headings[k] += desktopNameOrEmpty(k, "name/title: ", "\n\t");
-                headings[k] += "GUID: " + desktops.ElementAt(k).Id.ToString().ToUpper() + "\n\t";
-                ID_Index_Map.Add(desktops[k].Id, k);
+                IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls = BrowsersURLs.getAllTabURLs(); // <- might switch desktops !
+                desktops[currentDesktopIndex].Switch(); // go back to current desktop
+                while (getCurrentDesktopIndex() != currentDesktopIndex) Thread.Sleep(200); // to wait for Switch() above to work !
+                Thread.Sleep(2000); // wait a little bit more ; just to make sure we are back on desktop before dialog shows !
+                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+                urlsList = generate_urlsList_from(urls);
             }
-            string[] windowsList = new string[TOTAL_DESKTOPS];
-            int[] windowsCounters = new int[TOTAL_DESKTOPS];
-            IDictionary<HWND, string> windows = OpenWindowGetter.GetOpenWindows();
+            // save all the above lists, after combining [grouping by desktop#] //
+            SaveTo.SaveToFile(combineLists(headings, windowsList, foldersList, urlsList), "desktops@" + Helper.getFormattedDateTime());
+        }
+
+        private static string combineLists(string[] headings, string[] windowsList, string[] foldersList, string[] urlsList)
+        {
+            string result = "";
+            for (var i = 0; i < headings.Length; i++)
+            {
+                result += headings[i];
+                result += String.IsNullOrEmpty(windowsList[i]) ? "" : "\twindows-list:-\n" + windowsList[i];
+                result += String.IsNullOrEmpty(foldersList[i]) ? "" : "\tfolders-list:-\n" + foldersList[i];
+                result += String.IsNullOrEmpty(urlsList[i]) ? "" : "\tURLs-list:-\n" + urlsList[i];
+            }
+            return result;
+        }
+
+
+        private void AboutMenuItem_Click(object sender, EventArgs e) => (new About()).ShowDialog();
+
+
+        // ************************************* // section added 2022-09-25 // ********************************************************//
+
+
+        private void GetURLs_Click(object sender, EventArgs e)
+        {
+            int currentDesktopIndex = getCurrentDesktopIndex(); // save for coming back 
+            DialogResult r = MessageBox.Show("Desktops might switch back & forth during processing!\n\n"
+                + "& Keep all browsers' windows open & NOT minimized !\n\n"
+                + "Supported Browsers: Firefox, Chrome, Edge & I.E.",
+                "URLs Extraction WARNING !", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (r == DialogResult.OK)
+            {
+                IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls = BrowsersURLs.getAllTabURLs(); // <- might switch desktops !
+                desktops[currentDesktopIndex].Switch(); // go back to current desktop
+                while (getCurrentDesktopIndex() != currentDesktopIndex) Thread.Sleep(200); // to wait for Switch() above to work !
+                Thread.Sleep(2000); // wait a little bit more ; just to make sure we are back on desktop before dialog shows !
+                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+                string msg = "List of All URLs for All Tabs in All Desktops\n\n";
+                string msg_Clipboard = msg; // for clipboard copy OUTPUT (with full URLs);
+                string[] desktopsURLsOutput = new string[desktops.Count]; // urls array, grouped by desktop's index , for MSGBOX output [shortened URL]
+                string[] desktopsURLsOutput_Clipboard = new string[desktops.Count]; // similar to above, but keeps FULL URLs , to copy to clipboard !
+                int[] desktopsOutputLengths = new int[desktops.Count]; // for later use, to detect desktops with NO URLs ! //
+                for (int i = 0; i < desktops.Count; i++) // add headings for each desktop# list
+                {
+                    desktopsURLsOutput[i] = "Desktop #" + (i + 1) + desktopNameOrEmpty(i, ":  {", "}") + "\n\n";
+                    desktopsURLsOutput_Clipboard[i] = desktopsURLsOutput[i];
+                    desktopsOutputLengths[i] = desktopsURLsOutput[i].Length;
+                }
+                foreach (KeyValuePair<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> browserLst in urls) // go over EACH list (by browser type)
+                {
+                    foreach (BrowsersURLs.tabUrlObj tab in browserLst.Value) // inside each list, go over each item (tabURL object)
+                    {
+                        int tabsDesktopIndex = desktops.IndexOf(VirtualDesktop.FromHwnd(tab.getWindowHandle()));
+                        string pre = "\u25CF " + tab.getTitle() + " [";
+                        string post = "]\n";
+                        desktopsURLsOutput[tabsDesktopIndex] += pre + Helper.shortenText(tab.getURL(), 50) + post;
+                        desktopsURLsOutput_Clipboard[tabsDesktopIndex] += pre + tab.getURL() + post;
+                    }
+                }
+                for (int i = 0; i < desktops.Count; i++) // go over desktops again to check for ones WITH NO URLs; And compose msg ! //
+                {
+                    if (desktopsOutputLengths[i] == desktopsURLsOutput[i].Length)
+                    {
+                        desktopsURLsOutput[i] = "";
+                        desktopsURLsOutput_Clipboard[i] = "";
+                    }
+                    else
+                    {
+                        desktopsURLsOutput[i] += "\n";
+                        desktopsURLsOutput_Clipboard[i] += "\n";
+                    }
+                    msg += desktopsURLsOutput[i];
+                    msg_Clipboard += desktopsURLsOutput_Clipboard[i];
+                }
+                string shown_msg = msg + "Copy to clipboard {with full URLs} ?!";
+
+                DialogResult res = MessageBox.Show(new Form { TopMost = true }, shown_msg, "List of All URLs",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (res == DialogResult.Yes)
+                {
+                    Clipboard.SetText(msg_Clipboard);
+                    notifyIcon1.BalloonTipTitle = "URLs List";
+                    notifyIcon1.BalloonTipText = "URLs List was copied to clipboard successfully!";
+                    notifyIcon1.ShowBalloonTip(2000);
+                }
+            }
+        }
+
+        private void GetFolders_Click(object sender, EventArgs e)
+        {
+            List<OpenWindowGetter.explorerFolderObj> folders = OpenWindowGetter.getExplorerAddressList();
+            string msg = "List of All Open Folders on All Desktops\n\n";
+            string[] desktopsFoldersOutput = new string[desktops.Count]; // folders array, for output msgbox & clipboard
+            int[] desktopsOutputLengths = new int[desktops.Count]; // for later use, to detect desktops with NO Open Folders //
+            for (int i = 0; i < desktops.Count; i++) // add headings for each desktop# list
+            {
+                desktopsFoldersOutput[i] = "Desktop #" + (i + 1) + desktopNameOrEmpty(i, ":  {", "}") + "\n\n";
+                desktopsOutputLengths[i] = desktopsFoldersOutput[i].Length;
+            }
+            foreach (OpenWindowGetter.explorerFolderObj folder in folders)
+            {
+                int folderDesktopIndex = desktops.IndexOf(VirtualDesktop.FromHwnd(folder.getWindowHandle()));
+                desktopsFoldersOutput[folderDesktopIndex] += "\u25CF " + folder.getAddress().Replace("\\", " " + "\\") + "\n";
+                // "Replace" thing -> to 'trick' disabled word-wrap in default msg-box
+            }
+            for (int i = 0; i < desktops.Count; i++) // go over desktops again to check for ones WITH NO open folders; And compose msg ! //
+            {
+                if (desktopsOutputLengths[i] == desktopsFoldersOutput[i].Length) desktopsFoldersOutput[i] = "";
+                else desktopsFoldersOutput[i] += "\n";
+                msg += desktopsFoldersOutput[i];
+            }
+            string shown_msg = msg + "Copy to clipboard ?!";
+            DialogResult res = MessageBox.Show(new Form { TopMost = true }, shown_msg, "List of All Open Folders",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (res == DialogResult.Yes)
+            {
+                Clipboard.SetText(msg.Replace(" " + "\\", "\\"));
+                notifyIcon1.BalloonTipTitle = "Folders List";
+                notifyIcon1.BalloonTipText = "Folders List was copied to clipboard successfully!";
+                notifyIcon1.ShowBalloonTip(2000);
+            }
+
+        }
+
+        private void ExportFolders_Click(object sender, EventArgs e)
+        {
+            List<OpenWindowGetter.explorerFolderObj> folders = OpenWindowGetter.getExplorerAddressList();
+            string batch = generateBatch_from(folders);
+            SaveTo.SaveToBatchFile(batch, "folders@" + Helper.getFormattedDateTime());
+        }
+
+        private string generateBatch_from(List<OpenWindowGetter.explorerFolderObj> folders)
+        {            
+            string batch = "@echo off\r\n";
+            string[] desktopsFoldersOutput = new string[desktops.Count]; // to group folder-paths by Desktop# (even though all will open when run) //
+            int[] desktopsOutputLengths = new int[desktops.Count]; // for later use, to detect desktops with NO Open Folders //
+            for (int i = 0; i < desktops.Count; i++) // add headings for each desktop# list
+            {
+                // ::  is for commenting out this line in batch file , because it has no runtime-use besides grouping // 
+                desktopsFoldersOutput[i] = "::Desktop#" + (i + 1) + desktopNameOrEmpty(i, ":[", "]") + "\r\n";
+                desktopsOutputLengths[i] = desktopsFoldersOutput[i].Length;
+            }
+            foreach (OpenWindowGetter.explorerFolderObj folder in folders)
+            {
+                int folderDesktopIndex = desktops.IndexOf(VirtualDesktop.FromHwnd(folder.getWindowHandle()));
+                desktopsFoldersOutput[folderDesktopIndex] += "Explorer \"" + folder.getAddress() + "\"\r\n"; // command to open in explorer
+            }
+            for (int i = 0; i < desktops.Count; i++) // go over desktops again to check for ones WITH NO open folders; And create batch file //
+            {
+                if (desktopsOutputLengths[i] == desktopsFoldersOutput[i].Length) desktopsFoldersOutput[i] = "";
+                batch += desktopsFoldersOutput[i];
+            }
+            return batch;
+        }
+
+        private void ExportHTML_Click(object sender, EventArgs e)
+        {
+            int currentDesktopIndex = getCurrentDesktopIndex(); // save for coming back 
+            DialogResult r = MessageBox.Show("Desktops might switch back & forth during processing!\n\n"
+                + "& Keep all browsers' windows open & NOT minimized !\n\n"
+                + "Supported Browsers: Firefox, Chrome, Edge & I.E.",
+                "URLs Extraction WARNING !", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (r == DialogResult.OK)
+            {
+                IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls = BrowsersURLs.getAllTabURLs(); // <- might switch desktops !
+                desktops[currentDesktopIndex].Switch(); // go back to current desktop
+                while (getCurrentDesktopIndex() != currentDesktopIndex) Thread.Sleep(200); // to wait for Switch() above to work !
+                Thread.Sleep(2000); // wait a little bit more ; just to make sure we are back on desktop before save-dialog for html shows !
+                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+                string title = "urls@" + Helper.getFormattedDateTime();
+                string htmlDoc = generateHTML_from(urls,title);
+                SaveTo.SaveToHTML(htmlDoc, title);
+            }
+        }
+
+        private string generateHTML_from(IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls,string title)
+        {
+            string header, body, jscript;
+            header = "<!DOCTYPE html><html><head><title>" + title + "</title></head>\n";
+            body = "<body>\n";
+            string[] desktopsURLsOutput = new string[desktops.Count]; // to build body, grouped by desktop # // 
+            int[] desktopsOutputLengths = new int[desktops.Count]; // for later use, to detect desktops with NO URLs ! //
+            for (int i = 0; i < desktops.Count; i++) // add headings for each desktop# list
+            {
+                desktopsURLsOutput[i] = "<h2>" + "Desktop #" + (i + 1) + desktopNameOrEmpty(i, ":  {", "}") + "</h2>" + "\n";
+                desktopsOutputLengths[i] = desktopsURLsOutput[i].Length;
+            }
+            foreach (KeyValuePair<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> browserLst in urls) // go over EACH list (by browser type)
+            {
+                foreach (BrowsersURLs.tabUrlObj tab in browserLst.Value) // inside each list, go over each item (tabURL object)
+                {
+                    int tabsDesktopIndex = desktops.IndexOf(VirtualDesktop.FromHwnd(tab.getWindowHandle()));
+                    string hyperlink = "<a href=\"" + tab.getURL() + "\" target=\"_blank\">" + tab.getTitle() + "</a><br/>";
+                    desktopsURLsOutput[tabsDesktopIndex] += hyperlink + "\n";
+                }
+            }
+            for (int i = 0; i < desktops.Count; i++) // go over desktops again to check for ones WITH NO URLs ; and build html-body //
+            {
+                if (desktopsOutputLengths[i] == desktopsURLsOutput[i].Length) desktopsURLsOutput[i] = "";
+                body += desktopsURLsOutput[i];
+            }
+            body += "<br/><br/>\n";
+            body += "<input type=\"button\" value=\"Open All URLs!\" onclick=\"open_All()\"><br/><i>allow popups!</i>\n";
+            jscript = "<script>\n"
+                + "function open_All(){\n"
+                + "var myURLs = document.getElementsByTagName(\"a\");\n"
+                + "for(var i=0; i<myURLs.length; i++) window.open(myURLs[i].getAttribute('href'),\"_blank\");\n"
+                + "}\n"
+                + "</script>\n";
+            body += jscript + "</body>\n</html>";
+            return header + body;
+        }
+
+        // ************************************* // section added 2022-09-26 // ********************************************************//
+
+        // source (mainly) from: https://www.c-sharpcorner.com/UploadFile/2d2d83/how-to-capture-a-screen-using-C-Sharp/ //
+
+        private void ScreenshotCurrent_Click(object sender, EventArgs e)
+        {
+            var folderBrowserDialog = new FolderBrowserDialog
+            {
+                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Description = "choose path to save image captures to ...",
+                ShowNewFolderButton = true
+            };
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                // start capture image process , save to selected path by user 
+                string finalPath = folderBrowserDialog.SelectedPath + @"\\" + "captures@" + Helper.getFormattedDateTime();
+                Directory.CreateDirectory(finalPath);
+                Thread.Sleep(1000); // to make enough time for folderBrowserDialog to close properly !
+                captureCurrentDesktop(finalPath);
+            }
+        }
+
+        // helper method which captures Current Desktop (including all screens) and saves to given "path" // 
+        private void captureCurrentDesktop(string path)
+        {
+            int desktopIndex = getCurrentDesktopIndex();
+            try
+            {
+                int index = 0;
+                foreach (Screen scr in Screen.AllScreens)
+                {
+                    Rectangle captureRectangle = Screen.AllScreens[index].Bounds;
+                    Bitmap captureBitmap = new Bitmap(captureRectangle.Width, captureRectangle.Height, PixelFormat.Format32bppArgb);
+                    Graphics captureGraphics = Graphics.FromImage(captureBitmap);
+                    captureGraphics.CopyFromScreen(captureRectangle.Left, captureRectangle.Top, 0, 0, captureRectangle.Size);
+                    string imgName = "desktop_" + (desktopIndex + 1) + "_screen_" + index;
+                    captureBitmap.Save(path + "\\" + imgName + ".jpg", ImageFormat.Jpeg);
+                    index++;
+                    captureBitmap.Dispose();
+                    captureGraphics.Dispose();
+                }
+            }
+            catch (Exception) { }
+        }
+
+        private void ScreenshotAll_Click(object sender, EventArgs e)
+        {
+            DialogResult r = MessageBox.Show("Desktops will cycle ONCE, in order to take screenshots of each one.\n\n"
+                + "press OK to proceed or Cancel to abort.\n\n",
+                "Desktops Cycle Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (r == DialogResult.OK)
+            {
+                var folderBrowserDialog = new FolderBrowserDialog
+                {
+                    SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Description = "choose path to save image captures to ...",
+                    ShowNewFolderButton = true
+                };
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // start capture image process , save to selected path by user 
+                    string finalPath = folderBrowserDialog.SelectedPath + @"\\" + "captures@" + Helper.getFormattedDateTime();
+                    Directory.CreateDirectory(finalPath);
+                    Thread.Sleep(1000); // to make enough time for folderBrowserDialog to close properly !
+                    for (int i = 0; i < desktops.Count; i++) captureAndMove(finalPath, 1500);
+                    MessageBox.Show("Done Capturing All Desktops!", "Desktops' Screenshots", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void captureAndMove(string path,int Halt_Time_MSEC)
+        {
+            captureCurrentDesktop(path);
+            moveToNext(initialDesktopState());
+            Thread.Sleep(Halt_Time_MSEC); // to make enough time for a COMPLETE desktop transition before capturing ; Increase time if necessary ! //
+        }
+
+
+        // inspired from PanicButton (a google chrome extension) // 
+        private void Panic_Click(object sender, EventArgs e)
+        {
+            // dummy msg-box: will proceed no matter what user clicks ; was made to give tooltip few seconds to disappear 
+            MessageBox.Show("It will take a few seconds\n\nJust watch and wait\n\n", "Panic !", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            // step 0: prepare path to save everything to
+            string DEFAULT_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "PANIC@" + Helper.getFormattedDateTime();
+            Directory.CreateDirectory(DEFAULT_PATH);
+            // step 1: do all screenshots round (cycle desktops)
+            Thread.Sleep(1000);
+            for (int i = 0; i < desktops.Count; i++) captureAndMove(DEFAULT_PATH, 1500);
+            // step 2: generate string for batch file (from folders list)
+            List<OpenWindowGetter.explorerFolderObj> folders = OpenWindowGetter.getExplorerAddressList();
+            string batch = generateBatch_from(folders);
+            // step 3: generate string for HTML (from urls list)
+            int currentDesktopIndex = getCurrentDesktopIndex();
+            IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls = BrowsersURLs.getAllTabURLs();
+            desktops[currentDesktopIndex].Switch();
+            while (getCurrentDesktopIndex() != currentDesktopIndex) Thread.Sleep(250);
+            Thread.Sleep(2000);
+            string html = generateHTML_from(urls, "urls");
+            // step 4: generate string for text file [=all data] (using folders & urls from above)
+            string dataTxt = generateDataTxt_from(OpenWindowGetter.GetOpenWindows(), folders, urls);
+            // step 5: quick save to all generated strings above (steps 2,3,4) , in one step 
+            SaveTo.FastSave(dataTxt, batch, html, DEFAULT_PATH);
+            // finally , inform the panicked user ! //
+            MessageBox.Show("Done!\n\nEverything was saved to: \n\n" + DEFAULT_PATH, "Don't Panic !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private string generateDataTxt_from(IDictionary<HWND, string> windows, List<OpenWindowGetter.explorerFolderObj> folders, IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls)
+        {
+            string[] headings = generate_headings();    // list 1: headings of desktop #, GUID +/- title //            
+            string[] windowsList = generate_windowsList_from(windows);  // list 2: windows list, their titles & handle numbers //
+            string[] foldersList = generate_foldersList_from(folders);  // list 3: folders list -> their full paths //
+            string[] urlsList = generate_urlsList_from(urls);   // list 4: URLs list: tab titles & their URLs  //
+            return combineLists(headings, windowsList, foldersList, urlsList);
+        }
+
+        private string[] generate_headings()
+        {
+            string[] headings = new string[desktops.Count];
+            for (var k = 0; k < desktops.Count; k++)
+            {
+                headings[k] = (k == 0 ? "" : "\n") + "Desktop #" + (k + 1) + "\n";
+                headings[k] += desktopNameOrEmpty(k, "\tname/title: ", "\n");
+                headings[k] += "\tGUID: " + desktops.ElementAt(k).Id.ToString().ToUpper() + "\n";
+            }
+            return headings;
+        }
+
+        private string[] generate_windowsList_from(IDictionary<HWND, string> windows)
+        {
+            string[] windowsList = new string[desktops.Count];
+            int[] windowsCounters = new int[desktops.Count];
             int currIndex;
             foreach (KeyValuePair<IntPtr, string> window in windows)
             {
@@ -1186,398 +1551,40 @@ namespace VirtualDesktopManager
                 VirtualDesktop vdFromHandle = VirtualDesktop.FromHwnd(handle);
                 if (vdFromHandle != null)
                 {
-                    currIndex = ID_Index_Map[vdFromHandle.Id];
-                    windowsList[currIndex] += "\t\t" + (windowsCounters[currIndex]+1) + ".  [" + handle + "]: " + title + "\n";
+                    currIndex = desktops.IndexOf(vdFromHandle);
+                    windowsList[currIndex] += "\t\t" + (windowsCounters[currIndex] + 1) + ".  [" + handle + "]: " + title + "\n";
                     windowsCounters[currIndex]++;
                 }
             }
-            SaveToFile(combineHeadingsWindows(headings, windowsList));
+            return windowsList;
         }
 
-        private static string combineHeadingsWindows(string[] headings, string[] windowsList)
+        private string[] generate_foldersList_from(List<OpenWindowGetter.explorerFolderObj> folders)
         {
-            string result = "";
-            for(var i=0; i<headings.Length; i++)
+            string[] foldersList = new string[desktops.Count];
+            foreach (OpenWindowGetter.explorerFolderObj folder in folders)
             {
-                result += headings[i];
-                if (String.IsNullOrEmpty(windowsList[i])) result += "\n";
-                else result += "windows-list:- \n" + windowsList[i] + "\n";
+                int folderDesktopIndex = desktops.IndexOf(VirtualDesktop.FromHwnd(folder.getWindowHandle()));
+                foldersList[folderDesktopIndex] += "\t\t" + "\u25CF " + folder.getAddress() + "\n";
             }
-            return result;
+            return foldersList;
         }
 
-        private static void SaveToFile(string txt) // source: https://stackoverflow.com/a/14887022 // 
+        private string[] generate_urlsList_from(IDictionary<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> urls)
         {
-            var saveFileDialog1 = new SaveFileDialog
+            string[] urlsList = new string[desktops.Count];
+            foreach (KeyValuePair<Consts.BROWSER, List<BrowsersURLs.tabUrlObj>> browserLst in urls)
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                Filter = string.Format("{0}Text files (*.txt)|*.txt|All files (*.*)|*.*",""),
-                RestoreDirectory = true,
-                ShowHelp = false,
-                CheckFileExists = false
-            };
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                File.WriteAllText(saveFileDialog1.FileName, txt);
+                foreach (BrowsersURLs.tabUrlObj tab in browserLst.Value)
+                {
+                    int tabsDesktopIndex = desktops.IndexOf(VirtualDesktop.FromHwnd(tab.getWindowHandle()));
+                    urlsList[tabsDesktopIndex] += "\t\t" + "\u25CF " + tab.getTitle() + " [" + tab.getURL() + "]\n";
+                }
+            }
+            return urlsList;
         }
-
-        private void AboutMenuItem_Click(object sender, EventArgs e) => (new About()).ShowDialog();
 
 
         // ************************************* // ************************ // ********************************************************//
     }
-
-    static class Consts
-    {
-        // to make life easier //
-        public const ModifierKeys CTRL = ModifierKeys.Control;
-        public const ModifierKeys SHIFT = ModifierKeys.Shift;
-        public const ModifierKeys ALT = ModifierKeys.Alt;
-        public const ModifierKeys CTRL_ALT_SHIFT = CTRL | ALT | SHIFT;
-        public const ModifierKeys CTRL_ALT = CTRL | ALT;
-        public const ModifierKeys ALT_SHIFT = ALT | SHIFT;
-        public const ModifierKeys NONE = ModifierKeys.None;
-
-        // ranges of valid values; for checks on loading preferences from xml // 
-        private static int[] cycles_amount_values = new int[] { 1, 2, 3, 4, 5, -1 };
-        private static int[] transition_time_values = new int[] { 2, 4, 6, 8, 10, 12, 14 };
-        private static string[] light_colors_values = new string[] { "back_Pink", "back_Red", "back_Green",
-            "back_Blue", "back_Yellow", "back_White"};
-        private static string[] dark_colors_values = new string[] {"back_Black", "back_Brown", "back_Dark_Blue",
-            "back_Dark_Green", "back_Dark_Red", "back_Purple"};
-        private static string[] brush_values = new string[] { "white", "black" };
-
-        public static bool isValidColorAndBrush(string color_to_check, string brush_to_check)
-        {
-            return (dark_colors_values.Contains(color_to_check) && brush_to_check.Equals("white")) ||
-                 (light_colors_values.Contains(color_to_check) && brush_to_check.Equals("black")) ||
-                 (color_to_check.Equals("Transparent") && brush_values.Contains(brush_to_check));
-        }
-
-        public static bool isValidCyclesAmount(string cycles_to_check)
-        {
-            int res;
-            return ((int.TryParse(cycles_to_check, out res)) && (cycles_amount_values.Contains(res)));
-        }
-
-        public static bool isValidTransTime(string trans_time_to_check)
-        {
-            int res;
-            return ((int.TryParse(trans_time_to_check, out res)) && (transition_time_values.Contains(res)));
-        }
-
-        // defaults to fall-back on , when loading from xml fails somehow // 
-        public const string DEFAULT_COLOR = "back_Dark_Blue";
-        public const string DEFAULT_BRUSH = "white";
-        public const int DEFAULT_CYCLES_AMOUNT = 1;
-        public const int DEFAULT_TRANS_TIME = 4;
-    }
-
-    [Serializable]
-    public class UserPreferences
-    {
-        internal string _BackColor;
-        public string BackColor
-        {
-            get { return _BackColor; }
-            set { _BackColor = value; }
-        }
-
-        internal string _BrushName;
-        public string BrushName
-        {
-            get { return _BrushName; }
-            set { _BrushName = value; }
-        }
-
-        internal string _cycleTransTime;
-        public string cycleTransTime
-        {
-            get { return _cycleTransTime; }
-            set { _cycleTransTime = value; }
-        }
-
-        internal string _cyclesAmount;
-        public string cyclesAmount
-        {
-            get { return _cyclesAmount; }
-            set { _cyclesAmount = value; }
-        }
-    }
-
-
-
-    // added 2022-07-20 // sources: https://stackoverflow.com/a/43640787   &    http://www.tcx.be/blog/2006/list-open-windows/   // 
-    /// <summary>Contains functionality to get all the open windows.</summary>
-    static class OpenWindowGetter
-    {
-        /// <summary>Returns a dictionary that contains the handle and title of all the open windows.</summary>
-        /// <returns>A dictionary that contains the handle and title of all the open windows.</returns>
-        public static IDictionary<HWND, string> GetOpenWindows()
-        {
-            HWND shellWindow = GetShellWindow();
-            Dictionary<HWND, string> windows = new Dictionary<HWND, string>();
-
-            EnumWindows(delegate (HWND hWnd, int lParam)
-            {
-                if (hWnd == shellWindow) return true;
-                if (!IsWindowVisible(hWnd)) return true;
-
-                int length = GetWindowTextLength(hWnd);
-                if (length == 0) return true;
-
-                StringBuilder builder = new StringBuilder(length);
-                GetWindowText(hWnd, builder, length + 1);
-
-                windows[hWnd] = builder.ToString();
-                return true;
-
-            }, 0);
-
-            return windows;
-        }
-
-        private delegate bool EnumWindowsProc(HWND hWnd, int lParam);
-
-        [DllImport("USER32.DLL")]
-        private static extern bool EnumWindows(EnumWindowsProc enumFunc, int lParam);
-
-        [DllImport("USER32.DLL")]
-        private static extern int GetWindowText(HWND hWnd, StringBuilder lpString, int nMaxCount);
-
-        [DllImport("USER32.DLL")]
-        private static extern int GetWindowTextLength(HWND hWnd);
-
-        [DllImport("USER32.DLL")]
-        private static extern bool IsWindowVisible(HWND hWnd);
-
-        [DllImport("USER32.DLL")]
-        private static extern IntPtr GetShellWindow();
-    }
-    // ************************************************************************************************************ //
-
-
-    // ************************************************************************************************************ //
-    // added 2022-03-02 // 
-    // copied from https://github.com/MScholtes/VirtualDesktop/blob/master/VirtualDesktop.cs , lines 29-253 //
-    // the ENTIRE  COM API  region of code .... could not delete any part of it, seems all are interdependent ! //
-    // only needed to use the SetName function in  IVirtualDesktopManagerInternal2 Interface
-    // to set-up desktop change-name / remove-name functions correctly !
-    // it did not work by only changing values of registry keys directly 
-    // because in Task-View: no change of names! .. only desktops-list menu changed! (& registry keys of course!) //
-    #region COM API
-    internal static class Guids
-    {
-        public static readonly Guid CLSID_ImmersiveShell = new Guid("C2F03A33-21F5-47FA-B4BB-156362A2F239");
-        public static readonly Guid CLSID_VirtualDesktopManagerInternal = new Guid("C5E0CDCA-7B6E-41B2-9FC4-D93975CC467B");
-        public static readonly Guid CLSID_VirtualDesktopManager = new Guid("AA509086-5CA9-4C25-8F95-589D3C07B48A");
-        public static readonly Guid CLSID_VirtualDesktopPinnedApps = new Guid("B5A399E7-1C87-46B8-88E9-FC5747B171BD");
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Size
-    {
-        public int X;
-        public int Y;
-        private int width;
-        private int height;
-
-        public Size(int width, int height) : this()
-        {
-            this.width = width;
-            this.height = height;
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Rect
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-    }
-
-    internal enum APPLICATION_VIEW_CLOAK_TYPE : int
-    {
-        AVCT_NONE = 0,
-        AVCT_DEFAULT = 1,
-        AVCT_VIRTUAL_DESKTOP = 2
-    }
-
-    internal enum APPLICATION_VIEW_COMPATIBILITY_POLICY : int
-    {
-        AVCP_NONE = 0,
-        AVCP_SMALL_SCREEN = 1,
-        AVCP_TABLET_SMALL_SCREEN = 2,
-        AVCP_VERY_SMALL_SCREEN = 3,
-        AVCP_HIGH_SCALE_FACTOR = 4
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIInspectable)]
-    [Guid("372E1D3B-38D3-42E4-A15B-8AB2B178F513")]
-    internal interface IApplicationView
-    {
-        int SetFocus();
-        int SwitchTo();
-        int TryInvokeBack(IntPtr /* IAsyncCallback* */ callback);
-        int GetThumbnailWindow(out IntPtr hwnd);
-        int GetMonitor(out IntPtr /* IImmersiveMonitor */ immersiveMonitor);
-        int GetVisibility(out int visibility);
-        int SetCloak(APPLICATION_VIEW_CLOAK_TYPE cloakType, int unknown);
-        int GetPosition(ref Guid guid /* GUID for IApplicationViewPosition */, out IntPtr /* IApplicationViewPosition** */ position);
-        int SetPosition(ref IntPtr /* IApplicationViewPosition* */ position);
-        int InsertAfterWindow(IntPtr hwnd);
-        int GetExtendedFramePosition(out Rect rect);
-        int GetAppUserModelId([MarshalAs(UnmanagedType.LPWStr)] out string id);
-        int SetAppUserModelId(string id);
-        int IsEqualByAppUserModelId(string id, out int result);
-        int GetViewState(out uint state);
-        int SetViewState(uint state);
-        int GetNeediness(out int neediness);
-        int GetLastActivationTimestamp(out ulong timestamp);
-        int SetLastActivationTimestamp(ulong timestamp);
-        int GetVirtualDesktopId(out Guid guid);
-        int SetVirtualDesktopId(ref Guid guid);
-        int GetShowInSwitchers(out int flag);
-        int SetShowInSwitchers(int flag);
-        int GetScaleFactor(out int factor);
-        int CanReceiveInput(out bool canReceiveInput);
-        int GetCompatibilityPolicyType(out APPLICATION_VIEW_COMPATIBILITY_POLICY flags);
-        int SetCompatibilityPolicyType(APPLICATION_VIEW_COMPATIBILITY_POLICY flags);
-        int GetSizeConstraints(IntPtr /* IImmersiveMonitor* */ monitor, out Size size1, out Size size2);
-        int GetSizeConstraintsForDpi(uint uint1, out Size size1, out Size size2);
-        int SetSizeConstraintsForDpi(ref uint uint1, ref Size size1, ref Size size2);
-        int OnMinSizePreferencesUpdated(IntPtr hwnd);
-        int ApplyOperation(IntPtr /* IApplicationViewOperation* */ operation);
-        int IsTray(out bool isTray);
-        int IsInHighZOrderBand(out bool isInHighZOrderBand);
-        int IsSplashScreenPresented(out bool isSplashScreenPresented);
-        int Flash();
-        int GetRootSwitchableOwner(out IApplicationView rootSwitchableOwner);
-        int EnumerateOwnershipTree(out IObjectArray ownershipTree);
-        int GetEnterpriseId([MarshalAs(UnmanagedType.LPWStr)] out string enterpriseId);
-        int IsMirrored(out bool isMirrored);
-        int Unknown1(out int unknown);
-        int Unknown2(out int unknown);
-        int Unknown3(out int unknown);
-        int Unknown4(out int unknown);
-        int Unknown5(out int unknown);
-        int Unknown6(int unknown);
-        int Unknown7();
-        int Unknown8(out int unknown);
-        int Unknown9(int unknown);
-        int Unknown10(int unknownX, int unknownY);
-        int Unknown11(int unknown);
-        int Unknown12(out Size size1);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("1841C6D7-4F9D-42C0-AF41-8747538F10E5")]
-    internal interface IApplicationViewCollection
-    {
-        int GetViews(out IObjectArray array);
-        int GetViewsByZOrder(out IObjectArray array);
-        int GetViewsByAppUserModelId(string id, out IObjectArray array);
-        int GetViewForHwnd(IntPtr hwnd, out IApplicationView view);
-        int GetViewForApplication(object application, out IApplicationView view);
-        int GetViewForAppUserModelId(string id, out IApplicationView view);
-        int GetViewInFocus(out IntPtr view);
-        int Unknown1(out IntPtr view);
-        void RefreshCollection();
-        int RegisterForApplicationViewChanges(object listener, out int cookie);
-        int UnregisterForApplicationViewChanges(int cookie);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("FF72FFDD-BE7E-43FC-9C03-AD81681E88E4")]
-    internal interface IVirtualDesktop
-    {
-        bool IsViewVisible(IApplicationView view);
-        Guid GetId();
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("F31574D6-B682-4CDC-BD56-1827860ABEC6")]
-    internal interface IVirtualDesktopManagerInternal
-    {
-        int GetCount();
-        void MoveViewToDesktop(IApplicationView view, IVirtualDesktop desktop);
-        bool CanViewMoveDesktops(IApplicationView view);
-        IVirtualDesktop GetCurrentDesktop();
-        void GetDesktops(out IObjectArray desktops);
-        [PreserveSig]
-        int GetAdjacentDesktop(IVirtualDesktop from, int direction, out IVirtualDesktop desktop);
-        void SwitchDesktop(IVirtualDesktop desktop);
-        IVirtualDesktop CreateDesktop();
-        void RemoveDesktop(IVirtualDesktop desktop, IVirtualDesktop fallback);
-        IVirtualDesktop FindDesktop(ref Guid desktopid);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("0F3A72B0-4566-487E-9A33-4ED302F6D6CE")]
-    internal interface IVirtualDesktopManagerInternal2
-    {
-        int GetCount();
-        void MoveViewToDesktop(IApplicationView view, IVirtualDesktop desktop);
-        bool CanViewMoveDesktops(IApplicationView view);
-        IVirtualDesktop GetCurrentDesktop();
-        void GetDesktops(out IObjectArray desktops);
-        [PreserveSig]
-        int GetAdjacentDesktop(IVirtualDesktop from, int direction, out IVirtualDesktop desktop);
-        void SwitchDesktop(IVirtualDesktop desktop);
-        IVirtualDesktop CreateDesktop();
-        void RemoveDesktop(IVirtualDesktop desktop, IVirtualDesktop fallback);
-        IVirtualDesktop FindDesktop(ref Guid desktopid);
-        void Unknown1(IVirtualDesktop desktop, out IntPtr unknown1, out IntPtr unknown2);
-        void SetName(IVirtualDesktop desktop, [MarshalAs(UnmanagedType.HString)] string name);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("A5CD92FF-29BE-454C-8D04-D82879FB3F1B")]
-    internal interface IVirtualDesktopManager
-    {
-        bool IsWindowOnCurrentVirtualDesktop(IntPtr topLevelWindow);
-        Guid GetWindowDesktopId(IntPtr topLevelWindow);
-        void MoveWindowToDesktop(IntPtr topLevelWindow, ref Guid desktopId);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("4CE81583-1E4C-4632-A621-07A53543148F")]
-    internal interface IVirtualDesktopPinnedApps
-    {
-        bool IsAppIdPinned(string appId);
-        void PinAppID(string appId);
-        void UnpinAppID(string appId);
-        bool IsViewPinned(IApplicationView applicationView);
-        void PinView(IApplicationView applicationView);
-        void UnpinView(IApplicationView applicationView);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("92CA9DCD-5622-4BBA-A805-5E9F541BD8C9")]
-    internal interface IObjectArray
-    {
-        void GetCount(out int count);
-        void GetAt(int index, ref Guid iid, [MarshalAs(UnmanagedType.Interface)]out object obj);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("6D5140C1-7436-11CE-8034-00AA006009FA")]
-    internal interface IServiceProvider10
-    {
-        [return: MarshalAs(UnmanagedType.IUnknown)]
-        object QueryService(ref Guid service, ref Guid riid);
-    }
-    #endregion
-    // ************************************************************************************************************ //
-
 }

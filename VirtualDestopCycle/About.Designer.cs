@@ -30,7 +30,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pb1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelCopyleft = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.labelReleaseDate = new System.Windows.Forms.Label();
@@ -43,6 +42,8 @@
             this.labeld3 = new System.Windows.Forms.Label();
             this.labeld1 = new System.Windows.Forms.Label();
             this.labeld2 = new System.Windows.Forms.LinkLabel();
+            this.btnHotkeysList = new System.Windows.Forms.Button();
+            this.labelCopyleft = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -86,34 +87,25 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel2.Controls.Add(this.labelCopyleft, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.pictureBox2, 0, 0);
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel2.Controls.Add(this.labelCopyleft, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.pictureBox2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnHotkeysList, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 135);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(202, 127);
             this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // labelCopyleft
-            // 
-            this.labelCopyleft.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.labelCopyleft.Font = new System.Drawing.Font("Arial", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCopyleft.Location = new System.Drawing.Point(124, 55);
-            this.labelCopyleft.Name = "labelCopyleft";
-            this.labelCopyleft.Size = new System.Drawing.Size(75, 72);
-            this.labelCopyleft.TabIndex = 0;
-            this.labelCopyleft.Text = "Copyleft !  All Rights Reversed";
-            this.labelCopyleft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Image = global::VirtualDesktopManager.Properties.Resources.Copyleft;
-            this.pictureBox2.Location = new System.Drawing.Point(27, 55);
+            this.pictureBox2.Location = new System.Drawing.Point(108, 10);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(91, 69);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -146,7 +138,7 @@
             this.labelReleaseDate.Name = "labelReleaseDate";
             this.labelReleaseDate.Size = new System.Drawing.Size(197, 42);
             this.labelReleaseDate.TabIndex = 2;
-            this.labelReleaseDate.Text = "released: 2022-07-22";
+            this.labelReleaseDate.Text = "released: 2022-09-27";
             this.labelReleaseDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelVersion
@@ -158,7 +150,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(197, 42);
             this.labelVersion.TabIndex = 1;
-            this.labelVersion.Text = "version 2.3.11";
+            this.labelVersion.Text = "version 2.4";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelProductName
@@ -263,6 +255,7 @@
             // labeld2
             // 
             this.labeld2.AutoSize = true;
+            this.labeld2.Cursor = System.Windows.Forms.Cursors.Default;
             this.labeld2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labeld2.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labeld2.ForeColor = System.Drawing.Color.Blue;
@@ -274,6 +267,33 @@
             this.labeld2.Text = "iskmz";
             this.labeld2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labeld2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labeld2_LinkClicked);
+            // 
+            // btnHotkeysList
+            // 
+            this.btnHotkeysList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHotkeysList.BackColor = System.Drawing.Color.Black;
+            this.btnHotkeysList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHotkeysList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHotkeysList.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHotkeysList.ForeColor = System.Drawing.Color.Yellow;
+            this.btnHotkeysList.Location = new System.Drawing.Point(99, 94);
+            this.btnHotkeysList.Name = "btnHotkeysList";
+            this.btnHotkeysList.Size = new System.Drawing.Size(100, 30);
+            this.btnHotkeysList.TabIndex = 2;
+            this.btnHotkeysList.Text = "Hotkeys";
+            this.btnHotkeysList.UseVisualStyleBackColor = false;
+            this.btnHotkeysList.Click += new System.EventHandler(this.BtnHotkeysList_Click);
+            // 
+            // labelCopyleft
+            // 
+            this.labelCopyleft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCopyleft.Font = new System.Drawing.Font("Arial", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCopyleft.Location = new System.Drawing.Point(3, 10);
+            this.labelCopyleft.Name = "labelCopyleft";
+            this.labelCopyleft.Size = new System.Drawing.Size(74, 72);
+            this.labelCopyleft.TabIndex = 3;
+            this.labelCopyleft.Text = "Copyleft !  All Rights Reversed";
+            this.labelCopyleft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // About
             // 
@@ -309,7 +329,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PictureBox pb1;
-        private System.Windows.Forms.Label labelCopyleft;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
@@ -323,5 +342,7 @@
         private System.Windows.Forms.Label labeld3;
         private System.Windows.Forms.LinkLabel labeld6;
         private System.Windows.Forms.Label labeld5;
+        private System.Windows.Forms.Button btnHotkeysList;
+        private System.Windows.Forms.Label labelCopyleft;
     }
 }

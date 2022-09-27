@@ -27,6 +27,7 @@ namespace VirtualDesktopManager
         public void showMe(string txt)
         {
             this.txtBox.Text = txt;
+            this.TopMost = true;
             this.ShowDialog();
             timerSplash.Start();
         }

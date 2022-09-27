@@ -122,6 +122,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Functions.cs" />
     <Compile Include="Native.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,13 +163,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\mainIcoPng.png" />
     <None Include="Resources\Transparent.png" />
     <None Include="Resources\back_Black.png" />
     <None Include="Resources\back_Blue.png" />
     <None Include="Resources\back_Brown.png" />
-    <None Include="Resources\back_Dark-Blue.png" />
-    <None Include="Resources\back_Dark-Green.png" />
-    <None Include="Resources\back_Dark-Red.png" />
     <None Include="Resources\back_Green.png" />
     <None Include="Resources\back_Pink.png" />
     <None Include="Resources\back_Purple.png" />
@@ -179,24 +178,36 @@
     <None Include="Resources\close_desktop.png" />
     <None Include="Resources\close_all.png" />
     <None Include="Resources\add_multiple.png" />
-    <None Include="Resources\icons8-matrix-desktop-96.png" />
-    <None Include="Resources\icons8-left-64.png" />
-    <None Include="Resources\icons8-right-64.png" />
-    <None Include="Resources\icons8-info-100.png" />
-    <None Include="Resources\icons8-splash-100.png" />
-    <None Include="Resources\icons8-save-100.png" />
-    <None Include="Resources\icons8-reset-64__rev-cycle.png" />
-    <None Include="Resources\icons8-reset-64__cycle.png" />
-    <None Include="Resources\icons8-paint-100.png" />
-    <None Include="Resources\icons8-settings-50.png" />
-    <None Include="Resources\icons8-close-50.png" />
     <None Include="Resources\Copyleft.png" />
     <None Include="Resources\IM.jpg" />
-    <None Include="Resources\icons8-process-50.png" />
-    <None Include="Resources\icons8-list-50.png" />
     <None Include="Resources\IM_.jpg" />
+    <None Include="Resources\icons8_splash_100.png" />
+    <None Include="Resources\icons8_windows_50.png" />
+    <None Include="Resources\icons8_settings_50.png" />
+    <None Include="Resources\icons8_screenshot_full_50.png" />
+    <None Include="Resources\icons8_paint_100.png" />
+    <None Include="Resources\icons8_PANIC_64.png" />
+    <None Include="Resources\icons8_process_50.png" />
+    <None Include="Resources\icons8_reset_64__cycle.png" />
+    <None Include="Resources\icons8_matrix_desktop_96.png" />
+    <None Include="Resources\icons8_screenshot_50.png" />
+    <None Include="Resources\icons8_list_50.png" />
+    <None Include="Resources\icons8_save_100.png" />
+    <None Include="Resources\icons8_browsing_48.png" />
+    <None Include="Resources\icons8_close_50.png" />
+    <None Include="Resources\icons8_desktop_48.png" />
+    <None Include="Resources\icons8_export_50.png" />
+    <None Include="Resources\icons8_folder_50.png" />
+    <None Include="Resources\icons8_html_filetype_50.png" />
+    <None Include="Resources\icons8_batch_script_64.png" />
+    <None Include="Resources\icons8_left_64.png" />
+    <None Include="Resources\icons8_right_64.png" />
+    <None Include="Resources\back_Dark_Blue.png" />
+    <None Include="Resources\back_Dark_Green.png" />
+    <None Include="Resources\back_Dark_Red.png" />
+    <None Include="Resources\icons8_info_100.png" />
+    <None Include="Resources\icons8_reset_64__rev_cycle.png" />
     <Content Include="Resources\mainIco.ico" />
-    <None Include="Resources\mainIco.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -209,6 +220,71 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="UIA">
+      <Guid>{930299CE-9965-4DEC-B0F4-A54848D4B667}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="UIAutomationBlockingCoreLib">
+      <Guid>{EA39B853-5769-4937-8ECE-736DE4F469BC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="UIAutomationClient">
+      <Guid>{944DE083-8FB8-45CF-BCB7-C477ACB2F897}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="UIAutomationClientPriv">
+      <Guid>{6271895B-E67F-4DEE-B68B-BF74ACE07753}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="UIAutomationCorePriv">
+      <Guid>{C68E3F27-AAD0-4DC4-B7E6-B3249770763D}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="UIAutomationCrossBitnessHookLib">
+      <Guid>{8ACC2016-04A3-4343-B8E1-1870E35D6A41}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

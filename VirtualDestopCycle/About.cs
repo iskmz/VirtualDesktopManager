@@ -33,6 +33,27 @@ namespace VirtualDesktopManager
             vv = int.Parse(labelVersion.Text.Substring(labelVersion.Text.LastIndexOf(".") + 1));
         }
 
+        private void BtnHotkeysList_Click(object sender, EventArgs e)
+        {
+            string dot = "\n\n\u25CF ";
+
+            string msg = ""
+                + dot + "Ctrl+Alt+Right/Left: move to right/left desktop , with wraping/cycling when reaching edges; "
+                + "alternate combination is Alt+Shift+Right/Left , to be chosen in Settings."
+                + dot + "Ctrl+Alt+Digit[1-9]: move to desktop with digit selected; "
+                + "alternate combination is Alt+Shift+Digit[1-9] , to be chosen in Settings."
+                + dot + "special combination only when cycling (or reverse cycling) "
+                + "FOREVER, in order to stop cycling is: Ctrl+Alt+S"
+                + dot + "as of version 2.4, "
+                + "default windows combination: Ctrl+Winkey+Right/Left "
+                + "is overriden to make desktops wrap/cycle when reaching edges "
+                + "{also touchpad-4-fingers swipe Right/Left is overriden}; "
+                + "in order to Deactivate/Activate this override feature use "
+                + "the following combination: Ctrl+Alt+Shift+S\n\n";
+
+            MessageBox.Show(msg, "Hotkeys List", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private async void Pb1_Click(object sender, EventArgs e)
         {
             ii++;
