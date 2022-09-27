@@ -81,7 +81,7 @@ ___changes / additions made in version 2.1 :-___
 
 ------------------------------------------------------------
 
-### a modified version 1.9 ###
+## a modified version 1.9 ##
 <u>_released on 2022-02-19_</u>
 
 
@@ -103,7 +103,7 @@ ___changes / additions made in this modification:-___
 
 ------------------------------------------------------------
 
-### ↓ original README ↓ ###
+## ↓ original README ↓ ##
 
 VirtualDesktopManager
 ======
