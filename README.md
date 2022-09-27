@@ -7,7 +7,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ### version 2.3.1 ###	
 <u>_released on 2022-07-21_</u>
 
-  * minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
+* minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
   
 <div align="center">
 <img src="https://user-images.githubusercontent.com/48130426/180141305-0b4c79b7-508b-43c3-b179-7b8192e902a0.png" width=50% height=50% align="center">
@@ -15,14 +15,16 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 
 
 
-* version 2.3:	&emsp; <u>_released on 2022-07-20_</u>
-  * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
-  * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
-    - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
-  * "list windows" feature , to list all open windows (their handles & titles) in the CURRENT desktop ; can copy data to clipboard as in 'desktops GUIDs' from before
-  * "export data" feature, to save a text file with all desktop data: titles, GUIDs, and a windows-list per each desktop (could be useful to help restore open windows, when sudden restart for example;  manually!)
-  * descriptive tooltips for main-menu
-  * "About" dialog  
+### version 2.3 ###
+<u>_released on 2022-07-20_</u>
+
+* new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
+* splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
+  - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
+* "list windows" feature , to list all open windows (their handles & titles) in the CURRENT desktop ; can copy data to clipboard as in 'desktops GUIDs' from before
+* "export data" feature, to save a text file with all desktop data: titles, GUIDs, and a windows-list per each desktop (could be useful to help restore open windows, when sudden restart for example;  manually!)
+* descriptive tooltips for main-menu
+* "About" dialog  
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/48130426/180053663-4c6b4762-0a4b-4366-aa89-629850e00f74.png" width=50% height=50% align="center">
