@@ -52,6 +52,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <details>
 <summary> released on 2022-07-21 ... </summary>
 
+	
 * minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
   
 <div align="center">
@@ -64,6 +65,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <details>
 <summary> released on 2022-07-20 ... </summary>
 
+	
 * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
 * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
   - note that it is automatically de-activated before cycle / rev-cycle (because of conflict in 'timers')
@@ -82,6 +84,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <details>
 <summary> released on 2022-07-09 ... </summary>
   
+	
 * new menu-items in desktops-list: 
   - "Close All" to close all desktops at once
   - "Add Multiple" to add as many desktops as user enters [range: 1 to 10]			
