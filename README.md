@@ -22,7 +22,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
     <details>
     <summary> (more details ...) </summary>
 	
-        - supports Firefox, Chrome, MSEdge & I.E.
+	- supports Firefox, Chrome, MSEdge & I.E.
 	- uses SHDocVw (for I.E.)  &  UIAutomationCore.dll (for the rest)
 	- UIAutomationCore method, basically traverses the UI tree of each browser looking for the tabs list; therefore, it may not work on future versions if changes happen to UI.
 	- UIAutomationCore method, also depends that names of some UI elements are in English, so localized versions of the browsers might break it.
