@@ -4,8 +4,8 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 ## Updates ##
 
 
-
-### version 2.4 ###
+<details>
+<summary> ### version 2.4 ### </summary>
 <u>_released on 2022-09-27_</u>
 
 * a workaround to override default windows combination: Ctrl+Winkey+Right/Left, and also touchpad 4-finger-swipe Right/Left using [AutoHotkey.dll](https://github.com/HotKeyIt/ahkdll-v1-release/tree/master/Win32w) script which runs on program load, and uses compiled binaries from [MScholtes/VirtualDesktop](https://github.com/MScholtes/VirtualDesktop)
@@ -45,7 +45,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <img src="https://user-images.githubusercontent.com/48130426/192449839-9d781691-9af8-47c3-b1f8-8685d4705d8d.png" width=50% height=50% align="center">
 </div>
 
-
+</details>
 
 ### version 2.3.1 ###	
 <u>_released on 2022-07-21_</u>
