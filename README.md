@@ -147,7 +147,7 @@ ___changes / additions made in this modification:-___
 @ [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")
 
 <details>
-<summary> ↓↓↓↓↓ </summary>
+<summary> ↓ ↓ ↓ ↓ ↓ </summary>
 
 VirtualDesktopManager
 ======
