@@ -49,7 +49,8 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 </details>
 
 ### version 2.3.1 ###	
-<u>_released on 2022-07-21_</u>
+<details>
+<summary> released on 2022-07-21 ... </summary>
 
 * minor 'cosmetic' changes: added two submenus: 'cycling' & 'data', to group together similar items and make main-menu more compact
   
@@ -57,7 +58,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <img src="https://user-images.githubusercontent.com/48130426/180141305-0b4c79b7-508b-43c3-b179-7b8192e902a0.png" width=50% height=50% align="center">
 </div>
 
-
+</details>
 
 ### version 2.3 ###
 <u>_released on 2022-07-20_</u>
