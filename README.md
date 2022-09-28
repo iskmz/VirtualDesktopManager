@@ -19,11 +19,16 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
   
 * major (and pretty useful) updates to Data sub-menu:-
   - "list all browsers' URLs" option, with an option to copy to clipboard a list of all tabs and their URLs
-    - supports Firefox, Chrome, MSEdge & I.E.
+    <details>
+    <summary> (more details ...) </summary>
+	
+        - supports Firefox, Chrome, MSEdge & I.E.
 	- uses SHDocVw (for I.E.)  &  UIAutomationCore.dll (for the rest)
 	- UIAutomationCore method, basically traverses the UI tree of each browser looking for the tabs list; therefore, it may not work on future versions if changes happen to UI.
 	- UIAutomationCore method, also depends that names of some UI elements are in English, so localized versions of the browsers might break it.
 	- was tested & working on the ENGLISH-language versions of: chrome (v105.0.5195.127_64-bit), firefox (v105.0_64-bit), msedge (v105.0.1343.42_64-bit), I.E. (v11.00.19041.1566, on win10_20H2)
+    </details>
+    
   - "Export URLs", same as list URLs , but exports them to an HTML file which has clickable links
   - "list all open folders", lists all open folders' full paths, with an option to copy to clipboard
   - "Export Folders", same as the above, but saves the full paths to a BATCH file which opens all folders when run
