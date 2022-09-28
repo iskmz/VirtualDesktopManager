@@ -61,7 +61,8 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 </details>
 
 ### version 2.3 ###
-<u>_released on 2022-07-20_</u>
+<details>
+<summary> released on 2022-07-20 ... </summary>
 
 * new icons in main-menu ; mostly from: [icons8](https://icons8.com "")
 * splash screen option, to show desktop# & title for a couple of seconds, when desktop is changed
@@ -75,10 +76,11 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 <img src="https://user-images.githubusercontent.com/48130426/180053663-4c6b4762-0a4b-4366-aa89-629850e00f74.png" width=50% height=50% align="center">
 </div>
 
-
+</details>
 
 ### version 2.2 ###
-<u>_released on 2022-07-09_</u>
+<details>
+<summary> released on 2022-07-09 ... </summary>
   
 * new menu-items in desktops-list: 
   - "Close All" to close all desktops at once
@@ -86,6 +88,7 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 * some minor UI improvements in desktops-list: new icons, tooltips ...
 * minor code clean-up / order  
 
+</details>
 
 ------------------------------------------------------------
 
