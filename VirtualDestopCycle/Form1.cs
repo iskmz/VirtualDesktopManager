@@ -35,6 +35,10 @@ namespace VirtualDesktopManager
         private readonly HotKeyManager _rightHotkey;
         private readonly HotKeyManager _leftHotkey;
         private readonly HotKeyManager _numberHotkey;
+        private readonly HotKeyManager _PANIC_Hotkey;  // added  2022-09-28
+        private readonly HotKeyManager _desktopsList_Hotkey;  // added  2022-09-28
+        private readonly HotKeyManager _HotkeysList_Hotkey;  // added  2022-09-28
+
 
         private bool closeToTray;
         private bool useAltKeySettings;
@@ -79,6 +83,13 @@ namespace VirtualDesktopManager
             _numberHotkey = new HotKeyManager();
             _numberHotkey.KeyPressed += NumberHotkeyPressed;
 
+            _PANIC_Hotkey = new HotKeyManager();                // added  2022-09-28
+            _PANIC_Hotkey.KeyPressed += PANIC_Hotkey_Pressed;  // added  2022-09-28
+            _desktopsList_Hotkey = new HotKeyManager();                // added  2022-09-28
+            _desktopsList_Hotkey.KeyPressed += desktopsList_Hotkey_Pressed;  // added  2022-09-28
+            _HotkeysList_Hotkey = new HotKeyManager();                // added  2022-09-28
+            _HotkeysList_Hotkey.KeyPressed += HotkeysList_Hotkey_Pressed;  // added  2022-09-28
+
 
             VirtualDesktop.CurrentChanged += VirtualDesktop_CurrentChanged;
             VirtualDesktop.Created += VirtualDesktop_Added;
@@ -99,6 +110,65 @@ namespace VirtualDesktopManager
             // added 2022-02-26 //
             loadUserPreferences();
         }
+
+
+
+        // ************************************* //  section added 2022-09-28  // *************************************//
+
+        // below method was added to make more logical behavior for Ctrl+Alt+Shift+L  ! //
+        private void DesktopsList_DropDownClosed(object sender, EventArgs e) // added  2022-09-28
+        {
+            isDesktopsListShown = false; 
+            for (int i = 0; i < contextMenuStrip1.Items.Count; i++) // to restore visibility, if submenu is closed in any way !
+                contextMenuStrip1.Items[i].Visible = true;
+        }
+
+        static bool isDesktopsListShown = false;
+        private void desktopsList_Hotkey_Pressed(object sender, KeyPressedEventArgs e) // added  2022-09-28
+        {
+            // NOTE: this code still has ISSUES!
+            // sometimes when changing desktops & menu is shown, it loses focus permanently 
+            // so even when hiding or showing again using hotkey , still cannot use keyboard arrows to select
+            // in the meantime it should be used simply by showing menu and choosing an item , or hiding it 
+            // and NOT changing desktops while its shown
+
+            if (!isDesktopsListShown)
+            {
+                updateContextMenuStrip(); // to simulate what happens on mouse-right-click event 
+
+                // hide All main-menu items except the last one ("DESKTOPS")
+                for (int i = 0; i < contextMenuStrip1.Items.Count - 1; i++)
+                    contextMenuStrip1.Items[i].Visible = false;
+
+                int width = Screen.AllScreens[0].Bounds.Width;
+                int height = Screen.AllScreens[0].Bounds.Height;
+                int x = (width / 2) - (width*15 / 100); // i.e. center point - 15% of width to the left
+                int y = height/2;
+                contextMenuStrip1.Show(new Point(x, y));
+                desktopsList.ShowDropDown();
+                desktopsList.DropDown.Select();
+                desktopsList.DropDown.Focus();
+            }
+            else // is shown, then hide it 
+            {
+                contextMenuStrip1.Hide();
+                for (int i = 0; i < contextMenuStrip1.Items.Count; i++) // make all items visible again
+                    contextMenuStrip1.Items[i].Visible = true;
+            }
+            isDesktopsListShown = !isDesktopsListShown;
+        }
+
+        private void PANIC_Hotkey_Pressed(object sender, KeyPressedEventArgs e) =>  panic.PerformClick();  // added  2022-09-28
+
+        private void HotkeysList_Hotkey_Pressed(object sender, KeyPressedEventArgs e)  // added  2022-09-28
+        {
+            MessageBox.Show(Consts.HotkeysList_MSG, Consts.HotkeysList_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        // *****************************************************************************************************//
+
+
 
         // ************************************* // user preferences load/save section // *************************************//
 
@@ -236,6 +306,10 @@ namespace VirtualDesktopManager
             _leftHotkey.Dispose();
             _numberHotkey.Dispose();
 
+            _PANIC_Hotkey.Dispose();  // added  2022-09-28
+            _desktopsList_Hotkey.Dispose();  // added  2022-09-28
+            _HotkeysList_Hotkey.Dispose();  // added  2022-09-28
+
 
             _stopCyclingHotKey.Dispose(); // added 2022-02-26
             timer.Dispose();  // added 2022-02-26
@@ -254,6 +328,9 @@ namespace VirtualDesktopManager
                 _rightHotkey.Register(Key.Right, Consts.CTRL_ALT);
                 _leftHotkey.Register(Key.Left, Consts.CTRL_ALT);
                 RegisterNumberHotkeys(Consts.CTRL_ALT);
+                Register_PANIC_Hotkey(); // added  2022-09-28
+                Register_desktopsList_Hotkey(); // added 2022-09-28
+                Register_HotkeysList_Hotkey(); // added 2022-09-28
             }
             catch (Exception err) // catching the error solves the problem and SETS the HotKeys as requested ! //
                                   // error THROWN without need ! ... the problem is with the error thrown ! // 
@@ -271,6 +348,9 @@ namespace VirtualDesktopManager
                 _rightHotkey.Register(Key.Right, Consts.ALT_SHIFT);
                 _leftHotkey.Register(Key.Left, Consts.ALT_SHIFT);
                 RegisterNumberHotkeys(Consts.ALT_SHIFT);
+                Register_PANIC_Hotkey(); // added  2022-09-28
+                Register_desktopsList_Hotkey(); // added 2022-09-28
+                Register_HotkeysList_Hotkey(); // added 2022-09-28
             }
             catch (Exception err) // catching the error solves the problem and SETS the HotKeys as requested ! //
                                   // error THROWN without need ! ... the problem is with the error thrown ! // 
@@ -285,6 +365,13 @@ namespace VirtualDesktopManager
         {
             for (var i = Key.D1; i <= Key.D9; i++) _numberHotkey.Register(i, modifiers);
         }
+
+
+        private void Register_PANIC_Hotkey() => _PANIC_Hotkey.Register(Key.P, Consts.CTRL_ALT_SHIFT);   // added  2022-09-28
+        private void Register_desktopsList_Hotkey() => _desktopsList_Hotkey.Register(Key.L, Consts.CTRL_ALT_SHIFT);   // added  2022-09-28
+        private void Register_HotkeysList_Hotkey() => _HotkeysList_Hotkey.Register(Key.H, Consts.CTRL_ALT_SHIFT);   // added  2022-09-28
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -593,7 +680,8 @@ namespace VirtualDesktopManager
             ToolStripItem item = desktopsList.DropDownItems.Add("# " + k);
             item.Text += desktopNameOrEmpty(k - 1, ":  ", ""); // added: 2022-03-02
             // item.Click += // >>  only gets a click , cannot differentiate betweeen right & left << // 
-            item.MouseUp += handleDesktopNumberClick; // changed: 2022-03-02 , to add a change-desktop-name on RIGHT-CLICK feature !
+            item.MouseDown += handleDesktopNumberClick; // changed: 2022-03-02 , to add a change-desktop-name on RIGHT-CLICK feature !
+            item.Click += desktopNumberEnterPress; // added 2022-09-28 , along with Ctrl+Alt+Shift+L // only 'Click' handles Enter-Key-Press in dropdown! //
             item.ToolTipText = "Right Click to RENAME Desktop"; // added: 2022-03-02
             if ((k - 1) == getCurrentDesktopIndex())
             {
@@ -655,12 +743,27 @@ namespace VirtualDesktopManager
             if (res == DialogResult.OK) VirtualDesktop.Current.Remove(i == 0 ? current.GetRight() : current.GetLeft());
         }
 
-        // event handler for ToolStripItem (desktops) CLICK // choose what to do based on LEFT/RIGHT click ... // 
+        // event handler for ToolStripItem (desktops) CLICK [MOUSE-DOWN!!]  // choose what to do based on LEFT/RIGHT click ... // 
         private void handleDesktopNumberClick(object sender, EventArgs e)
         {
+            desktopNumber_MouseDown = true; // temporary indicator, added 2022-09-28 , turns false again after full CLICK is complete // 
             MouseEventArgs me = (MouseEventArgs)e;
             if (me.Button == MouseButtons.Left) gotoDesktopNumber(sender, e);
             else if (me.Button == MouseButtons.Right) changeNameInputBox(sender, e);
+        }
+
+        // added 2022-09-28 //
+        static bool desktopNumber_MouseDown = false; // indicator when mouse_down event comes before "click" event ; to DISABLE click event //
+        // so that the below method used only when ENTER-KEY press on dropdown menu // MouseDown event handles the mouse RIGHT/LEFT clicks // 
+        private void desktopNumberEnterPress(object sender, EventArgs e)
+        {
+            if (desktopNumber_MouseDown) desktopNumber_MouseDown = false;
+            else
+            {
+                contextMenuStrip1.Hide(); // to lose focus; so that desktop transition works smoothly !
+                Thread.Sleep(250); // wait a little-bit to give time for menu to HIDE properly // fixes "focus" errors which affect desktop switch ! //
+                gotoDesktopNumber(sender, e);
+            }
         }
 
         // event handler for ToolStripItem (desktops) LEFT-MOUSE-CLICK ... // ** NOTE: DEPENDS on each item's TEXT-string ** // 
@@ -1493,7 +1596,8 @@ namespace VirtualDesktopManager
         private void Panic_Click(object sender, EventArgs e)
         {
             // dummy msg-box: will proceed no matter what user clicks ; was made to give tooltip few seconds to disappear 
-            MessageBox.Show("It will take a few seconds\n\nJust watch and wait\n\n", "Panic !", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(new Form { TopMost = true },"It will take a few seconds\n\nJust watch and wait\n\n", "Panic !", 
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             // step 0: prepare path to save everything to
             string DEFAULT_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "PANIC@" + Helper.getFormattedDateTime();
             Directory.CreateDirectory(DEFAULT_PATH);
@@ -1583,6 +1687,10 @@ namespace VirtualDesktopManager
             }
             return urlsList;
         }
+
+
+
+
 
 
         // ************************************* // ************************ // ********************************************************//

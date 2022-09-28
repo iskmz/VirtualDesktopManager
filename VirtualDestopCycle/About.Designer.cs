@@ -30,7 +30,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pb1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.labelCopyleft = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnHotkeysList = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.labelReleaseDate = new System.Windows.Forms.Label();
             this.labelVersion = new System.Windows.Forms.Label();
@@ -42,8 +44,6 @@
             this.labeld3 = new System.Windows.Forms.Label();
             this.labeld1 = new System.Windows.Forms.Label();
             this.labeld2 = new System.Windows.Forms.LinkLabel();
-            this.btnHotkeysList = new System.Windows.Forms.Button();
-            this.labelCopyleft = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -101,6 +101,17 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(202, 127);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
+            // labelCopyleft
+            // 
+            this.labelCopyleft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCopyleft.Font = new System.Drawing.Font("Arial", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCopyleft.Location = new System.Drawing.Point(3, 10);
+            this.labelCopyleft.Name = "labelCopyleft";
+            this.labelCopyleft.Size = new System.Drawing.Size(74, 72);
+            this.labelCopyleft.TabIndex = 3;
+            this.labelCopyleft.Text = "Copyleft !  All Rights Reversed";
+            this.labelCopyleft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -111,6 +122,22 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
+            // 
+            // btnHotkeysList
+            // 
+            this.btnHotkeysList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHotkeysList.BackColor = System.Drawing.Color.Black;
+            this.btnHotkeysList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHotkeysList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHotkeysList.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHotkeysList.ForeColor = System.Drawing.Color.Yellow;
+            this.btnHotkeysList.Location = new System.Drawing.Point(99, 94);
+            this.btnHotkeysList.Name = "btnHotkeysList";
+            this.btnHotkeysList.Size = new System.Drawing.Size(100, 30);
+            this.btnHotkeysList.TabIndex = 2;
+            this.btnHotkeysList.Text = "Hotkeys";
+            this.btnHotkeysList.UseVisualStyleBackColor = false;
+            this.btnHotkeysList.Click += new System.EventHandler(this.BtnHotkeysList_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -138,7 +165,7 @@
             this.labelReleaseDate.Name = "labelReleaseDate";
             this.labelReleaseDate.Size = new System.Drawing.Size(197, 42);
             this.labelReleaseDate.TabIndex = 2;
-            this.labelReleaseDate.Text = "released: 2022-09-27";
+            this.labelReleaseDate.Text = "released: 2022-09-28";
             this.labelReleaseDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelVersion
@@ -150,7 +177,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(197, 42);
             this.labelVersion.TabIndex = 1;
-            this.labelVersion.Text = "version 2.4";
+            this.labelVersion.Text = "version 2.4.1";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelProductName
@@ -267,33 +294,6 @@
             this.labeld2.Text = "iskmz";
             this.labeld2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labeld2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labeld2_LinkClicked);
-            // 
-            // btnHotkeysList
-            // 
-            this.btnHotkeysList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHotkeysList.BackColor = System.Drawing.Color.Black;
-            this.btnHotkeysList.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnHotkeysList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHotkeysList.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHotkeysList.ForeColor = System.Drawing.Color.Yellow;
-            this.btnHotkeysList.Location = new System.Drawing.Point(99, 94);
-            this.btnHotkeysList.Name = "btnHotkeysList";
-            this.btnHotkeysList.Size = new System.Drawing.Size(100, 30);
-            this.btnHotkeysList.TabIndex = 2;
-            this.btnHotkeysList.Text = "Hotkeys";
-            this.btnHotkeysList.UseVisualStyleBackColor = false;
-            this.btnHotkeysList.Click += new System.EventHandler(this.BtnHotkeysList_Click);
-            // 
-            // labelCopyleft
-            // 
-            this.labelCopyleft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelCopyleft.Font = new System.Drawing.Font("Arial", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCopyleft.Location = new System.Drawing.Point(3, 10);
-            this.labelCopyleft.Name = "labelCopyleft";
-            this.labelCopyleft.Size = new System.Drawing.Size(74, 72);
-            this.labelCopyleft.TabIndex = 3;
-            this.labelCopyleft.Text = "Copyleft !  All Rights Reversed";
-            this.labelCopyleft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // About
             // 

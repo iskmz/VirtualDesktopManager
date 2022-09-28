@@ -5,6 +5,17 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 
 
 
+### version 2.4.1 ### 
+<details>
+<summary> released on 2022-09-28 ... </summary>
+
+* Added hotkey for (P)anic ! : Ctrl+Alt+Shift+P , for fast saving of desktop data & screenshots 
+* Added hotkey to show/hide desktops (L)ist : Ctrl+Alt+Shift+L , for fast select of desktop #, Add & Close items from menu using up/down arrows & Enter
+  - Note that sometimes it loses focus and arrows don't work suddenly; a simple fix is "Alt+Tab" to it so it works again  
+* Added hotkey Ctrl+Alt+Shift+H :  to show (H)otkeys list
+
+</details>
+
 ### version 2.4 ###  
 <details>
 <summary> released on 2022-09-27 ... </summary>

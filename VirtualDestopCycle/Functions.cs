@@ -66,6 +66,32 @@ namespace VirtualDesktopManager
         public const string FIREFOX_process_name = "firefox";
         public const string MSEDGE_process_name = "msedge";
         public const string IEXPLORER_process_name = "iexplore";
+
+        // added 2022-09-28
+        public const string HotkeysList_TITLE = "Hotkeys List";
+        private const string dot = "\n\u25CF "; //  ●
+        private const string tt1 = "\n\u25B7 ";   //  ▷
+        private const string tt2 = "\n\n\u25B6 ";   //  ▶
+        private const string sqr = "\n\u25FD ";   //  ◽
+        public const string HotkeysList_MSG = ""
+                + tt2 + "Ctrl+Alt+Right/Left: move to right/left desktop , with wraping/cycling when reaching edges; "
+                + "alternate combination is Alt+Shift+Right/Left , to be chosen in Settings."
+                + tt2 + "Ctrl+Alt+Digit[1-9]: move to desktop with digit selected; "
+                + "alternate combination is Alt+Shift+Digit[1-9] , to be chosen in Settings."
+                + tt2 + "special combination only when cycling (or reverse cycling) "
+                + "FOREVER, in order to stop cycling is: Ctrl+Alt+S"
+                + tt2 + "as of version 2.4, "
+                + "default windows combination: Ctrl+Winkey+Right/Left "
+                + "is overriden to make desktops wrap/cycle when reaching edges "
+                + "{also touchpad-4-fingers swipe Right/Left is overriden}; "
+                + "in order to Deactivate/Activate this override feature use "
+                + "the following combination: Ctrl+Alt+Shift+S"
+                + tt2 + "as of version 2.4.1"
+                + dot + "Ctrl+Alt+Shift+P : activates Panic! item."
+                + dot + "Ctrl+Alt+Shift+L : shows/hides desktops List, at the center of the main screen; "
+                + "for fast desktop #, Add, Close selections using arrows & Enter."
+                + dot + "Ctrl+Alt+Shift+H : shows Hotkeys List (this one)."
+                + "\n\n";
     }
 
     [Serializable]
