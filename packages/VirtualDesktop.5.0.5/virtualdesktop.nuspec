@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VirtualDesktop</id>
+    <version>5.0.5</version>
+    <authors>Grabacr07</authors>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/Grabacr07/VirtualDesktop</projectUrl>
+    <description>C# Wrapper for the Virtual Desktop API on Windows 11 (and Windows 10).</description>
+    <copyright>Copyright © 2022 Manato KAMEYA</copyright>
+    <tags>Windows Windows10 Windows11 Desktop VirtualDesktop</tags>
+    <repository url="https://github.com/Grabacr07/VirtualDesktop" />
+    <dependencies>
+      <group targetFramework="net5.0-windows10.0.19041">
+        <dependency id="Microsoft.CodeAnalysis.CSharp" version="4.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-windows10.0.19041">
+        <dependency id="Microsoft.CodeAnalysis.CSharp" version="4.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net5.0-windows10.0.19041">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+      <group targetFramework="net6.0-windows10.0.19041">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+</package>
