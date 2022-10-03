@@ -1,6 +1,11 @@
 _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualDesktopManager "")_
 
 
+
+_for a win11-compatible version check [win11-branch](https://github.com/iskmz/VirtualDesktopManager/tree/win11)_
+
+
+
 ## Updates ##
 
 
