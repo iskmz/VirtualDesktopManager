@@ -310,7 +310,7 @@ namespace VirtualDesktopManager
             int currentDesktopIndex = getCurrentDesktopIndex();
             string pictureFile = PickNthFile(currentDesktopIndex);
             if (pictureFile != null) Native.SetBackground(pictureFile);
-            restoreApplicationFocus(currentDesktopIndex);
+            // restoreApplicationFocus(currentDesktopIndex);     // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
             changeTrayIcon(currentDesktopIndex);
             // added 2022-07-19
             if (splashActive) showSplash();
@@ -430,7 +430,7 @@ namespace VirtualDesktopManager
 
         private int getCurrentDesktopIndex() => desktops.IndexOf(VirtualDesktop.Current);
 
-        private void saveApplicationFocus(int currentDesktopIndex = -1)
+        private void saveApplicationFocus(int currentDesktopIndex = -1) // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
         {
             IntPtr activeAppWindow = GetForegroundWindow();
             if (currentDesktopIndex == -1)
@@ -438,7 +438,7 @@ namespace VirtualDesktopManager
             activePrograms[currentDesktopIndex] = activeAppWindow;
         }
 
-        private void restoreApplicationFocus(int currentDesktopIndex = -1)
+        private void restoreApplicationFocus(int currentDesktopIndex = -1)   // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
         {
             if (currentDesktopIndex == -1)
                 currentDesktopIndex = getCurrentDesktopIndex();
@@ -484,8 +484,8 @@ namespace VirtualDesktopManager
         VirtualDesktop initialDesktopState()
         {
             var desktop = VirtualDesktop.Current;
-            int desktopIndex = getCurrentDesktopIndex();
-            saveApplicationFocus(desktopIndex);
+            //int desktopIndex = getCurrentDesktopIndex();
+            //saveApplicationFocus(desktopIndex);        // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
             return desktop;
         }
 
