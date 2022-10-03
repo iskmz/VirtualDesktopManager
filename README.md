@@ -9,6 +9,20 @@ _for a win11-compatible version check [win11-branch](https://github.com/iskmz/Vi
 ## Updates ##
 
 
+### version 2.4.2 ### 
+<details>
+<summary> released on 2022-10-03 ... </summary>
+
+* Added "mouse-hook" using [globalmousekeyhook](https://github.com/gmamaladze/globalmousekeyhook) package to detect mouse-wheel movement over main-taskbar area (found on main screen by default)
+  - code to get location coordinates of main-taskbar is from [stackoverflow](https://stackoverflow.com/questions/29330440/get-precise-location-and-size-of-taskbar)
+  - mouse-wheel-down moves to next desktop
+  - mouse-wheel-up moves to previous desktop
+  - works only over main-taskbar area !
+  - if taskbar location is changed while program is running, then VDM needs a restart to reload the new coordinates
+  - Hotkeys List was updated accordingly
+
+</details>
+
 
 ### version 2.4.1 ### 
 <details>

@@ -91,6 +91,12 @@ namespace VirtualDesktopManager
                 + dot + "Ctrl+Alt+Shift+L : shows/hides desktops List, at the center of the main screen; "
                 + "for fast desktop #, Add, Close selections using arrows & Enter."
                 + dot + "Ctrl+Alt+Shift+H : shows Hotkeys List (this one)."
+                + tt2 + "using Mouse:-"
+                + dot + "Left-click on tray-icon: go-to next desktop"
+                + dot + "Shift+Left-click on tray-icon: go-to previous"
+                + tt2 + "as of version 2.4.2"
+                + dot + "Mouse-wheel-down over main-taskbar area: next desktop"
+                + dot + "Mouse-wheel-up over main-taskbar area: previous desktop"
                 + "\n\n";
     }
 
@@ -790,4 +796,37 @@ namespace VirtualDesktopManager
     }
 
     // ************************************************************************************************************ //
+
+
+    // added 2022-10-03
+    // a helper class to get taskbar coordinates {to use it with mouse-hook for mouse-wheel up/down, to toggle desktops next/prev.}
+    // code credits to:  https://stackoverflow.com/questions/29330440/get-precise-location-and-size-of-taskbar
+    public static class TaskbarHelper
+    {
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner
+            public int Top;         // y position of upper-left corner
+            public int Right;       // x position of lower-right corner
+            public int Bottom;      // y position of lower-right corner
+        }
+
+        public static RECT Coordinates
+        {
+            get
+            {
+                IntPtr TaskBarHandle = FindWindow("Shell_traywnd", "");
+                RECT rct;
+                GetWindowRect(TaskBarHandle, out rct);
+                return rct;
+            }
+        }
+    }
 }

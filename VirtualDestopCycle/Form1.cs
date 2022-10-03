@@ -14,6 +14,7 @@ using InputBoxClassLibrary;
 using WindowsDesktop;
 using GlobalHotKey;
 using System.Drawing.Imaging;
+using Gma.System.MouseKeyHook;
 
 namespace VirtualDesktopManager
 {
@@ -68,6 +69,12 @@ namespace VirtualDesktopManager
         DesktopPopUp dpp = new DesktopPopUp();
         private bool splashActive = false; // default value 
 
+        // added 2022-10-03 // to enable mouse-hook for mouse-wheel over taskbar to move to next/prev desktop //
+        // all are initialized on form-load; ASSUMPTION: main-taskbar does NOT change position while program is running //
+        private IMouseEvents mouse_hook;
+        private TaskbarHelper.RECT taskbarRect;
+        private int WHEEL_DELTA;
+
         public Form1()
         {
             InitializeComponent();
@@ -111,7 +118,32 @@ namespace VirtualDesktopManager
             loadUserPreferences();
         }
 
+        // ************************************* //  section added 2022-10-03  // *************************************//
 
+        // mouse-hook library functions // to catch mouse-wheel scroll over taskbar area  // 
+        // credits: https://github.com/gmamaladze/globalmousekeyhook //
+
+        public void Subscribe()
+        {
+            mouse_hook = Hook.GlobalEvents(); // catches ALL mouse scrolls , anywhere, while app is running >> (global) << //
+            mouse_hook.MouseWheel += Mouse_hook_MouseWheel;
+        }
+
+        private void Mouse_hook_MouseWheel(object sender, MouseEventArgs e)
+        {
+            // if mouse pointer is inside main-taskbar coordinates //
+            if (e.X >= taskbarRect.Left && e.X <= taskbarRect.Right && e.Y >= taskbarRect.Top && e.Y <= taskbarRect.Bottom)
+            {
+                Thread.Sleep(500); // fixes some conflicts with events (runtime errors) // 
+                if (e.Delta == WHEEL_DELTA) moveToPrevious(initialDesktopState());
+                else if (e.Delta == (-1) * WHEEL_DELTA) moveToNext(initialDesktopState());
+            }
+        }
+
+        public void Unsubscribe()
+        {
+            mouse_hook.MouseWheel -= Mouse_hook_MouseWheel;
+        }
 
         // ************************************* //  section added 2022-09-28  // *************************************//
 
@@ -316,6 +348,8 @@ namespace VirtualDesktopManager
 
             saveUserPreferences(); // added 2022-02-26 //
 
+            Unsubscribe(); // added 2022-10-03 // mouse-hook
+
             closeToTray = false;
 
             this.Close();
@@ -387,6 +421,11 @@ namespace VirtualDesktopManager
 
             // added 2022-09-20
             AHK.ReMap_DefaultWinCTRL_RightLeft();
+
+            // added 2022-10-03 // mouse-hook & related variables init. //
+            taskbarRect = TaskbarHelper.Coordinates;
+            WHEEL_DELTA = SystemInformation.MouseWheelScrollDelta;
+            Subscribe();
         }
 
         private int getCurrentDesktopIndex() => desktops.IndexOf(VirtualDesktop.Current);
