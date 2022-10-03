@@ -9,6 +9,26 @@ _for a win11-compatible version check [win11-branch](https://github.com/iskmz/Vi
 ## Updates ##
 
 
+### version 2.4.2 ### 
+<details>
+<summary> released on 2022-10-03 ... </summary>
+
+* a partial fix for longterm-problem of windows gaining focus while switching desktops 
+  - first mentioned in 2nd point of Limitations in [original-readme](https://github.com/iskmz/VirtualDesktopManager#original-readme)
+  - a simple fix really: by commenting-out the use of saveApplicationFocus() and restoreApplicationFocus() functions
+  - don't know if this "fix" removes any needed functionality; it does not appear to be so, as everything works fine
+  - it is only a "partial" fix because, this problem happens much less often; but still happens sometimes!
+* Added "mouse-hook" using [globalmousekeyhook](https://github.com/gmamaladze/globalmousekeyhook) package to detect mouse-wheel movement over main-taskbar area (found on main screen by default)
+  - code to get location coordinates of main-taskbar is from [stackoverflow](https://stackoverflow.com/questions/29330440/get-precise-location-and-size-of-taskbar)
+  - mouse-wheel-down moves to next desktop
+  - mouse-wheel-up moves to previous desktop
+  - works only over main-taskbar area !
+  - if taskbar location is changed while program is running, then VDM needs a restart to reload the new coordinates
+  - Hotkeys List was updated accordingly
+
+</details>
+
+
 ### version 2.4.1 ### 
 <details>
 <summary> released on 2022-09-28 ... </summary>
