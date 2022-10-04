@@ -165,7 +165,7 @@
             this.labelReleaseDate.Name = "labelReleaseDate";
             this.labelReleaseDate.Size = new System.Drawing.Size(197, 42);
             this.labelReleaseDate.TabIndex = 2;
-            this.labelReleaseDate.Text = "released: 2022-10-03";
+            this.labelReleaseDate.Text = "released: 2022-10-04";
             this.labelReleaseDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelVersion
@@ -177,7 +177,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(197, 42);
             this.labelVersion.TabIndex = 1;
-            this.labelVersion.Text = "version 2.4.2";
+            this.labelVersion.Text = "version 2.4.2.11";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelProductName

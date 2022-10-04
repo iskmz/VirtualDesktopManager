@@ -308,10 +308,19 @@ namespace VirtualDesktopManager
         {
             // 0 == first
             int currentDesktopIndex = getCurrentDesktopIndex();
+
             string pictureFile = PickNthFile(currentDesktopIndex);
             if (pictureFile != null) Native.SetBackground(pictureFile);
-            // restoreApplicationFocus(currentDesktopIndex);     // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
+
             changeTrayIcon(currentDesktopIndex);
+
+            // FAILED attempts to fix "focus" issue
+            // related code for showWindows_ByZorder was kept for future reference (nice code; but not that useful for this issue)
+            // - - - - -
+            // restoreApplicationFocus(currentDesktopIndex);     // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
+            // OpenWindowGetter.showWindows_ByZOrder(desktops[currentDesktopIndex]); // added 2022-10-04
+            // Thread.Sleep(500); // added 2022-10-04 : helps 'fix' "focus" issue; similar to cycling-windows routine (Thread.sleep(haltTime)): no focus issues there! //
+
             // added 2022-07-19
             if (splashActive) showSplash();
         }
@@ -433,19 +442,17 @@ namespace VirtualDesktopManager
         private void saveApplicationFocus(int currentDesktopIndex = -1) // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
         {
             IntPtr activeAppWindow = GetForegroundWindow();
-            if (currentDesktopIndex == -1)
-                currentDesktopIndex = getCurrentDesktopIndex();
+            if (currentDesktopIndex == -1) currentDesktopIndex = getCurrentDesktopIndex();
             activePrograms[currentDesktopIndex] = activeAppWindow;
         }
 
         private void restoreApplicationFocus(int currentDesktopIndex = -1)   // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
         {
-            if (currentDesktopIndex == -1)
-                currentDesktopIndex = getCurrentDesktopIndex();
-
-            if (activePrograms[currentDesktopIndex] != null && activePrograms[currentDesktopIndex] != IntPtr.Zero)
+            if (currentDesktopIndex == -1) currentDesktopIndex = getCurrentDesktopIndex();
+            var actWin = activePrograms[currentDesktopIndex];
+            if (actWin != null && actWin != IntPtr.Zero)
             {
-                SetForegroundWindow(activePrograms[currentDesktopIndex]);
+                SetForegroundWindow(actWin);
             }
         }
 
@@ -484,8 +491,8 @@ namespace VirtualDesktopManager
         VirtualDesktop initialDesktopState()
         {
             var desktop = VirtualDesktop.Current;
-            //int desktopIndex = getCurrentDesktopIndex();
-            //saveApplicationFocus(desktopIndex);        // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
+            // int desktopIndex = getCurrentDesktopIndex();
+            // saveApplicationFocus(desktopIndex);        // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //
             return desktop;
         }
 

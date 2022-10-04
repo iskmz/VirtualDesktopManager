@@ -10,6 +10,7 @@ using UIAutomationClient;
 using SHDocVw;
 using System.Windows.Forms;
 using System.IO;
+using WindowsDesktop;
 
 namespace VirtualDesktopManager
 {
@@ -259,6 +260,80 @@ namespace VirtualDesktopManager
             res[Consts.BROWSER.IEXPLORER] = lstIExplorer;
             return res;
         }
+
+
+        #region Failed attempts to fix window-focus issue - 2022-10-04 - v2.4.2.11
+
+        // added 2022-10-04
+        // returns handle to the first open (& not minimized) window that is found on currentDesktop
+        // if desktop has no open windows (or all are minimized), then IntPtr.Zero is returned 
+        private static HWND GetAnyOpenWindow(VirtualDesktop currentDesktop)
+        {
+            HWND retValue = IntPtr.Zero; // default assumption:  this desktop has NO windows open , or All are minimized //
+            HWND shellWindow = GetShellWindow();
+            EnumWindows(delegate (HWND hWnd, int lParam)
+            {
+                if ((hWnd == shellWindow) || !IsWindowVisible(hWnd) || GetWindowTextLength(hWnd) == 0) return true; // continue
+                if (IsIconic(hWnd)) return true; // if window is minimized , continue
+                var winDesk = VirtualDesktop.FromHwnd(hWnd);
+                if (winDesk != null && winDesk.Id.Equals(currentDesktop.Id))
+                {
+                    retValue = hWnd;
+                    return false; // stop looking!
+                }
+                return true;
+            }, 0);
+            return retValue;
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool IsIconic(IntPtr hWnd);
+
+
+        // added 2022-10-04 
+        // credits: https://stackoverflow.com/questions/825595/how-to-get-the-z-order-in-windows  //
+        // returns a list of handles for all non-iconic (not minimized) open windows found on the current desktop
+        // list is ordered by z-order, from the lowest to top-most window (at the end)
+        private static List<HWND> getNonIconicWindowsByZOrder(VirtualDesktop currentDesktop)
+        {
+            List<HWND> windows = new List<HWND>();
+            HWND startPoint = GetAnyOpenWindow(currentDesktop);
+            startPoint = GetWindow(startPoint, (uint)GW_Cmd.GW_HWNDLAST); // bottom window
+            for (var h = startPoint; h != IntPtr.Zero; h = GetWindow(h, (uint)GW_Cmd.GW_HWNDPREV))
+            {
+                var hVD = VirtualDesktop.FromHwnd(h);
+                if (hVD != null && hVD.Id.Equals(currentDesktop.Id) && !IsIconic(h)) windows.Add(h);
+            }
+            return windows;
+        }
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+
+        enum GW_Cmd : uint   // reference:  https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindow //
+        {
+            GW_HWNDFIRST = 0,
+            GW_HWNDLAST = 1,    // lowest in Z-Order
+            GW_HWNDNEXT = 2,
+            GW_HWNDPREV = 3,    // window above in Z-Order
+            GW_OWNER = 4,
+            GW_CHILD = 5,
+            GW_ENABLEDPOPUP = 6
+        }
+
+        public static void showWindows_ByZOrder(VirtualDesktop currentDesktop) // added 2022-10-04
+        {
+            List<HWND> windows = getNonIconicWindowsByZOrder(currentDesktop);
+            foreach (HWND win in windows) ShowWindow(win,5); // also tried SetForegroundWindow(hWnd) ... 
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow); // nCmdShow: SW_HIDE=0, SW_SHOW=5  ... // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow
+
+        #endregion
     }
     // ************************************************************************************************************ //
 
