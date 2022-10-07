@@ -431,8 +431,11 @@ namespace VirtualDesktopManager
             // added 2022-09-20
             AHK.ReMap_DefaultWinCTRL_RightLeft();
 
+            // TaskbarHelper.initTaskbarHandle(); // added 2022-10-07 // to be used before next/prev: focus on taskbar  --> after testing: total failure ! // 
+
             // added 2022-10-03 // mouse-hook & related variables init. //
             taskbarRect = TaskbarHelper.Coordinates;
+            // taskbarRect = TaskbarHelper.getCoordinates_Trimmed(14, -100); // added 2022-10-05 , special for v2.4.2.11 (not included in releases) // for personal use 
             WHEEL_DELTA = SystemInformation.MouseWheelScrollDelta;
             Subscribe();
         }
@@ -490,6 +493,7 @@ namespace VirtualDesktopManager
 
         VirtualDesktop initialDesktopState()
         {
+            // TaskbarHelper.focusOnTaskbar(); // added 2022-10-07: might solve window-focus issue once and for all ?! --> after testing: total failure ! // 
             var desktop = VirtualDesktop.Current;
             // int desktopIndex = getCurrentDesktopIndex();
             // saveApplicationFocus(desktopIndex);        // as of 2022-10-03: NOT USED; was commented out, to fix longterm "focus" issue //

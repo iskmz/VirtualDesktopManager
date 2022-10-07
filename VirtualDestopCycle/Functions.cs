@@ -893,15 +893,90 @@ namespace VirtualDesktopManager
             public int Bottom;      // y position of lower-right corner
         }
 
-        public static RECT Coordinates
+        public static RECT Coordinates  // used once, on form1_load 
         {
             get
             {
                 IntPtr TaskBarHandle = FindWindow("Shell_traywnd", "");
-                RECT rct;
-                GetWindowRect(TaskBarHandle, out rct);
+                GetWindowRect(TaskBarHandle, out RECT rct);
                 return rct;
             }
         }
+
+        // added 2022-10-05 // not used in releases; for personal use; depends on each user's desktop/taskbar layout // 
+        public static RECT getCoordinates_Trimmed(int percentRight, int percentLeft)  // used once, on form1_load 
+        {
+            var r = Coordinates;
+            r.Left = r.Left + percentLeft * r.Right / 100;
+            r.Right = r.Right * (100 - percentRight) / 100;
+            return r;
+        }
+
+
+
+        #region EVEN MORE Failed attempts to fix window-focus issue - 2022-10-07 - v2.4.2.11
+
+        // added 2022-10-07 // trying to solve window-focus issue; more failed approaches :-) // 
+
+        private static HWND taskbarHandle;
+        private static IUIAutomationTreeWalker tw;
+        private static IUIAutomationElement appBar;
+
+
+        public static void initTaskbarHandle() // used once ,  on form1_load 
+        {
+            taskbarHandle = FindWindow("Shell_TrayWnd", "");
+            var uiaClassObject = new CUIAutomation();
+            IUIAutomationElement root = uiaClassObject.ElementFromHandle(taskbarHandle);
+            appBar = root.FindFirst(TreeScope.TreeScope_Descendants, 
+                uiaClassObject.CreatePropertyCondition(30012, "MSTaskListWClass")); // UIA_ClassNamePropertyId: 30012
+            tw = uiaClassObject.CreateTreeWalker(uiaClassObject.CreatePropertyCondition(30010, true)); // // UIA_IsEnabledPropertyId: 30010 
+        }
+
+        public static void focusOnTaskbar() // used with next/prev procedures 
+        {
+            if (taskbarHandle != null && taskbarHandle != IntPtr.Zero)
+            {
+                // failed approach ... # 1
+                //SetForegroundWindow(taskbarHandle);
+                //ShowWindow(taskbarHandle, 5);
+                // - - - - -  - - - - -  - - - - -  - - - - -  - - - - - //
+                // failed approach ... # 2
+                // UIAutomation approach; to get last-app coordinates in appBar -> to simulate click just 1 pixel to its right (empty area) //
+                IUIAutomationElement lastApp = tw.GetLastChildElement(appBar);
+                tagRECT rect = lastApp.CurrentBoundingRectangle;
+                simulateMouseClick(rect.right + 1, (rect.top + rect.bottom) / 2); // assuming horizontally positioned taskbar [ very big assumption; needs adjusting later !! ] //
+            }
+        }
+
+
+        // LEFT-click on position x,y // source: https://www.codegrepper.com/code-examples/csharp/c%23+how+to+simulate+mouse+click //
+        private static void simulateMouseClick(int x, int y)
+        {
+            // SetCursorPos(x, y);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+        }
+
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int x, int y);
+
+        [DllImport("user32.dll")]
+        private static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        public const int MOUSEEVENTF_LEFTUP = 0x04;
+
+        /*
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow); // nCmdShow: SW_HIDE=0, SW_SHOW=5  ... //
+        */
+
+        #endregion
     }
 }
