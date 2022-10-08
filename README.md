@@ -5,8 +5,31 @@ _forked from [m0ngr31/VirtualDesktopManager](https://github.com/m0ngr31/VirtualD
 _for a win11-compatible version check [win11-branch](https://github.com/iskmz/VirtualDesktopManager/tree/win11)_
 
 
+------------------------
+
+
+
+***Tip regarding windows-focus issue ...***
+
+``` 
+After many failed attempts recently to fix this issue, as described 
+in commented-out sections of recent commits (unreleased: v2.4.2.11); 
+what I found is that if you click on an empty area on the taskbar, 
+before doing desktop transitions (no matter in which way: keyboard, 
+mouse or otherwise), then focus issue is resolved and no window tries 
+to gain focus. 
+Tried to simulate this mouse-click on taskbar in one of the 
+recent 'fixes' but it did not work out. 
+```
+
+
+------------------------
+
+
 
 ## Updates ##
+
+
 
 
 ### version 2.4.2 ### 
