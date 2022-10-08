@@ -9,9 +9,11 @@ _for a win11-compatible version check [win11-branch](https://github.com/iskmz/Vi
 
 
 
-***Tip regarding windows-focus issue ...***
+***Tip regarding windows-focus issue***  
 
-``` 
+_2022-10-08_
+
+```
 After many failed attempts recently to fix this issue, as described 
 in commented-out sections of recent commits (unreleased: v2.4.2.11); 
 what I found is that if you click on an empty area on the taskbar, 
