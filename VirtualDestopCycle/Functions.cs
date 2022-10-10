@@ -98,6 +98,9 @@ namespace VirtualDesktopManager
                 + tt2 + "as of version 2.4.2"
                 + dot + "Mouse-wheel-down over main-taskbar area: next desktop"
                 + dot + "Mouse-wheel-up over main-taskbar area: previous desktop"
+                + tt2 + "as of version 2.4.3"
+                + dot + "Ctrl+Alt+Shift+D: opens main menu"
+                + dot + "then, menu shortcut-letters (underlined) can be used for desktops and data sub-menus"
                 + "\n\n";
     }
 
@@ -882,7 +885,7 @@ namespace VirtualDesktopManager
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT

@@ -139,19 +139,22 @@
             this.nextToolStripMenuItem,
             this.previousToolStripMenuItem1,
             this.desktopsList});
+            this.contextMenuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(175, 402);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(193, 424);
+            this.contextMenuStrip1.TabStop = true;
             // 
             // aboutMenuItem
             // 
             this.aboutMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_info_100;
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(174, 34);
+            this.aboutMenuItem.Size = new System.Drawing.Size(192, 34);
             this.aboutMenuItem.Text = "About";
             this.aboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
             // 
             // dataSubMenu
             // 
+            this.dataSubMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.dataSubMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.getIDs,
             this.getWindowsList,
@@ -168,16 +171,17 @@
             this.panic});
             this.dataSubMenu.Image = global::VirtualDesktopManager.Properties.Resources.icons8_list_50;
             this.dataSubMenu.Name = "dataSubMenu";
-            this.dataSubMenu.Size = new System.Drawing.Size(174, 34);
-            this.dataSubMenu.Text = "Data ...";
+            this.dataSubMenu.Size = new System.Drawing.Size(192, 34);
+            this.dataSubMenu.Text = "Da&ta ...";
+            this.dataSubMenu.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             // 
             // getIDs
             // 
             this.getIDs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.getIDs.Image = global::VirtualDesktopManager.Properties.Resources.icons8_desktop_48;
             this.getIDs.Name = "getIDs";
-            this.getIDs.Size = new System.Drawing.Size(231, 30);
-            this.getIDs.Text = "list desktops GUIDs";
+            this.getIDs.Size = new System.Drawing.Size(243, 34);
+            this.getIDs.Text = "list &desktops GUIDs";
             this.getIDs.ToolTipText = "show a list of all desktops , their names and their GUIDs";
             this.getIDs.Click += new System.EventHandler(this.GetIDs_Click);
             // 
@@ -186,8 +190,8 @@
             this.getWindowsList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.getWindowsList.Image = global::VirtualDesktopManager.Properties.Resources.icons8_windows_50;
             this.getWindowsList.Name = "getWindowsList";
-            this.getWindowsList.Size = new System.Drawing.Size(231, 30);
-            this.getWindowsList.Text = "list windows (on this desktop)";
+            this.getWindowsList.Size = new System.Drawing.Size(243, 34);
+            this.getWindowsList.Text = "list &windows (on this desktop)";
             this.getWindowsList.ToolTipText = "show a list of all windows in the CURRENT desktop: each window\'s handle # & title" +
     "";
             this.getWindowsList.Click += new System.EventHandler(this.GetWindowsList_Click);
@@ -196,8 +200,8 @@
             // 
             this.getURLs.Image = global::VirtualDesktopManager.Properties.Resources.icons8_browsing_48;
             this.getURLs.Name = "getURLs";
-            this.getURLs.Size = new System.Drawing.Size(231, 30);
-            this.getURLs.Text = "list all browsers\' URLs";
+            this.getURLs.Size = new System.Drawing.Size(243, 34);
+            this.getURLs.Text = "list all &browsers\' URLs";
             this.getURLs.ToolTipText = "show a list of All URLs for All Tabs in All Desktops";
             this.getURLs.Click += new System.EventHandler(this.GetURLs_Click);
             // 
@@ -205,15 +209,15 @@
             // 
             this.getFolders.Image = global::VirtualDesktopManager.Properties.Resources.icons8_folder_50;
             this.getFolders.Name = "getFolders";
-            this.getFolders.Size = new System.Drawing.Size(231, 30);
-            this.getFolders.Text = "list all open folders";
+            this.getFolders.Size = new System.Drawing.Size(243, 34);
+            this.getFolders.Text = "list all &open folders";
             this.getFolders.ToolTipText = "show a list of All open folders on all desktops";
             this.getFolders.Click += new System.EventHandler(this.GetFolders_Click);
             // 
             // separatorData1
             // 
             this.separatorData1.Name = "separatorData1";
-            this.separatorData1.Size = new System.Drawing.Size(228, 6);
+            this.separatorData1.Size = new System.Drawing.Size(240, 6);
             // 
             // exportFolders
             // 
@@ -222,8 +226,8 @@
             this.exportFolders.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.exportFolders.Name = "exportFolders";
             this.exportFolders.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.exportFolders.Size = new System.Drawing.Size(231, 30);
-            this.exportFolders.Text = "Export Folders (to batch file)";
+            this.exportFolders.Size = new System.Drawing.Size(243, 34);
+            this.exportFolders.Text = "Export &Folders (to batch file)";
             this.exportFolders.ToolTipText = "export all open folders paths to a batch file";
             this.exportFolders.Click += new System.EventHandler(this.ExportFolders_Click);
             // 
@@ -232,8 +236,8 @@
             this.exportHTML.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exportHTML.Image = global::VirtualDesktopManager.Properties.Resources.icons8_html_filetype_50;
             this.exportHTML.Name = "exportHTML";
-            this.exportHTML.Size = new System.Drawing.Size(231, 30);
-            this.exportHTML.Text = "Export URLs (to html)";
+            this.exportHTML.Size = new System.Drawing.Size(243, 34);
+            this.exportHTML.Text = "Export &URLs (to html)";
             this.exportHTML.ToolTipText = "export all URLs to an html list of hyperlinks";
             this.exportHTML.Click += new System.EventHandler(this.ExportHTML_Click);
             // 
@@ -242,8 +246,8 @@
             this.exportDesktopsData.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exportDesktopsData.Image = global::VirtualDesktopManager.Properties.Resources.icons8_export_50;
             this.exportDesktopsData.Name = "exportDesktopsData";
-            this.exportDesktopsData.Size = new System.Drawing.Size(231, 30);
-            this.exportDesktopsData.Text = "Export All Data (to text file)";
+            this.exportDesktopsData.Size = new System.Drawing.Size(243, 34);
+            this.exportDesktopsData.Text = "Export &All Data (to text file)";
             this.exportDesktopsData.ToolTipText = "Export desktop data: desktops, their titles, GUIDs & windows-list ,URLs list & Fo" +
     "lders list, to a text file";
             this.exportDesktopsData.Click += new System.EventHandler(this.ExportDesktopsData_Click);
@@ -251,14 +255,14 @@
             // separatorData2
             // 
             this.separatorData2.Name = "separatorData2";
-            this.separatorData2.Size = new System.Drawing.Size(228, 6);
+            this.separatorData2.Size = new System.Drawing.Size(240, 6);
             // 
             // screenshotCurrent
             // 
             this.screenshotCurrent.Image = global::VirtualDesktopManager.Properties.Resources.icons8_screenshot_50;
             this.screenshotCurrent.Name = "screenshotCurrent";
-            this.screenshotCurrent.Size = new System.Drawing.Size(231, 30);
-            this.screenshotCurrent.Text = "Screenshot Current";
+            this.screenshotCurrent.Size = new System.Drawing.Size(243, 34);
+            this.screenshotCurrent.Text = "Screenshot &Current";
             this.screenshotCurrent.ToolTipText = "Take Screenshot(s) of CURRENT desktop (one shot per screen)";
             this.screenshotCurrent.Click += new System.EventHandler(this.ScreenshotCurrent_Click);
             // 
@@ -266,38 +270,38 @@
             // 
             this.screenshotAll.Image = global::VirtualDesktopManager.Properties.Resources.icons8_screenshot_full_50;
             this.screenshotAll.Name = "screenshotAll";
-            this.screenshotAll.Size = new System.Drawing.Size(231, 30);
-            this.screenshotAll.Text = "Screenshot All";
+            this.screenshotAll.Size = new System.Drawing.Size(243, 34);
+            this.screenshotAll.Text = "&Screenshot All";
             this.screenshotAll.ToolTipText = "Take Screenshots of ALL desktops (one shot per screen)";
             this.screenshotAll.Click += new System.EventHandler(this.ScreenshotAll_Click);
             // 
             // separatorData3
             // 
             this.separatorData3.Name = "separatorData3";
-            this.separatorData3.Size = new System.Drawing.Size(228, 6);
+            this.separatorData3.Size = new System.Drawing.Size(240, 6);
             // 
             // panic
             // 
             this.panic.AutoToolTip = true;
-            this.panic.Font = new System.Drawing.Font("Segoe UI Black", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panic.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panic.Image = global::VirtualDesktopManager.Properties.Resources.icons8_PANIC_64;
             this.panic.Name = "panic";
-            this.panic.Size = new System.Drawing.Size(231, 30);
-            this.panic.Text = "Panic !";
+            this.panic.Size = new System.Drawing.Size(243, 34);
+            this.panic.Text = "&Panic !";
             this.panic.ToolTipText = "QUICKLY exports & screenshots everything ; to a default path on Desktop ";
             this.panic.Click += new System.EventHandler(this.Panic_Click);
             // 
             // separator4
             // 
             this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(171, 6);
+            this.separator4.Size = new System.Drawing.Size(189, 6);
             // 
             // splashItem
             // 
             this.splashItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.splashItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_splash_100;
             this.splashItem.Name = "splashItem";
-            this.splashItem.Size = new System.Drawing.Size(174, 34);
+            this.splashItem.Size = new System.Drawing.Size(192, 34);
             this.splashItem.Text = "Splash";
             this.splashItem.ToolTipText = "Click to Activate/Deactivate";
             this.splashItem.Click += new System.EventHandler(this.SplashItem_Click);
@@ -305,14 +309,14 @@
             // separator3
             // 
             this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(171, 6);
+            this.separator3.Size = new System.Drawing.Size(189, 6);
             // 
             // saveUserPref
             // 
             this.saveUserPref.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.saveUserPref.Image = global::VirtualDesktopManager.Properties.Resources.icons8_save_100;
             this.saveUserPref.Name = "saveUserPref";
-            this.saveUserPref.Size = new System.Drawing.Size(174, 34);
+            this.saveUserPref.Size = new System.Drawing.Size(192, 34);
             this.saveUserPref.Text = "Save Preferences";
             this.saveUserPref.ToolTipText = "save current preferences: colors, transition time, cycles amount";
             this.saveUserPref.Click += new System.EventHandler(this.SaveUserPref_Click);
@@ -326,7 +330,7 @@
             this.reverseCycleMenuItem});
             this.cyclingSubMenu.Image = global::VirtualDesktopManager.Properties.Resources.icons8_process_50;
             this.cyclingSubMenu.Name = "cyclingSubMenu";
-            this.cyclingSubMenu.Size = new System.Drawing.Size(174, 34);
+            this.cyclingSubMenu.Size = new System.Drawing.Size(192, 34);
             this.cyclingSubMenu.Text = "Cycling ...";
             // 
             // transTimeSubMenu
@@ -486,7 +490,7 @@
             this.TransparentBlack});
             this.colorList.Image = global::VirtualDesktopManager.Properties.Resources.icons8_paint_100;
             this.colorList.Name = "colorList";
-            this.colorList.Size = new System.Drawing.Size(174, 34);
+            this.colorList.Size = new System.Drawing.Size(192, 34);
             this.colorList.Text = "Colors ...";
             this.colorList.ToolTipText = "change color of tray icon";
             // 
@@ -613,13 +617,13 @@
             // separator2
             // 
             this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(171, 6);
+            this.separator2.Size = new System.Drawing.Size(189, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_settings_50;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(174, 34);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(192, 34);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.ToolTipText = "open settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
@@ -628,7 +632,7 @@
             // 
             this.exitToolStripMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_close_50;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(174, 34);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(192, 34);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.ToolTipText = "Exit V.D.M.";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
@@ -636,14 +640,15 @@
             // separator1
             // 
             this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(171, 6);
+            this.separator1.Size = new System.Drawing.Size(189, 6);
             // 
             // nextToolStripMenuItem
             // 
             this.nextToolStripMenuItem.Image = global::VirtualDesktopManager.Properties.Resources.icons8_right_64;
+            this.nextToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.nextToolStripMenuItem.Name = "nextToolStripMenuItem";
             this.nextToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.nextToolStripMenuItem.Size = new System.Drawing.Size(174, 34);
+            this.nextToolStripMenuItem.Size = new System.Drawing.Size(192, 34);
             this.nextToolStripMenuItem.Text = ">> Next >>";
             this.nextToolStripMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.nextToolStripMenuItem.ToolTipText = "go to next desktop";
@@ -653,7 +658,7 @@
             // 
             this.previousToolStripMenuItem1.Image = global::VirtualDesktopManager.Properties.Resources.icons8_left_64;
             this.previousToolStripMenuItem1.Name = "previousToolStripMenuItem1";
-            this.previousToolStripMenuItem1.Size = new System.Drawing.Size(174, 34);
+            this.previousToolStripMenuItem1.Size = new System.Drawing.Size(192, 34);
             this.previousToolStripMenuItem1.Text = "<< Previous <<";
             this.previousToolStripMenuItem1.ToolTipText = "go to previous desktop";
             this.previousToolStripMenuItem1.Click += new System.EventHandler(this.previousClick);
@@ -664,14 +669,14 @@
             this.toolStripMenuItem2});
             this.desktopsList.Image = global::VirtualDesktopManager.Properties.Resources.icons8_matrix_desktop_96;
             this.desktopsList.Name = "desktopsList";
-            this.desktopsList.Size = new System.Drawing.Size(174, 34);
-            this.desktopsList.Text = "Desktops ...";
+            this.desktopsList.Size = new System.Drawing.Size(192, 34);
+            this.desktopsList.Text = "&Desktops ...";
             this.desktopsList.DropDownClosed += new System.EventHandler(this.DesktopsList_DropDownClosed);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(90, 22);
             this.toolStripMenuItem2.Text = "# 1";
             // 
             // checkBox1

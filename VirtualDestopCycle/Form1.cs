@@ -39,6 +39,7 @@ namespace VirtualDesktopManager
         private readonly HotKeyManager _PANIC_Hotkey;  // added  2022-09-28
         private readonly HotKeyManager _desktopsList_Hotkey;  // added  2022-09-28
         private readonly HotKeyManager _HotkeysList_Hotkey;  // added  2022-09-28
+        private readonly HotKeyManager _mainmenu_Hotkey;  // added  2022-10-10
 
 
         private bool closeToTray;
@@ -96,6 +97,8 @@ namespace VirtualDesktopManager
             _desktopsList_Hotkey.KeyPressed += desktopsList_Hotkey_Pressed;  // added  2022-09-28
             _HotkeysList_Hotkey = new HotKeyManager();                // added  2022-09-28
             _HotkeysList_Hotkey.KeyPressed += HotkeysList_Hotkey_Pressed;  // added  2022-09-28
+            _mainmenu_Hotkey = new HotKeyManager();                // added  2022-10-10
+            _mainmenu_Hotkey.KeyPressed += mainmenu_Hotkey_Pressed;  // added  2022-10-10
 
 
             VirtualDesktop.CurrentChanged += VirtualDesktop_CurrentChanged;
@@ -117,6 +120,8 @@ namespace VirtualDesktopManager
             // added 2022-02-26 //
             loadUserPreferences();
         }
+
+
 
         // ************************************* //  section added 2022-10-03  // *************************************//
 
@@ -161,8 +166,8 @@ namespace VirtualDesktopManager
             // NOTE: this code still has ISSUES!
             // sometimes when changing desktops & menu is shown, it loses focus permanently 
             // so even when hiding or showing again using hotkey , still cannot use keyboard arrows to select
-            // in the meantime it should be used simply by showing menu and choosing an item , or hiding it 
-            // and NOT changing desktops while its shown
+            // a simple fix would be to alt-tab to it  ...
+            // 
 
             if (!isDesktopsListShown)
             {
@@ -194,7 +199,17 @@ namespace VirtualDesktopManager
 
         private void HotkeysList_Hotkey_Pressed(object sender, KeyPressedEventArgs e)  // added  2022-09-28
         {
-            MessageBox.Show(Consts.HotkeysList_MSG, Consts.HotkeysList_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(new Form { TopMost = true }, Consts.HotkeysList_MSG, Consts.HotkeysList_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        private void mainmenu_Hotkey_Pressed(object sender, KeyPressedEventArgs e) // added 2022-10-10
+        {
+            updateContextMenuStrip(); // to simulate mouse-right-click event
+            int x = 0;
+            int y = Screen.AllScreens[0].Bounds.Height;  // x,y  are for bottom left corner of main-screen // can be changed freely of course ... // 
+            contextMenuStrip1.Show(new Point(x,y));
+            contextMenuStrip1.Focus();
         }
 
 
@@ -350,6 +365,7 @@ namespace VirtualDesktopManager
             _PANIC_Hotkey.Dispose();  // added  2022-09-28
             _desktopsList_Hotkey.Dispose();  // added  2022-09-28
             _HotkeysList_Hotkey.Dispose();  // added  2022-09-28
+            _mainmenu_Hotkey.Dispose();  // added  2022-10-10
 
 
             _stopCyclingHotKey.Dispose(); // added 2022-02-26
@@ -374,6 +390,7 @@ namespace VirtualDesktopManager
                 Register_PANIC_Hotkey(); // added  2022-09-28
                 Register_desktopsList_Hotkey(); // added 2022-09-28
                 Register_HotkeysList_Hotkey(); // added 2022-09-28
+                Register_mainmenu_Hotkey(); // added 2022-10-10
             }
             catch (Exception err) // catching the error solves the problem and SETS the HotKeys as requested ! //
                                   // error THROWN without need ! ... the problem is with the error thrown ! // 
@@ -394,6 +411,7 @@ namespace VirtualDesktopManager
                 Register_PANIC_Hotkey(); // added  2022-09-28
                 Register_desktopsList_Hotkey(); // added 2022-09-28
                 Register_HotkeysList_Hotkey(); // added 2022-09-28
+                Register_mainmenu_Hotkey(); // added 2022-10-10
             }
             catch (Exception err) // catching the error solves the problem and SETS the HotKeys as requested ! //
                                   // error THROWN without need ! ... the problem is with the error thrown ! // 
@@ -404,6 +422,8 @@ namespace VirtualDesktopManager
             }
         }
 
+
+
         private void RegisterNumberHotkeys(ModifierKeys modifiers)
         {
             for (var i = Key.D1; i <= Key.D9; i++) _numberHotkey.Register(i, modifiers);
@@ -413,6 +433,7 @@ namespace VirtualDesktopManager
         private void Register_PANIC_Hotkey() => _PANIC_Hotkey.Register(Key.P, Consts.CTRL_ALT_SHIFT);   // added  2022-09-28
         private void Register_desktopsList_Hotkey() => _desktopsList_Hotkey.Register(Key.L, Consts.CTRL_ALT_SHIFT);   // added  2022-09-28
         private void Register_HotkeysList_Hotkey() => _HotkeysList_Hotkey.Register(Key.H, Consts.CTRL_ALT_SHIFT);   // added  2022-09-28
+        private void Register_mainmenu_Hotkey() => _mainmenu_Hotkey.Register(Key.D, Consts.CTRL_ALT_SHIFT); // added 2022-10-10
 
 
 
@@ -435,7 +456,7 @@ namespace VirtualDesktopManager
 
             // added 2022-10-03 // mouse-hook & related variables init. //
             taskbarRect = TaskbarHelper.Coordinates;
-            // taskbarRect = TaskbarHelper.getCoordinates_Trimmed(14, -100); // added 2022-10-05 , special for v2.4.2.11 (not included in releases) // for personal use 
+            //taskbarRect = TaskbarHelper.getCoordinates_Trimmed(14, -100); // added 2022-10-05 , special for v2.4.2.11 (not included in releases) // for personal use 
             WHEEL_DELTA = SystemInformation.MouseWheelScrollDelta;
             Subscribe();
         }
@@ -727,7 +748,7 @@ namespace VirtualDesktopManager
         // added 2022-07-10 // code-restructuring // more clear code ...
         private void add_DesktopItem(int k)
         {
-            ToolStripItem item = desktopsList.DropDownItems.Add("# " + k);
+            ToolStripItem item = desktopsList.DropDownItems.Add((k<=9?"# &": "# ") + k); // modified 2022-10-10 // to add menu-shortcut-keys
             item.Text += desktopNameOrEmpty(k - 1, ":  ", ""); // added: 2022-03-02
             // item.Click += // >>  only gets a click , cannot differentiate betweeen right & left << // 
             item.MouseDown += handleDesktopNumberClick; // changed: 2022-03-02 , to add a change-desktop-name on RIGHT-CLICK feature !
@@ -759,10 +780,10 @@ namespace VirtualDesktopManager
         }
 
         // added 2022-07-09 // modified 2022-07-10 : using the above "add_special_menu_item" // 
-        private void add_CloseAllItem() => add_special_menu_Item("Close ALL", Properties.Resources.close_all, closeAllDesktops, "Close All Desktops !");
-        private void add_CloseItem() => add_special_menu_Item("Close Current", Properties.Resources.close_desktop, closeCurrentAndMove, "Close Current Desktop");
-        private void add_AddItem() => add_special_menu_Item("Add", Properties.Resources.add_new, createNewAndMoveTo, "Add New Desktop");
-        private void add_AddMultipleItem() => add_special_menu_Item("Add Multiple", Properties.Resources.add_multiple, addMulti, "Add Multiple Desktops ...");
+        private void add_CloseAllItem() => add_special_menu_Item("Close AL&L", Properties.Resources.close_all, closeAllDesktops, "Close All Desktops !");
+        private void add_CloseItem() => add_special_menu_Item("Close &Current", Properties.Resources.close_desktop, closeCurrentAndMove, "Close Current Desktop");
+        private void add_AddItem() => add_special_menu_Item("&Add", Properties.Resources.add_new, createNewAndMoveTo, "Add New Desktop");
+        private void add_AddMultipleItem() => add_special_menu_Item("Add &Multiple", Properties.Resources.add_multiple, addMulti, "Add Multiple Desktops ...");
 
         // event handler for "CLOSE ALL" item in desktops list // added 2022-07-09 //
         // first moves to last desktop , then starts doing close one by one ... backwards moving ... 
@@ -822,7 +843,7 @@ namespace VirtualDesktopManager
             string txt = ((ToolStripItem)sender).Text;
             int i = txt.IndexOf(":");
             if (i > 0) txt = txt.Substring(0, i); // added: 2022-03-02 , to accomodate for adding desktop-names // 
-            int num = int.Parse(txt.Substring(txt.IndexOf(" ") + 1));
+            int num = int.Parse(txt.Substring(txt.IndexOf(" ") + 1).Replace("&","")); // modified 2022-10-10
             desktops.ElementAt(num - 1)?.Switch();
         }
 
@@ -833,7 +854,7 @@ namespace VirtualDesktopManager
             string txt = ((ToolStripItem)sender).Text;
             int i = txt.IndexOf(":");
             if (i > 0) txt = txt.Substring(0, i); // extract text before ":" (containing desktop number) 
-            int num = int.Parse(txt.Substring(txt.IndexOf(" ") + 1));
+            int num = int.Parse(txt.Substring(txt.IndexOf(" ") + 1).Replace("&", "")); // modified 2022-10-10
             // input-box from VisualBasic: InputBoxClassLibrary.dll //
             string previousName = desktopNameOrEmpty(num - 1);
             string msg = "Change Desktop # " + num + " Name:-\n\n";
@@ -1738,11 +1759,7 @@ namespace VirtualDesktopManager
             return urlsList;
         }
 
-
-
-
-
-
         // ************************************* // ************************ // ********************************************************//
+
     }
 }

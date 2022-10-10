@@ -38,7 +38,7 @@ namespace VirtualDesktopManager
 
         private void BtnHotkeysList_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Consts.HotkeysList_MSG, Consts.HotkeysList_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(new Form { TopMost = true },Consts.HotkeysList_MSG, Consts.HotkeysList_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void Pb1_Click(object sender, EventArgs e)

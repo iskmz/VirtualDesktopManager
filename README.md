@@ -13,8 +13,7 @@ _for a win11-compatible version check [win11-branch](https://github.com/iskmz/Vi
 
 _2022-10-08_
 
-```
-After many failed attempts recently to fix this issue, as described 
+> After many failed attempts recently to fix this issue, as described 
 in commented-out sections of recent commits (unreleased: v2.4.2.11); 
 what I found is that if you click on an empty area on the taskbar, 
 before doing desktop transitions (no matter in which way: keyboard, 
@@ -22,7 +21,7 @@ mouse or otherwise), then focus issue is resolved and no window tries
 to gain focus. 
 Tried to simulate this mouse-click on taskbar in one of the 
 recent 'fixes' but it did not work out. 
-```
+
 
 
 ------------------------
@@ -31,6 +30,19 @@ recent 'fixes' but it did not work out.
 
 ## Updates ##
 
+
+
+### version 2.4.3 ### 
+<details>
+<summary> released on 2022-10-10 ... </summary>
+
+* added menu shortcut-letters (underlined) for desktops & data menus , for fast use of menus with keyboard
+  - the main context menu itself can be opened via ctrl+alt+shift+D  [D for (D)esktopManager]
+  - main-menu appears on the bottom-left corner of the main-screen; but this can be changed programmatically
+  - in desktops menu, only up to 9 desktops can be accessed directly via 1-9 digits
+  - note that for this feature to work,  activate "Underline access keys when available" via Windows-Settings >> Ease of Access >> Keyboard
+
+</details>
 
 
 
