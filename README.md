@@ -2,6 +2,22 @@
 ## win11 - branch ##
 
 
+### fix for win11-22H2 ###
+
+
+added on 2023-02-01
+
+
+[VirtualDesktopDLL_fix_win11-22H2.zip](https://github.com/iskmz/VirtualDesktopManager/files/10559738/VirtualDesktopDLL_fix_win11-22H2.zip)
+
+After downloading version 2.4.1_w11--beta1 below , Download the above fix and replace VirtualDesktop.dll with it.
+
+This should fix the issue with win11 22H2, But may make it incompatible with previous versions of windows!
+
+Thanks to @plhjd for the compilation and upload :  [original post](https://github.com/m0ngr31/VirtualDesktopManager/issues/45#issuecomment-1411979844)
+
+
+
 
 ### version 2.4.1_w11--beta1 ### 
 
